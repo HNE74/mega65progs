@@ -62,30 +62,58 @@
 1120     eh(i)=peek(as+xe(i)+xm(ed(i))+(ye(i)+ym(ed(i)))*wd)
 1130     xe(i)=xe(i)+xm(ed(i)):ye(i)=ye(i)+ym(ed(i))
 1140   bend
-1150 next i
-1160 return
+1150   if xe(i)=xp and ye(i)=yp then begin
+1152     if ph>0 then gosub 1430: else a$="x"
+1156   bend
+1160 next i
+1170 return
+1400 rem *********************
+1410 rem *** respawn enemy ***
+1420 rem *********************
+1430 do
+1440   xe(i)=int(rnd(0)*wd):ye(i)=int(rnd(0)*ht)
+1450   ew=peek(as+xe(i)+ye(i)*wd)
+1460 loop until (ew=32 or ew=46 or ew=88) and xe(i)<>xp and ye(i)<>ye
+1470 eh(i)=ew
+1480 return
+1500 rem *******************
+1510 rem *** move player ***
+1520 rem *******************
+1530 aw=peek(as+xp+xm(mp)+(yp+ym(mp))*wd)
+1540 if aw<>102 then begin 
+1550   poke as+xp+yp*wd,32
+1560   xp=xp+xm(mp):yp=yp+ym(mp)
+1570   if aw=46 then ps=ps+1:goto 1690
+1580   if aw=88 then ps=ps+1:ph=100:goto 1690
+1590   if aw=ez then begin
+1600     if ph=0 then a$="x":else begin
+1610       ps=ps+25:rem *** enemy munched
+1620       for i=0 to ec
+1630         if xe(i)=xp and ye(i)=yp then gosub 1430
+1668       next i
+1669     bend
+1670   bend
+1680 bend
+1690 return
 2000 rem **********************  
 2010 rem *** main game loop ***
 2020 rem **********************
 2030 do
-2035   rem *** player movment
-2040   get a$
-2050   if a$="w" and yp>2 then mp=0:goto 2090
-2060   if a$="s" and yp<17 then mp=1:goto 2090
-2070   if a$="a" and xp>2 then mp=2:goto 2090
-2080   if a$="d" and xp<17 then mp=3
-2090   aw=peek(as+xp+xm(mp)+(yp+ym(mp))*wd)
-2100   if aw=32 or aw=46 then begin 
-2110     poke as+xp+yp*wd,32
-2120     xp=xp+xm(mp):yp=yp+ym(mp)
-2130   bend
-2132   rem enemy movement
-2135   et=et+1
-2140   if et=5 then gosub 730:et=0
-2145   gosub 530
-2150   sleep 0.1
-2160 loop until a$="x"
-2170 return
+2040   if ph>0 then ph=ph-1:border 2:else border 7
+2050   rem *** player movment
+2060   get a$
+2070   if a$="w" and yp>2 then mp=0:goto 2110
+2080   if a$="s" and yp<17 then mp=1:goto 2110
+2090   if a$="a" and xp>2 then mp=2:goto 2110
+2100   if a$="d" and xp<17 then mp=3
+2110   gosub 1530:rem player movement
+2180   rem enemy movement
+2190   et=et+1
+2200   if et=5 then gosub 730:et=0
+2210   gosub 530
+2220   sleep 0.1
+2230 loop until a$="x"
+2240 return
 29000 rem ************************
 29010 rem *** define world map ***
 29020 rem ************************
@@ -94,6 +122,7 @@
 29050   if mt$="#" then poke as+j+wd*i,102
 29060   if mt$="." then poke as+j+wd*i,46
 29070   if mt$=" " then poke as+j+wd*i,32
+29075   if mt$="o" then poke as+j+wd*i,88
 29080 next j: next i 
 29090 return
 30000 rem ***********************************
@@ -105,7 +134,7 @@
 30060 mp$(2)= "####################"
 30070 mp$(3)= "###..............###"
 30080 mp$(4)= "###.###.####.###.###"
-30090 mp$(5)= "###.#..........#.###"
+30090 mp$(5)= "###.#o.........#.###"
 30100 mp$(6)= "###.#.##### ##.#.###"
 30110 mp$(7)= "###.#.#......#.#.###"
 30120 mp$(8)= "###.....##.#...#.###"
@@ -114,7 +143,7 @@
 30150 mp$(11)="###.#...#.##...#.###"
 30160 mp$(12)="###.#.#......#.#.###"
 30170 mp$(13)="###.#.###.####.#.###"
-30180 mp$(14)="###.#..........#.###"
+30180 mp$(14)="###.#.........o#.###"
 30190 mp$(15)="###.###.####.###.###"
 30200 mp$(16)="###..............###"
 30210 mp$(17)="####################"
@@ -124,7 +153,7 @@
 30245 aw=0: rem attic window
 30250 mt$="": rem read map tile
 30260 wd=20:ht=20: rem map widht and height
-30270 xp=3:yp=3:ph=1: rem player position, player is hunter flag
+30270 xp=3:yp=3:ph=0:ps=0: rem player position, player is hunter flag, player score
 30275 dim ed(1):ed(0)=-1:ed(1)=-1:ew=0: rem enemy direction index, char of next enemy position 
 30280 dim xe(1):dim ye(1):dim eh(1):ec=1: ez=42: rem enemy positions, hidden chars and count, enemy char
 30285 et=0: rem ticks counter for enemy movement
