@@ -83,18 +83,18 @@
 1540 if aw<>102 then begin 
 1550   poke as+xp+yp*wd,32
 1560   xp=xp+xm(mp):yp=yp+ym(mp)
-1570   if aw=46 then ps=ps+1:goto 1690
-1580   if aw=88 then ps=ps+1:ph=100:goto 1690
+1570   if aw=46 then ps=ps+1:goto 1680
+1580   if aw=88 then ps=ps+1:ph=100:goto 1680
 1590   if aw=ez then begin
 1600     if ph=0 then a$="x":else begin
 1610       rem *** enemy munched
 1620       for i=0 to ec
 1630         if xe(i)=xp and ye(i)=yp then gosub 1430
-1668       next i
-1669     bend
-1670   bend
-1680 bend
-1690 return
+1640       next i
+1650     bend
+1660  bend
+1670 bend
+1680 return
 2000 rem **********************  
 2010 rem *** main game loop ***
 2020 rem **********************
