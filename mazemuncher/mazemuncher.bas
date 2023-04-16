@@ -1,7 +1,7 @@
 
 10 gosub 30030
 20 gosub 29030
-30 scnclr
+30 sys 65381:scnclr
 35 gosub 530
 40 gosub 2030
 90 end
@@ -14,7 +14,7 @@
 560 next 
 570 for i=0 to 6
 580   aw=as+xp-3+(yp-3+i)*wd
-590   edma 0, 7, aw, sc+i*80
+590   edma 0, 7, aw, sc+i*40
 600 next 
 610 return
 700 rem ********************
