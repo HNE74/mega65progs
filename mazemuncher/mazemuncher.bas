@@ -34,16 +34,25 @@
 820   if ew=102 or ew=ez then begin 
 830     ed(i)=-1
 835     rem *** enemy direction change to chase player
-840     if yp<ye(i) and peek(as+xe(i)+xm(0)+(ye(i)+ym(0))*wd)<>102 and peek(as+xe(i)+xm(0)+(ye(i)+ym(0))*wd)<>ez then ed(i)=0
-850     if yp>ye(i) and peek(as+xe(i)+xm(1)+(ye(i)+ym(1))*wd)<>102 and peek(as+xe(i)+xm(1)+(ye(i)+ym(1))*wd)<>ez then ed(i)=1
-855     if (ed(i)<>-1 and int(rnd(0)*2)=0) or ed(i)=-1 then begin
-860       if xp<xe(i) and peek(as+xe(i)+xm(2)+(ye(i)+ym(2))*wd)<>102 and peek(as+xe(i)+xm(2)+(ye(i)+ym(2))*wd)<>ez then ed(i)=2
-870       if xp>xe(i) and peek(as+xe(i)+xm(3)+(ye(i)+ym(3))*wd)<>102 and peek(as+xe(i)+xm(3)+(ye(i)+ym(3))*wd)<>ez then ed(i)=3
-880     bend
-885     rem *** if direction towards player not possible select random direction
-890     if ed(i)=-1 then begin
+838     if ph=0 then begin
+840       if yp<ye(i) and peek(as+xe(i)+xm(0)+(ye(i)+ym(0))*wd)<>102 and peek(as+xe(i)+xm(0)+(ye(i)+ym(0))*wd)<>ez then ed(i)=0
+850       if yp>ye(i) and peek(as+xe(i)+xm(1)+(ye(i)+ym(1))*wd)<>102 and peek(as+xe(i)+xm(1)+(ye(i)+ym(1))*wd)<>ez then ed(i)=1
+855       if (ed(i)<>-1 and int(rnd(0)*2)=0) or ed(i)=-1 then begin
+860         if xp<xe(i) and peek(as+xe(i)+xm(2)+(ye(i)+ym(2))*wd)<>102 and peek(as+xe(i)+xm(2)+(ye(i)+ym(2))*wd)<>ez then ed(i)=2
+870         if xp>xe(i) and peek(as+xe(i)+xm(3)+(ye(i)+ym(3))*wd)<>102 and peek(as+xe(i)+xm(3)+(ye(i)+ym(3))*wd)<>ez then ed(i)=3
+880       bend
+881     bend:else begin
+883       if yp<ye(i) and peek(as+xe(i)+xm(1)+(ye(i)+ym(1))*wd)<>102 and peek(as+xe(i)+xm(1)+(ye(i)+ym(1))*wd)<>ez then ed(i)=1
+884       if yp>ye(i) and peek(as+xe(i)+xm(0)+(ye(i)+ym(0))*wd)<>102 and peek(as+xe(i)+xm(0)+(ye(i)+ym(0))*wd)<>ez then ed(i)=0
+885       if (ed(i)<>-1 and int(rnd(0)*2)=0) or ed(i)=-1 then begin
+886         if xp<xe(i) and peek(as+xe(i)+xm(3)+(ye(i)+ym(3))*wd)<>102 and peek(as+xe(i)+xm(3)+(ye(i)+ym(3))*wd)<>ez then ed(i)=3
+887         if xp>xe(i) and peek(as+xe(i)+xm(2)+(ye(i)+ym(2))*wd)<>102 and peek(as+xe(i)+xm(2)+(ye(i)+ym(2))*wd)<>ez then ed(i)=2
+888       bend
+889     bend
+890     rem *** if direction towards player not possible select random direction
+891       if ed(i)=-1 then begin
 900       for j=1 to 0:k=int(rnd(0)*4)
-910         if peek(as+xe(i)+xm(k)+(ye(i)+ym(k))*wd)<>102 and peek(as+xe(i)+xm(k)+(ye(i)+ym(k))*wd)<>ez then ed(i)=j:j=0
+910         if peek(as+xe(i)+xm(k)+(ye(i)+ym(k))*wd)<>102 and peek(as+xe(i)+xm(k)+(ye(i)+ym(k))*wd)<>ez then ed(i)=k:j=0
 920       next j
 930     bend
 940   bend
@@ -90,7 +99,7 @@
 30000 rem ***********************************
 30010 rem *** define variables and arrays ***
 30020 rem ***********************************
-30030 dim mp$(19)
+30030 dim mp$(29)
 30040 mp$(0)= "####################"
 30050 mp$(1)= "####################"
 30060 mp$(2)= "####################"
@@ -115,7 +124,7 @@
 30245 aw=0: rem attic window
 30250 mt$="": rem read map tile
 30260 wd=20:ht=20: rem map widht and height
-30270 xp=3:yp=3: rem player position
+30270 xp=3:yp=3:ph=1: rem player position, player is hunter flag
 30275 dim ed(1):ed(0)=-1:ed(1)=-1:ew=0: rem enemy direction index, char of next enemy position 
 30280 dim xe(1):dim ye(1):dim eh(1):ec=1: ez=42: rem enemy positions, hidden chars and count, enemy char
 30285 et=0: rem ticks counter for enemy movement
