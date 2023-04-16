@@ -1,0 +1,7 @@
+# CBM Prog Studio Files to be ignored.
+*.dmp
+*.dbg
+*.tmp
+#*.prg
+*.dup
+mazemuncher/bak/*
