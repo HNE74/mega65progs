@@ -63,17 +63,17 @@
 1130     xe(i)=xe(i)+xm(ed(i)):ye(i)=ye(i)+ym(ed(i))
 1140   bend
 1150   if xe(i)=xp and ye(i)=yp then begin
-1152     if ph>0 then gosub 1430: else a$="x"
-1156   bend
-1160 next i
-1170 return
+1160     if ph>0 then gosub 1430: else a$="x"
+1170   bend
+1180 next i
+1190 return
 1400 rem *********************
 1410 rem *** respawn enemy ***
 1420 rem *********************
-1430 do
+1430 ps=ps+25:do
 1440   xe(i)=int(rnd(0)*wd):ye(i)=int(rnd(0)*ht)
 1450   ew=peek(as+xe(i)+ye(i)*wd)
-1460 loop until (ew=32 or ew=46 or ew=88) and xe(i)<>xp and ye(i)<>ye
+1460 loop until (ew=32 or ew=46 or ew=88) and xe(i)<>xp and ye(i)<>ye and abs(xp-xe(i))>5 and abs(yp-ye(i))>5
 1470 eh(i)=ew
 1480 return
 1500 rem *******************
@@ -87,7 +87,7 @@
 1580   if aw=88 then ps=ps+1:ph=100:goto 1690
 1590   if aw=ez then begin
 1600     if ph=0 then a$="x":else begin
-1610       ps=ps+25:rem *** enemy munched
+1610       rem *** enemy munched
 1620       for i=0 to ec
 1630         if xe(i)=xp and ye(i)=yp then gosub 1430
 1668       next i
