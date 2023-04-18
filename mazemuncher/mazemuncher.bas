@@ -1,18 +1,20 @@
 
 10 gosub 30030
 20 gosub 29030
-30 sys 65381:scnclr
+30 sys 65381:background 0:scnclr
 40 gosub 530
 50 gosub 2030
 90 end
 500 rem ************************
 510 rem *** show maze window ***
 520 rem ************************
-530 poke as+xp+yp*wd,81
+530 poke as+xp+yp*wd,81:poke ac+xp+yp*wd,5
 540 for i=0 to ec
-550   poke as+xe(i)+ye(i)*wd,ez
+550   poke as+xe(i)+ye(i)*wd,ez:poke ac+xe(i)+ye(i)*wd,6
 560 next 
 570 for i=0 to 6
+571   aw=ac+xp-3+(yp-3+i)*wd
+572   edma 0, 7, aw, cm+16+(i+8)*40
 580   aw=as+xp-3+(yp-3+i)*wd
 590   edma 0, 7, aw, sc+16+(i+8)*40
 600 next 
@@ -58,8 +60,9 @@
 1080   bend
 1090   rem *** move enemy
 1100   if ed(i)>-1 then begin
-1110     poke as+xe(i)+ye(i)*wd,eh(i)
+1110     poke as+xe(i)+ye(i)*wd,eh(i):poke ac+xe(i)+ye(i)*wd,el(i)
 1120     eh(i)=peek(as+xe(i)+xm(ed(i))+(ye(i)+ym(ed(i)))*wd)
+1125     el(i)=peek(ac+xe(i)+xm(ed(i))+(ye(i)+ym(ed(i)))*wd)
 1130     xe(i)=xe(i)+xm(ed(i)):ye(i)=ye(i)+ym(ed(i))
 1140   bend
 1150   if xe(i)=xp and ye(i)=yp then begin
@@ -74,7 +77,7 @@
 1440   xe(i)=int(rnd(0)*wd):ye(i)=int(rnd(0)*ht)
 1450   ew=peek(as+xe(i)+ye(i)*wd)
 1460 loop until (ew=32 or ew=46 or ew=88) and xe(i)<>xp and ye(i)<>ye and abs(xp-xe(i))>5 and abs(yp-ye(i))>5
-1470 eh(i)=ew
+1470 eh(i)=ew:el(i)=peek(ac+xe(i)+ye(i)*wd)
 1480 return
 1500 rem *******************
 1510 rem *** move player ***
@@ -119,10 +122,10 @@
 29020 rem ************************
 29030 for i=0 to ht-1:for j=0 to wd-1
 29040   mt$=mid$(mp$(i),j+1,1)
-29050   if mt$="#" then poke as+j+wd*i,102
-29060   if mt$="." then poke as+j+wd*i,46
-29070   if mt$=" " then poke as+j+wd*i,32
-29075   if mt$="o" then poke as+j+wd*i,88
+29050   if mt$="#" then poke as+j+wd*i,102:poke ac+j+wd*i,1
+29060   if mt$="." then poke as+j+wd*i,46:poke ac+j+wd*i,2
+29070   if mt$=" " then poke as+j+wd*i,32:poke ac+j+wd*i,0
+29075   if mt$="o" then poke as+j+wd*i,88::poke ac+j+wd*i,3
 29080 next j: next i 
 29090 return
 30000 rem ***********************************
@@ -149,13 +152,13 @@
 30210 mp$(17)="####################"
 30220 mp$(18)="####################"
 30230 mp$(19)="####################"
-30240 as=$8000000:sc=$0800:cm=$FF80000: rem screen and attic ram
+30235 wd=20:ht=20: rem map width and height
+30240 as=$8000000:ac=as+wd*ht:sc=$0800:cm=$FF80000: rem screen and attic ram
 30245 aw=0: rem attic window
 30250 mt$="": rem read map tile
-30260 wd=20:ht=20: rem map widht and height
 30270 xp=3:yp=3:ph=0:ps=0: rem player position, player is hunter flag, player score
 30275 dim ed(1):ed(0)=-1:ed(1)=-1:ew=0: rem enemy direction index, char of next enemy position 
-30280 dim xe(1):dim ye(1):dim eh(1):ec=1: ez=42: rem enemy positions, hidden chars and count, enemy char
+30280 dim xe(1):dim ye(1):dim eh(1):dim el(1):ec=1:ez=42: rem enemy positions, hidden chars and count, enemy char
 30285 et=0: rem ticks counter for enemy movement
 30290 xe(0)=3:ye(0)=16:xe(1)=16:ye(1)=16: rem enemy positions
 30295 eh(0)=46:eh(1)=46: rem chars hidden by enemy
