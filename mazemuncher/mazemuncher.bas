@@ -14,7 +14,7 @@
 560 next 
 570 for i=0 to 6
 580   aw=as+xp-3+(yp-3+i)*wd
-590   edma 0, 7, aw, sc+i*40
+590   edma 0, 7, aw, sc+16+(i+8)*40
 600 next 
 610 return
 700 rem ********************
