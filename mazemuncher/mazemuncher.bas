@@ -3,7 +3,7 @@
 20 gosub 29030
 30 sys 65381:background 0:scnclr
 40 gosub 530
-50 gosub 2030
+50 gosub 2130
 90 end
 500 rem ************************
 510 rem *** show maze window ***
@@ -66,7 +66,7 @@
 1130     xe(i)=xe(i)+xm(ed(i)):ye(i)=ye(i)+ym(ed(i))
 1140   bend
 1150   if xe(i)=xp and ye(i)=yp then begin
-1160     if ph>0 then gosub 1430: else a$="x"
+1160     if ph>0 then gosub 1430: else gs=1
 1170   bend
 1180 next i
 1190 return
@@ -89,7 +89,7 @@
 1570   if aw=46 then ps=ps+1:goto 1680
 1580   if aw=88 then ps=ps+1:ph=100:goto 1680
 1590   if aw=ez then begin
-1600     if ph=0 then a$="x":else begin
+1600     if ph=0 then gs=1:else begin
 1610       rem *** enemy munched
 1620       for i=0 to ec
 1630         if xe(i)=xp and ye(i)=yp then gosub 1430
@@ -98,24 +98,36 @@
 1660  bend
 1670 bend
 1680 return
-2000 rem **********************  
-2010 rem *** main game loop ***
-2020 rem **********************
-2030 do
-2040   if ph>0 then ph=ph-1:border 2:else border 7
-2050   rem *** player movment
-2060   get a$
-2070   if a$="w" and yp>2 then mp=0:goto 2110
-2080   if a$="s" and yp<17 then mp=1:goto 2110
-2090   if a$="a" and xp>2 then mp=2:goto 2110
-2100   if a$="d" and xp<17 then mp=3
-2110   gosub 1530:rem player movement
-2180   rem enemy movement
+1700 rem **********************
+1710 rem *** control player ***
+1720 rem **********************
+1730 if ct=0 then begin
+1735   get a$
+1740   if a$="w" and yp>2 then mp=0:goto 1780
+1750   if a$="s" and yp<17 then mp=1:goto 1780
+1760   if a$="a" and xp>2 then mp=2:goto 1780
+1770   if a$="d" and xp<17 then mp=3 
+1780 bend:else begin
+1790   cc=joy(2) and 15
+1800   if cc=1 then mp=0:goto 1840
+1810   if cc=3 then mp=3:goto 1840
+1820   if cc=5 then mp=1:goto 1840
+1830   if cc=7 then mp=2
+1840 bend
+1850 return   
+2100 rem **********************  
+2110 rem *** main game loop ***
+2120 rem **********************
+2130 do
+2140   if ph>0 then ph=ph-1:border 2:else border 7
+2150   gosub 1730:rem *** player movment
+2170   gosub 1530:rem *** player movement
+2180   rem *** enemy movement
 2190   et=et+1
 2200   if et=5 then gosub 730:et=0
 2210   gosub 530
 2220   sleep 0.1
-2230 loop until a$="x"
+2230 loop until gs=1
 2240 return
 29000 rem ************************
 29010 rem *** define world map ***
@@ -152,17 +164,18 @@
 30210 mp$(17)="####################"
 30220 mp$(18)="####################"
 30230 mp$(19)="####################"
-30235 wd=20:ht=20: rem map width and height
-30240 as=$8000000:ac=as+wd*ht:sc=$0800:cm=$FF80000: rem screen and attic ram
-30245 aw=0: rem attic window
-30250 mt$="": rem read map tile
-30270 xp=3:yp=3:ph=0:ps=0: rem player position, player is hunter flag, player score
-30275 dim ed(1):ed(0)=-1:ed(1)=-1:ew=0: rem enemy direction index, char of next enemy position 
-30280 dim xe(1):dim ye(1):dim eh(1):dim el(1):ec=1:ez=42: rem enemy positions, hidden chars and count, enemy char
-30285 et=0: rem ticks counter for enemy movement
-30290 xe(0)=3:ye(0)=16:xe(1)=16:ye(1)=16: rem enemy positions
-30295 eh(0)=46:eh(1)=46: rem chars hidden by enemy
-30300 dim xm(3):dim ym(3):mp=0: rem N, S, W, E
-30310 xm(0)=0:xm(1)=0:xm(2)=-1:xm(3)=1: rem horizontal move vectors
-30320 ym(0)=-1:ym(1)=1:ym(2)=0:ym(3)=0: rem vertical move vectors
-30400 return
+30240 wd=20:ht=20: rem map width and height
+30245 ct=1:cc=0: rem control type (0=keyboard, 1=joystik port 2), control code
+30250 as=$8000000:ac=as+wd*ht:sc=$0800:cm=$FF80000: rem screen and attic ram
+30260 aw=0:gs=0: rem attic window, game state (0=playing, 1=dead)
+30270 mt$="": rem read map tile
+30280 xp=3:yp=3:ph=0:ps=0: rem player position, player is hunter flag, player score
+30290 dim ed(1):ed(0)=-1:ed(1)=-1:ew=0: rem enemy direction index, char of next enemy position 
+30300 dim xe(1):dim ye(1):dim eh(1):dim el(1):ec=1:ez=42: rem enemy positions, hidden chars and count, enemy char
+30310 et=0: rem ticks counter for enemy movement
+30320 xe(0)=3:ye(0)=16:xe(1)=16:ye(1)=16: rem enemy positions
+30330 eh(0)=46:eh(1)=46: rem chars hidden by enemy
+30340 dim xm(3):dim ym(3):mp=0: rem N, S, W, E
+30350 xm(0)=0:xm(1)=0:xm(2)=-1:xm(3)=1: rem horizontal move vectors
+30360 ym(0)=-1:ym(1)=1:ym(2)=0:ym(3)=0: rem vertical move vectors
+30370 return
