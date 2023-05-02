@@ -1,7 +1,7 @@
 
 10 gosub 30030
 20 gosub 29030
-30 sys 65381:background 0:scnclr
+30 sys 65381:background 0:scnclr:gosub 3030
 40 gosub 530
 50 gosub 2130
 90 end
@@ -14,9 +14,9 @@
 560 next 
 570 for i=0 to 6
 571   aw=ac+xp-3+(yp-3+i)*wd
-572   edma 0, 7, aw, cm+16+(i+8)*40
+572   edma 0, 7, aw, cm+16+(i+12)*40
 580   aw=as+xp-3+(yp-3+i)*wd
-590   edma 0, 7, aw, sc+16+(i+8)*40
+590   edma 0, 7, aw, sc+16+(i+12)*40
 600 next 
 610 return
 700 rem ********************
@@ -130,6 +130,34 @@
 2225   if pc=ls then gs=2:rem *** level completed
 2230 loop until gs<>0
 2240 return
+3000 rem ************************
+3010 rem *** Show game screen ***
+3020 rem ************************
+3030 PRINT ""
+3040 PRINT "            {pink}m   e   g   a{light green}"
+3050 PRINT ""
+3060 PRINT "    {reverse on}  {reverse off} {reverse on}  {reverse off} {reverse on} {reverse off}  {reverse on} {reverse off} {reverse on} {reverse off}   {reverse on} {reverse off} {reverse on}    {reverse off} {reverse on} {reverse off}  {reverse on} {reverse off} {reverse on} {reverse off}   {reverse on} "
+3070 PRINT "    {reverse on}     {reverse off} {reverse on} {reverse off}  {reverse on} {reverse off} {reverse on}  {reverse off}  {reverse on} {reverse off} {reverse on} {reverse off}    {reverse on} {reverse off}  {reverse on} {reverse off} {reverse on} {reverse off}   {reverse on} "
+3080 PRINT "    {reverse on} {reverse off} {reverse on} {reverse off} {reverse on} {reverse off} {reverse on} {reverse off}  {reverse on} {reverse off} {reverse on} {reverse off} {reverse on} {reverse off} {reverse on} {reverse off} {reverse on} {reverse off}    {reverse on}    {reverse off}  {reverse on}   "
+3090 PRINT "    {reverse on} {reverse off}   {reverse on} {reverse off} {reverse on} {reverse off}  {reverse on} {reverse off} {reverse on} {reverse off}  {reverse on}  {reverse off} {reverse on} {reverse off}    {reverse on} {reverse off}  {reverse on} {reverse off}   {reverse on} "
+3100 PRINT "    {reverse on} {reverse off}   {reverse on} {reverse off} {reverse on}    {reverse off} {reverse on} {reverse off}   {reverse on} {reverse off} {reverse on}    {reverse off} {reverse on} {reverse off}  {reverse on} {reverse off}   {reverse on} "
+3110 PRINT ""
+3120 PRINT "      {light gray} created by noltisoft in 2023{gray}"
+3130 PRINT ""
+3140 PRINT "               {172}{162}{162}{162}{162}{162}{162}{162}{187}"
+3150 PRINT "               {reverse on}{161}{reverse off}       {161}"
+3160 PRINT "               {reverse on}{161}{reverse off}       {161}"
+3170 PRINT "               {reverse on}{161}{reverse off}       {161}"
+3180 PRINT "               {reverse on}{161}{reverse off}       {161}"
+3190 PRINT "               {reverse on}{161}{reverse off}       {161}"
+3200 PRINT "               {reverse on}{161}{reverse off}       {161}"
+3210 PRINT "               {reverse on}{161}{reverse off}       {161}"
+3220 PRINT "               {188}{reverse on}{162}{162}{162}{162}{162}{162}{162}{reverse off}{190}"
+3230 PRINT ""
+3240 PRINT "    {green}{176}CCCCCCCC{178}CCCCCCCCCCCC{178}CCCCCCC{174}"
+3250 PRINT "    Blevel:00Bscore:000000Blives:0B"
+3260 PRINT "    {173}CCCCCCCC{177}CCCCCCCCCCCC{177}CCCCCCC{189}"
+3280 return
 29000 rem ************************
 29010 rem *** define world map ***
 29020 rem ************************
