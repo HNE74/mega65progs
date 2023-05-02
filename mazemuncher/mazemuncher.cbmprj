@@ -67,7 +67,7 @@
             <FileOpen>False</FileOpen>
         </SourceFile>
         <SourceFile>
-            <Name>new_screen.sdd</Name>
+            <Name>gameScreen.sdd</Name>
             <PrgName />
             <FileType>9</FileType>
             <IncludeInBuild>True</IncludeInBuild>
