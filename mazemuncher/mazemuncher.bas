@@ -86,8 +86,8 @@
 1540 if aw<>102 then begin 
 1550   poke as+xp+yp*wd,32
 1560   xp=xp+xm(mp):yp=yp+ym(mp)
-1570   if aw=46 then ps=ps+1:goto 1680
-1580   if aw=88 then ps=ps+1:ph=100:goto 1680
+1570   if aw=46 then ps=ps+1:pc=pc+1:goto 1680
+1580   if aw=88 then ps=ps+1:pc=pc+1:ph=100:goto 1680
 1590   if aw=ez then begin
 1600     if ph=0 then gs=1:else begin
 1610       rem *** enemy munched
@@ -127,7 +127,8 @@
 2200   if et=5 then gosub 730:et=0
 2210   gosub 530
 2220   sleep 0.1
-2230 loop until gs=1
+2225   if pc=ls then gs=2:rem *** level completed
+2230 loop until gs<>0
 2240 return
 29000 rem ************************
 29010 rem *** define world map ***
@@ -135,7 +136,7 @@
 29030 for i=0 to ht-1:for j=0 to wd-1
 29040   mt$=mid$(mp$(i),j+1,1)
 29050   if mt$="#" then poke as+j+wd*i,102:poke ac+j+wd*i,1
-29060   if mt$="." then poke as+j+wd*i,46:poke ac+j+wd*i,2
+29060   if mt$="." then poke as+j+wd*i,46:poke ac+j+wd*i,2:ls=ls+1
 29070   if mt$=" " then poke as+j+wd*i,32:poke ac+j+wd*i,0
 29075   if mt$="o" then poke as+j+wd*i,88::poke ac+j+wd*i,3
 29080 next j: next i 
@@ -169,7 +170,7 @@
 30250 as=$8000000:ac=as+wd*ht:sc=$0800:cm=$FF80000: rem screen and attic ram
 30260 aw=0:gs=0: rem attic window, game state (0=playing, 1=dead)
 30270 mt$="": rem read map tile
-30280 xp=3:yp=3:ph=0:ps=0: rem player position, player is hunter flag, player score
+30280 xp=3:yp=3:ph=0:ps=0:pc=0:ls=0: rem player position, player is hunter flag, player score, pills collected, level score
 30290 dim ed(1):ed(0)=-1:ed(1)=-1:ew=0: rem enemy direction index, char of next enemy position 
 30300 dim xe(1):dim ye(1):dim eh(1):dim el(1):ec=1:ez=42: rem enemy positions, hidden chars and count, enemy char
 30310 et=0: rem ticks counter for enemy movement
