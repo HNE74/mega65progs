@@ -56,17 +56,6 @@
     <!--End of screen designer settings-->
     <SourceFiles>
         <SourceFile>
-            <Name>mazemuncher.bas</Name>
-            <PrgName />
-            <FileType>1</FileType>
-            <IncludeInBuild>True</IncludeInBuild>
-            <Regions />
-            <Breakpoints />
-            <Bookmarks />
-            <Topmost>True</Topmost>
-            <FileOpen>False</FileOpen>
-        </SourceFile>
-        <SourceFile>
             <Name>gameScreen.sdd</Name>
             <PrgName />
             <FileType>9</FileType>
@@ -76,6 +65,17 @@
             <Bookmarks />
             <Topmost>False</Topmost>
             <FileOpen>False</FileOpen>
+        </SourceFile>
+        <SourceFile>
+            <Name>mazemuncher.bas</Name>
+            <PrgName />
+            <FileType>1</FileType>
+            <IncludeInBuild>True</IncludeInBuild>
+            <Regions />
+            <Breakpoints />
+            <Bookmarks />
+            <Topmost>False</Topmost>
+            <FileOpen>True</FileOpen>
         </SourceFile>
     </SourceFiles>
 </Project>
