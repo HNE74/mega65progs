@@ -1,17 +1,15 @@
 10 rem **********************
 20 rem *** maze generator ***
 30 rem **********************
-40 mw=18:mh=18: rem *** maze widht and height
+40 mw=30:mh=18: rem *** maze widht and height
 50 dim mc(mw*mh-1,7): rem *** maze cell array
 60 wl=10:xf=10:yf=10: rem *** wall length, maze screen offset
 100 rem *****************
 110 rem *** main loop ***
 120 rem *****************
-132 for k=3 to 18:mw=k:mh=k
 133 gosub 1030
 135 gosub 2030
 140 gosub 1430
-145 next k
 150 end
 1000 rem ***********************
 1010 rem *** initialize maze ***
