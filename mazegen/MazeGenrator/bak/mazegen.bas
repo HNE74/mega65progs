@@ -43,7 +43,7 @@
 1460 if mc(i,5)=0 then line xf+x*wl,yf+y*wl+wl,xf+x*wl+wl,yf+y*wl+wl:rem *** bottom wall
 1470 if mc(i,6)=0 then line xf+x*wl,yf+y*wl,xf+x*wl,yf+y*wl+wl:rem *** left wall
 1480 if mc(i,7)=0 then line xf+x*wl+wl,yf+y*wl,xf+x*wl+wl,yf+y*wl+wl:rem *** right wall
-1490 i=i+1:next x:next y
+1490 next x:next y
 1500 getkey a$
 1510 screen close
 1520 return
@@ -51,12 +51,9 @@
 2010 rem *** binary tree maze ***
 2020 rem ************************
 2030 for i=0 to mw*mh-1
+2035 print i
 2040 j=int(rnd(0)*2)
-2045 if mod(i+1,mw)<>0 then begin
 2050 if j=0 and mc(i,5)=0 and mc(i,1)<>-1 then mc(i,5)=1:mc(mc(i,1),4)=1
 2060 if j=1 and mc(i,7)=0 and mc(i,3)<>-1 then mc(i,7)=1:mc(mc(i,3),6)=1
-2070 bend:else begin
-2080 if i<mw*mh-1 then mc(i,5)=1:mc(mc(i,1),4)=1
-2090 bend  
 2100 next i
 2110 return
