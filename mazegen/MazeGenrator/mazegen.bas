@@ -1,13 +1,13 @@
 10 rem **********************
 20 rem *** maze generator ***
 30 rem **********************
-40 mw=10:mh=10: rem *** maze widht and height
+40 mw=18:mh=18: rem *** maze widht and height
 50 dim mc(mw*mh-1,7): rem *** maze cell array
 60 wl=10:xf=10:yf=10: rem *** wall length, maze screen offset
 100 rem *****************
 110 rem *** main loop ***
 120 rem *****************
-132 for k=3 to 10:mw=k:mh=k
+132 for k=3 to 18:mw=k:mh=k
 133 gosub 1030
 135 gosub 2030
 140 gosub 1430
@@ -56,11 +56,14 @@
 2030 i=0:for y=0 to mh-1:for x=0 to mw-1
 2040 j=int(rnd(0)*2)
 2045 if x<mw-1 then begin
-2050 if j=0 and mc(i,5)=0 and mc(i,1)<>-1 then mc(i,5)=1:mc(mc(i,1),4)=1
-2060 if j=1 and mc(i,7)=0 and mc(i,3)<>-1 then mc(i,7)=1:mc(mc(i,3),6)=1
+2048 : if y<mh-1 then begin
+2050 :  if j=0 and mc(i,5)=0 and mc(i,1)<>-1 then mc(i,5)=1:mc(mc(i,1),4)=1
+2060 :  if j=1 and mc(i,7)=0 and mc(i,3)<>-1 then mc(i,7)=1:mc(mc(i,3),6)=1
+2065 : bend:else begin
+2066 :  mc(i,7)=1:mc(mc(i,3),6)=1:rem *** last row
+2068 : bend
 2070 bend:else begin
-2075 if i<mw*mh-1 then begin
-2080 if y<mh-1 then mc(i,5)=1:mc(mc(i,1),4)=1:else mc(i,7)=1:mc(mc(i,3),6)=1 
-2090 bend:bend  
+2080 :  if i<mw*mh-1 and y<mh-1 then mc(i,5)=1:mc(mc(i,1),4)=1:rem *** last column
+2090 bend  
 2100 i=i+1:next x:next y
 2110 return
