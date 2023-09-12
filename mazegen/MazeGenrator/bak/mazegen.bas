@@ -1,13 +1,13 @@
 10 rem **********************
 20 rem *** maze generator ***
 30 rem **********************
-40 mw=10:mh=10: rem *** maze widht and height
+40 mw=30:mh=18: rem *** maze widht and height
 50 dim mc(mw*mh-1,7): rem *** maze cell array
 60 wl=10:xf=10:yf=10: rem *** wall length, maze screen offset
 100 rem *****************
 110 rem *** main loop ***
 120 rem *****************
-130 gosub 1030
+133 gosub 1030
 135 gosub 2030
 140 gosub 1430
 150 end
@@ -15,6 +15,7 @@
 1010 rem *** initialize maze ***
 1020 rem ***********************
 1030 i=0:for y=0 to mh-1:for x=0 to mw-1
+1035 mc(i,4)=0:mc(i,5)=0:mc(i,6)=0:mc(i,7)=0
 1040 mc(i,0)=i-mw:mc(i,1)=i+mw
 1050 mc(i,2)=i-1:mc(i,3)=i+1
 1060 if y=0 then mc(i,0)=-1
@@ -43,17 +44,24 @@
 1460 if mc(i,5)=0 then line xf+x*wl,yf+y*wl+wl,xf+x*wl+wl,yf+y*wl+wl:rem *** bottom wall
 1470 if mc(i,6)=0 then line xf+x*wl,yf+y*wl,xf+x*wl,yf+y*wl+wl:rem *** left wall
 1480 if mc(i,7)=0 then line xf+x*wl+wl,yf+y*wl,xf+x*wl+wl,yf+y*wl+wl:rem *** right wall
-1490 next x:next y
+1490 i=i+1:next x:next y
 1500 getkey a$
 1510 screen close
 1520 return
 2000 rem ************************
 2010 rem *** binary tree maze ***
 2020 rem ************************
-2030 for i=0 to mw*mh-1
-2035 print i
+2030 i=0:for y=0 to mh-1:for x=0 to mw-1
 2040 j=int(rnd(0)*2)
-2050 if j=0 and mc(i,5)=0 and mc(i,1)<>-1 then mc(i,5)=1:mc(mc(i,1),4)=1
-2060 if j=1 and mc(i,7)=0 and mc(i,3)<>-1 then mc(i,7)=1:mc(mc(i,3),6)=1
-2100 next i
+2045 if x<mw-1 then begin
+2048 : if y<mh-1 then begin
+2050 :  if j=0 and mc(i,5)=0 and mc(i,1)<>-1 then mc(i,5)=1:mc(mc(i,1),4)=1
+2060 :  if j=1 and mc(i,7)=0 and mc(i,3)<>-1 then mc(i,7)=1:mc(mc(i,3),6)=1
+2065 : bend:else begin
+2066 :  mc(i,7)=1:mc(mc(i,3),6)=1:rem *** last row
+2068 : bend
+2070 bend:else begin
+2080 :  if i<mw*mh-1 and y<mh-1 then mc(i,5)=1:mc(mc(i,1),4)=1:rem *** last column
+2090 bend  
+2100 i=i+1:next x:next y
 2110 return

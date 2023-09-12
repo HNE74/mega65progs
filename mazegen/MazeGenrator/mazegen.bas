@@ -1,14 +1,15 @@
 10 rem **********************
 20 rem *** maze generator ***
 30 rem **********************
-40 mw=30:mh=18: rem *** maze widht and height
+40 mw=10:mh=10: rem *** maze widht and height
 50 dim mc(mw*mh-1,7): rem *** maze cell array
+55 dim gc(mw-1):pc=0: rem *** cell group array and pointer for sidewinder
 60 wl=10:xf=10:yf=10: rem *** wall length, maze screen offset
 100 rem *****************
 110 rem *** main loop ***
 120 rem *****************
 133 gosub 1030
-135 gosub 2030
+135 gosub 2230
 140 gosub 1430
 150 end
 1000 rem ***********************
@@ -48,20 +49,45 @@
 1500 getkey a$
 1510 screen close
 1520 return
-2000 rem ************************
-2010 rem *** binary tree maze ***
-2020 rem ************************
+2000 rem *****************************
+2010 rem *** binary tree algorithm ***
+2020 rem *****************************
 2030 i=0:for y=0 to mh-1:for x=0 to mw-1
-2040 j=int(rnd(0)*2)
-2045 if x<mw-1 then begin
-2048 : if y<mh-1 then begin
-2050 :  if j=0 and mc(i,5)=0 and mc(i,1)<>-1 then mc(i,5)=1:mc(mc(i,1),4)=1
-2060 :  if j=1 and mc(i,7)=0 and mc(i,3)<>-1 then mc(i,7)=1:mc(mc(i,3),6)=1
-2065 : bend:else begin
-2066 :  mc(i,7)=1:mc(mc(i,3),6)=1:rem *** last row
-2068 : bend
-2070 bend:else begin
-2080 :  if i<mw*mh-1 and y<mh-1 then mc(i,5)=1:mc(mc(i,1),4)=1:rem *** last column
-2090 bend  
-2100 i=i+1:next x:next y
-2110 return
+2040 if x<mw-1 then begin
+2050 : if y<mh-1 then begin
+2060 :  j=int(rnd(0)*2)
+2070 :  if j=0 and mc(i,5)=0 and mc(i,1)<>-1 then mc(i,5)=1:mc(mc(i,1),4)=1
+2080 :  if j=1 and mc(i,7)=0 and mc(i,3)<>-1 then mc(i,7)=1:mc(mc(i,3),6)=1
+2090 : bend:else begin
+2100 :  mc(i,7)=1:mc(mc(i,3),6)=1:rem *** last row
+2110 : bend
+2120 bend:else begin
+2130 :  if i<mw*mh-1 and y<mh-1 then mc(i,5)=1:mc(mc(i,1),4)=1:rem *** last column
+2140 bend  
+2150 i=i+1:next x:next y
+2160 return
+2200 rem ****************************
+2210 rem *** sidewinder algorithm ***
+2220 rem ****************************
+2230 pc=-1:i=0
+2240 for y=0 to mh-1:for x=0 to mw-1
+2250 if y<mh-1 then begin
+2260 : if x<mw-1 then begin
+2270 :  j=int(rnd(0)*2)
+2280 :  if j=0 then begin
+2282 :   pc=pc+1:gc(pc)=i
+2284 :   c=int(rnd(0)*pc):mc(gc(c),5)=1:mc(mc(gc(c),1),4)=1
+2286 :   pc=-1
+2289 :  bend
+2290 :  if j=1 then begin
+2292 :   mc(i,7)=1:mc(mc(i,3),6)=1
+2293 :   pc=pc+1:gc(pc)=i
+2296 :  bend
+2300 : bend:else begin
+2304 :  pc=pc+1:gc(pc)=i
+2305 :  c=int(rnd(0)*pc):mc(gc(c),5)=1:mc(mc(gc(c),1),4)=1
+2306 :  pc=-1
+2308 : bend 
+2310 bend
+2400 i=i+1:next x: next y
+2410 return
