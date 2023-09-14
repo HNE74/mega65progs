@@ -1,19 +1,16 @@
 10 rem **********************
 20 rem *** maze generator ***
 30 rem **********************
-40 mw=30:mh=18: rem *** maze widht and height
-50 dim mc(mw*mh-1,7): rem *** maze cell array
+40 mw=10:mh=10: rem *** maze widht and height (30*18)
+50 dim mc(mw*mh-1,8): rem *** maze cell array
 55 dim gc(mw-1):pc=0: rem *** cell group array and pointer for sidewinder
 60 wl=10:xf=10:yf=10: rem *** wall length, maze screen offset
 100 rem *****************
 110 rem *** main loop ***
 120 rem *****************
 133 gosub 1030
-135 gosub 2030
+135 gosub 2530
 140 gosub 1430
-142 gosub 1030
-145 gosub 2230
-148 gosub 1430
 150 end
 1000 rem ***********************
 1010 rem *** initialize maze ***
@@ -43,12 +40,12 @@
 1410 rem *** draw rect shaped maze ***
 1420 rem *****************************
 1430 screen 320,200,2:pen 1
-1440 i=0:for y=0 to mh-1:for x=0 to mw-1
-1450 if mc(i,4)=0 then line xf+x*wl,yf+y*wl,xf+x*wl+wl,yf+y*wl:rem *** top wall
-1460 if mc(i,5)=0 then line xf+x*wl,yf+y*wl+wl,xf+x*wl+wl,yf+y*wl+wl:rem *** bottom wall
-1470 if mc(i,6)=0 then line xf+x*wl,yf+y*wl,xf+x*wl,yf+y*wl+wl:rem *** left wall
-1480 if mc(i,7)=0 then line xf+x*wl+wl,yf+y*wl,xf+x*wl+wl,yf+y*wl+wl:rem *** right wall
-1490 i=i+1:next x:next y
+1440 k=0:for y=0 to mh-1:for x=0 to mw-1
+1450 if mc(k,4)=0 then line xf+x*wl,yf+y*wl,xf+x*wl+wl,yf+y*wl:rem *** top wall
+1460 if mc(k,5)=0 then line xf+x*wl,yf+y*wl+wl,xf+x*wl+wl,yf+y*wl+wl:rem *** bottom wall
+1470 if mc(k,6)=0 then line xf+x*wl,yf+y*wl,xf+x*wl,yf+y*wl+wl:rem *** left wall
+1480 if mc(k,7)=0 then line xf+x*wl+wl,yf+y*wl,xf+x*wl+wl,yf+y*wl+wl:rem *** right wall
+1490 k=k+1:next x:next y
 1500 getkey a$
 1510 screen close
 1520 return
@@ -93,3 +90,22 @@
 2410 bend
 2420 i=i+1:next x: next y
 2430 return
+2500 rem *****************************
+2510 rem *** random walk algorithm ***
+2520 rem *****************************
+2530 pc=0:i=rnd(mw*mh)
+2540 do
+2550 if mc(i,8)=0 then begin
+2560 : mc(i,8)=1:pc=pc+1
+2580 : do:j=int(rnd(0)*4)+4:loop until mc(i,j)=0 and mc(i,j-4)>-1
+2590 : mc(i,j)=1:x=mc(i,j-4)
+2600 : if j=4 then mc(x,5)=1
+2610 : if j=5 then mc(x,4)=1
+2620 : if j=6 then mc(x,7)=1
+2630 : if j=7 then mc(x,6)=1
+2640 bend
+2650 do:j=int(rnd(0)*4):loop until mc(i,j)>-1
+2660 i=mc(i,j)
+2665 print i:rem getkey a$:gosub 1430
+2670 loop until pc=mw*mh-1
+2680 return

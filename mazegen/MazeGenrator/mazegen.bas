@@ -1,7 +1,7 @@
 10 rem **********************
 20 rem *** maze generator ***
 30 rem **********************
-40 mw=10:mh=10: rem *** maze widht and height (30*18)
+40 mw=30:mh=18: rem *** maze widht and height (30*18)
 50 dim mc(mw*mh-1,8): rem *** maze cell array
 55 dim gc(mw-1):pc=0: rem *** cell group array and pointer for sidewinder
 60 wl=10:xf=10:yf=10: rem *** wall length, maze screen offset
@@ -93,19 +93,17 @@
 2500 rem *****************************
 2510 rem *** random walk algorithm ***
 2520 rem *****************************
-2530 pc=0:i=rnd(mw*mh)
+2530 pc=0:i=int(rnd(0)*mw*mh):mc(i,8)=1:x=0
 2540 do
-2550 if mc(i,8)=0 then begin
-2560 : mc(i,8)=1:pc=pc+1
-2580 : do:j=int(rnd(0)*4)+4:loop until mc(i,j)=0 and mc(i,j-4)>-1
-2590 : mc(i,j)=1:x=mc(i,j-4)
-2600 : if j=4 then mc(x,5)=1
-2610 : if j=5 then mc(x,4)=1
-2620 : if j=6 then mc(x,7)=1
-2630 : if j=7 then mc(x,6)=1
-2640 bend
-2650 do:j=int(rnd(0)*4):loop until mc(i,j)>-1
-2660 i=mc(i,j)
-2665 print i:rem getkey a$:gosub 1430
-2670 loop until pc=mw*mh-1
-2680 return
+2550 do:j=int(rnd(0)*4):loop until mc(i,j)>-1
+2560 if mc(mc(i,j),8)=0 then begin
+2570 : mc(i,j+4)=1
+2580 : if j=0 then mc(mc(i,j),5)=1
+2590 : if j=1 then mc(mc(i,j),4)=1
+2600 : if j=2 then mc(mc(i,j),7)=1 
+2610 : if j=3 then mc(mc(i,j),6)=1 
+2620 : mc(mc(i,j),8)=1:pc=pc+1
+2630 bend
+2635 i=mc(i,j):x=x+1
+2640 loop until pc=mw*mh-1 or x=50000
+2650 return
