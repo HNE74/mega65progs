@@ -1,7 +1,7 @@
 10 rem **********************
 20 rem *** maze generator ***
 30 rem **********************
-40 mw=30:mh=18: rem *** maze widht and height (30*18)
+40 mw=5:mh=5: rem *** maze widht and height (30*18)
 50 dim mc(mw*mh-1,8): rem *** maze cell array
 55 dim gc(mw-1):pc=0: rem *** cell group array and pointer for sidewinder
 60 wl=10:xf=10:yf=10: rem *** wall length, maze screen offset
@@ -9,9 +9,9 @@
 110 rem *** main loop ***
 120 rem *****************
 133 gosub 1030
-135 gosub 2530
+135 gosub 2730
 140 gosub 1430
-150 end
+150 end 
 1000 rem ***********************
 1010 rem *** initialize maze ***
 1020 rem ***********************
@@ -104,6 +104,30 @@
 2610 : if j=3 then mc(mc(i,j),6)=1 
 2620 : mc(mc(i,j),8)=1:pc=pc+1
 2630 bend
-2635 i=mc(i,j):x=x+1
-2640 loop until pc=mw*mh-1 or x=50000
-2650 return
+2640 i=mc(i,j):x=x+1
+2650 loop until pc=mw*mh-1 or x=50000
+2660 return
+2700 rem *******************************
+2710 rem *** hunt and kill algorithm ***
+2720 rem *******************************
+2730 pc=0
+2740 do
+2750 if mc(pc,8)=0 then begin
+2760 : i=pc:j=0:mc(pc,8)=1
+2770 : if mc(i,j)=0 then begin
+2780 :  mc(i,j+4)=1
+2790 :  if j=0 then mc(mc(i,j),5)=1
+2800 :  if j=1 then mc(mc(i,j),4)=1
+2810 :  if j=2 then mc(mc(i,j),7)=1 
+2820 :  if j=3 then mc(mc(i,j),6)=1
+2830 :  i=mc(i,j):j=0:goto 2770
+2900 : bend:else begin: print i,j
+2910 :  j=j+1
+2915 :  if j=4 then pc=0: goto 2750 : else goto 2770
+2930 : bend 
+2940 : pc=0
+2950 bend:else begin
+2960 : pc=pc+1 
+2965 bend
+2970 loop until pc=mw*mh-1
+2980 return
