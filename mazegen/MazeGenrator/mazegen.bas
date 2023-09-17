@@ -115,17 +115,16 @@
 2750 j=int(rnd(0)*4):print j
 2760 : if mc(i,j)>-1 then begin
 2770 :  if mc(mc(i,j),8)=0 then begin
-2775 :   mc(i,j+4)=1
-2780 :   if j=0 then mc(mc(i,j),5)=1
-2790 :   if j=1 then mc(mc(i,j),4)=1
-2800 :   if j=2 then mc(mc(i,j),7)=1 
-2810 :   if j=3 then mc(mc(i,j),6)=1
-2820 :   mc(i,8)=1:i=mc(i,j):j=10
-2825 :  bend
-2826 : bend
-2835 x=0:for j=0 to 3
-2836 : if mc(i,j)=-1 then x=x+1:goto 2838
-2837 : if mc(mc(i,j),8)=1 then x=x+1
-2838 next j
-2840 loop until x=4
-2850 return
+2780 :   mc(i,j+4)=1
+2790 :   if j=0 then mc(mc(i,j),5)=1
+2800 :   if j=1 then mc(mc(i,j),4)=1
+2810 :   if j=2 then mc(mc(i,j),7)=1 
+2820 :   if j=3 then mc(mc(i,j),6)=1
+2830 :   mc(i,8)=1:i=mc(i,j):j=10
+2840 :  bend
+2850 : bend
+2860 x=0:for j=0 to 3
+2870 : if mc(i,j)=-1 then x=x+1: else if mc(mc(i,j),8)=1 then x=x+1
+2880 next j
+2890 loop until x=4
+2900 return
