@@ -110,11 +110,11 @@
 2700 rem *******************************
 2710 rem *** hunt and kill algorithm ***
 2720 rem *******************************
-2730 i=0:mc(i,8)=1
+2730 i=int(rnd(0)*mw*mh):mc(i,8)=1
 2740 do
-2750 for j=0 to 3
+2750 j=int(rnd(0)*4):print j
 2760 : if mc(i,j)>-1 then begin
-2770 : if mc(mc(i,j),8)=0 then begin
+2770 :  if mc(mc(i,j),8)=0 then begin
 2775 :   mc(i,j+4)=1
 2780 :   if j=0 then mc(mc(i,j),5)=1
 2790 :   if j=1 then mc(mc(i,j),4)=1
@@ -123,6 +123,9 @@
 2820 :   mc(i,8)=1:i=mc(i,j):j=10
 2825 :  bend
 2826 : bend
-2830 next j
-2840 loop until j=4
+2835 x=0:for j=0 to 3
+2836 : if mc(i,j)=-1 then x=x+1:goto 2838
+2837 : if mc(mc(i,j),8)=1 then x=x+1
+2838 next j
+2840 loop until x=4
 2850 return
