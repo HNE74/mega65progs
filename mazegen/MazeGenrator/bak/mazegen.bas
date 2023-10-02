@@ -9,7 +9,7 @@
 110 rem *** main loop ***
 120 rem *****************
 133 gosub 1030
-135 gosub 2730
+135 gosub 3150
 140 gosub 1430
 150 end 
 1000 rem ***********************
@@ -107,12 +107,10 @@
 2640 i=mc(i,j):x=x+1
 2650 loop until pc=mw*mh-1 or x=50000
 2660 return
-2700 rem *******************************
-2710 rem *** hunt and kill algorithm ***
-2720 rem *******************************
+2700 rem *** kill mode
 2730 i=int(rnd(0)*mw*mh):mc(i,8)=1
 2740 do
-2750 j=int(rnd(0)*4):print j
+2750 j=int(rnd(0)*4)
 2760 : if mc(i,j)>-1 then begin
 2770 :  if mc(mc(i,j),8)=0 then begin
 2780 :   mc(i,j+4)=1
@@ -128,3 +126,31 @@
 2880 next j
 2890 loop until x=4
 2900 return
+2910 rem *** hunt mode
+3000 i=0:pc=0
+3010 do
+3012 : for j=0 to 3
+3015 :  if mc(i,j)>-1 then begin
+3016 :   if mc(mc(i,j),8)<>1 then goto 3050
+3018 :   print i,j
+3020 :   mc(i,j+4)=1
+3025 :   if j=0 then mc(mc(i,j),5)=1
+3030 :   if j=1 then mc(mc(i,j),4)=1
+3035 :   if j=2 then mc(mc(i,j),7)=1 
+3040 :   if j=3 then mc(mc(i,j),6)=1
+3045 :   mc(i,8)=1:j=4:pc=1:i=mw*mh-2
+3050 :  bend
+3055 : next j
+3090 : i=i+1:print i
+3100 loop until i=mw*mh-1
+3105 if pc=1 then pc=0:gosub 2730:else pc=2
+3115 return
+3120 rem *******************************
+3130 rem *** hunt and kill algorithm ***
+3140 rem *******************************
+3150 pc=0
+3160 do
+3165 : gosub 2730
+3168 : gosub 3000
+3170 loop until pc=2
+3180 return
