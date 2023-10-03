@@ -131,19 +131,20 @@
 3010 do
 3012 : for j=0 to 3
 3015 :  if mc(i,j)>-1 then begin
-3016 :   if mc(mc(i,j),8)<>1 then goto 3050
-3018 :   print i,j
+3016 :   if mc(mc(i,j),8)=1 then goto 3050
 3020 :   mc(i,j+4)=1
 3025 :   if j=0 then mc(mc(i,j),5)=1
 3030 :   if j=1 then mc(mc(i,j),4)=1
 3035 :   if j=2 then mc(mc(i,j),7)=1 
 3040 :   if j=3 then mc(mc(i,j),6)=1
-3045 :   mc(i,8)=1:j=4:pc=1:i=mw*mh-2
+3042 :   print "visited", mc(i,8)
+3045 :   mc(i,8)=1:j=4:pc=1:print "cell", i:i=mw*mh-2
+3048 :   getkey a$:gosub 1430
 3050 :  bend
 3055 : next j
-3090 : i=i+1:print i
+3090 : i=i+1
 3100 loop until i=mw*mh-1
-3105 if pc=1 then pc=0:gosub 2730:else pc=2
+3105 if pc=1 then pc=0:else pc=2
 3115 return
 3120 rem *******************************
 3130 rem *** hunt and kill algorithm ***

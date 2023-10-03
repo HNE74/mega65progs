@@ -45,6 +45,7 @@
 1460 if mc(k,5)=0 then line xf+x*wl,yf+y*wl+wl,xf+x*wl+wl,yf+y*wl+wl:rem *** bottom wall
 1470 if mc(k,6)=0 then line xf+x*wl,yf+y*wl,xf+x*wl,yf+y*wl+wl:rem *** left wall
 1480 if mc(k,7)=0 then line xf+x*wl+wl,yf+y*wl,xf+x*wl+wl,yf+y*wl+wl:rem *** right wall
+1485 if k=cl then circle xf+x*wl+wl/2,yf+y*wl+wl/2,3
 1490 k=k+1:next x:next y
 1500 getkey a$
 1510 screen close
@@ -108,7 +109,7 @@
 2650 loop until pc=mw*mh-1 or x=50000
 2660 return
 2700 rem *** kill mode
-2730 i=int(rnd(0)*mw*mh):mc(i,8)=1
+2730 print "kill":mc(i,8)=1
 2740 do
 2750 j=int(rnd(0)*4)
 2760 : if mc(i,j)>-1 then begin
@@ -127,21 +128,23 @@
 2890 loop until x=4
 2900 return
 2910 rem *** hunt mode
-3000 i=0:pc=0
-3010 do
+3000 print "hunt":i=0:pc=0:cl=0
+3010 do: print i;mc(i,8),
+3011 : if mc(i,8)<>1 then begin
 3012 : for j=0 to 3
 3015 :  if mc(i,j)>-1 then begin
-3016 :   if mc(mc(i,j),8)=1 then goto 3050
-3020 :   mc(i,j+4)=1
+3016 :   if mc(mc(i,j),8)<>1 then goto 3050
+3020 :   mc(i,j+4)=1:cl=i
 3025 :   if j=0 then mc(mc(i,j),5)=1
 3030 :   if j=1 then mc(mc(i,j),4)=1
 3035 :   if j=2 then mc(mc(i,j),7)=1 
 3040 :   if j=3 then mc(mc(i,j),6)=1
 3042 :   print "visited", mc(i,8)
-3045 :   mc(i,8)=1:j=4:pc=1:print "cell", i:i=mw*mh-2
-3048 :   getkey a$:gosub 1430
+3045 :   mc(i,8)=1:j=10:pc=1:print "cell", i:i=mw*mh-2
+3048 :   rem getkey a$: gosub 1430
 3050 :  bend
 3055 : next j
+3057 : bend
 3090 : i=i+1
 3100 loop until i=mw*mh-1
 3105 if pc=1 then pc=0:else pc=2
@@ -149,7 +152,7 @@
 3120 rem *******************************
 3130 rem *** hunt and kill algorithm ***
 3140 rem *******************************
-3150 pc=0
+3150 pc=0:i=int(rnd(0)*mw*mh)
 3160 do
 3165 : gosub 2730
 3168 : gosub 3000
