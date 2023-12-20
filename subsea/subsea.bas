@@ -1,17 +1,20 @@
 10 xp=100:yp=100:fp=3
-20 xs=100:ys=130:fs=8
+20 xs=50:ys=50:fs=8
 
 500 gosub 18005
 520 gosub 18130
 
-1001 scnclr
-1002 poke $40000,fp:poke $40002,fs
-1005 movspr 0,xp,yp:movspr 1,xs,ys
-1008 getkey a$
-1009 fp=fp+1:if fp>6 then fp=1
-1010 fs=fs+1:if fs>10 then fs=7
-1012 goto 1002
-1022 end
+1000 scnclr
+1010 poke $40000,fp:movspr 0,xp,yp
+1020 for i=1 to 7
+1022 : poke $40000+2*i,fs
+1025 : movspr i,xs,ys+i*20
+1027 next
+1030 getkey a$
+1040 fp=fp+1:if fp>6 then fp=1
+1050 fs=fs+1:if fs>10 then fs=7
+1060 goto 1010
+1070 end
 
 18000 rem ***************************
 18002 rem *** setup sprite memory ***
@@ -21,16 +24,18 @@
 18020 gosub 19830
 18030 poke $d06c,0:poke $d06d,0:rem bit 0-16 to 0 for $40000
 18040 poke $d06e,128+4:rem sprptr16 (bit7) and bit 2 to 4 for $40000
-18050 poke $40000,$1:poke $40001,$10:rem $40040 / $40 = $1001 -> $40001 = MSB, $40000 = LSB
-18055 poke $40002,$7:poke $40003,$10:rem $40040 / $40 = $1001 -> $40001 = MSB, $40000 = LSB
 18060 return
 
 18100 rem ***********************************
 18110 rem *** init sprites for dive level ***
 18120 rem ***********************************
-18130 sprite 0,1,12,1,0,0,1:rem submarine sprite
-18140 sprite 1,1,3,1,0,0,1:rem shark sprite
-18150 return
+18130 poke $40000,$1:poke $40001,$10
+18140 sprite 0,1,12,1,0,0,1
+18150 for i=1 to 7
+18160 : poke $40000+2*i,$7:poke $40000+2*i+1,$10
+18170 : sprite i,1,3,1,0,0,1
+18180 next 
+18190 return
 
 19800 rem ************************
 19810 rem *** read sprite data ***
