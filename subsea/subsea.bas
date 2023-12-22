@@ -34,24 +34,27 @@
 6010 rem *** handle sharks ***
 6020 rem *********************
 6030 for i=1 to cs
-6040 : poke $40000+2*i,fs(i)
-6050 : movspr i,xs(i),ys(i)
-6060 next
-6070 for i=1 to cs
-6075 : if xs(i)=0 or xs(i)=344 then ns=i:gosub 6330
-6080 : xs(i)=xs(i)+hs(i)
-6090 next
-6100 return
+6040 : if ys(i) >-1 and (xs(i)<=5 or xs(i)>=339) then ys(i)=-1:movspr i,xs(i),ys(i)
+6050 : if ys(i) >-1 then begin
+6060 :  xs(i)=xs(i)+hs(i)
+6080 :  poke $40000+2*i,fs(i)
+6090 :  movspr i,xs(i),ys(i)
+6095 : bend:else begin
+6098 :  j=int(rnd(1)*50)
+6099 :  if j=0 then ns=i:gosub 6330
+6100 : bend
+6110 next
+6120 return
 
 6300 rem *******************
 6310 rem *** spawn shark ***
 6320 rem *******************
 6330 ys(ns)=int(rnd(1)*120)+90
-6400 vs(ns)=0:j=int(rnd(1)*2):print j
+6400 vs(ns)=0:j=int(rnd(1)*2)
 6410 if j=0 then begin
-6420 : hs(ns)=-1:fs(ns)=9:xs(ns)=344
+6420 : hs(ns)=-1:fs(ns)=9:xs(ns)=338
 6430 bend:else begin
-6440 : hs(ns)=1:fs(ns)=7:xs(ns)=0
+6440 : hs(ns)=1:fs(ns)=7:xs(ns)=6
 6450 bend
 6460 return
 
@@ -59,9 +62,7 @@
 17010 rem *** initialize shark level ***
 17020 rem ******************************
 17030 xp=172:yp=70:scnclr
-17040 for i=1 to cs
-17050 : ns=i:gosub 6330
-17060 next 
+17040 for i=1 to cs:ys(i)=-1:next 
 17070 return
 
 18000 rem ***************************
