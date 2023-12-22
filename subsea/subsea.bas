@@ -37,20 +37,23 @@
 6040 : poke $40000+2*i,fs(i)
 6050 : movspr i,xs(i),ys(i)
 6060 next
-6070 for i=1 to cs:xs(i)=xs(i)+hs(i):next
-6080 return
+6070 for i=1 to cs
+6075 : if xs(i)=0 or xs(i)=344 then ns=i:gosub 6330
+6080 : xs(i)=xs(i)+hs(i)
+6090 next
+6100 return
 
 6300 rem *******************
 6310 rem *** spawn shark ***
 6320 rem *******************
-6330 ys(ns)=int(rnd(1)*120)+90:xs(ns)=int(rnd(1)*280)+30
-6340 vs(ns)=0:j=int(rnd(1)*2)
-6350 if j=0 then begin
-6360 : hs(ns)=-1:fs(ns)=9
-6370 bend:else begin
-6380 : hs(ns)=1:fs(ns)=7
-6390 bend
-6400 return
+6330 ys(ns)=int(rnd(1)*120)+90
+6400 vs(ns)=0:j=int(rnd(1)*2):print j
+6410 if j=0 then begin
+6420 : hs(ns)=-1:fs(ns)=9:xs(ns)=344
+6430 bend:else begin
+6440 : hs(ns)=1:fs(ns)=7:xs(ns)=0
+6450 bend
+6460 return
 
 17000 rem ******************************
 17010 rem *** initialize shark level ***
