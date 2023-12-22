@@ -15,7 +15,8 @@
 520 gosub 18330
 530 gosub 10030
 
-1000 rem scnclr
+1000 scnclr
+1005 print xp, yp
 1010 poke $40000,fp:movspr 0,xp,yp
 1020 for i=1 to cs
 1022 : poke $40000+2*i,fs(i)
@@ -29,16 +30,17 @@
 10000 rem ******************************
 10010 rem *** initialize shark level ***
 10020 rem ******************************
-10030 for i=1 to cs
-10040 : ys(i)=int(rnd(1)*120)+70:xs(i)=int(rnd(i)*280)+30
-10050 : vs(i)=0:j=int(rnd(1)*2)
-10060 : if j=0 then begin
-10061 :  hs(i)=-1:fs(i)=9
-10065 : bend:else begin
-10066 :  hs(i)=1:fs(i)=7
-10069 : bend
-10080 next 
-10090 return
+10030 xp=172:yp=70
+10040 for i=1 to cs
+10050 : ys(i)=int(rnd(1)*120)+90:xs(i)=int(rnd(i)*280)+30
+10060 : vs(i)=0:j=int(rnd(1)*2)
+10070 : if j=0 then begin
+10080 :  hs(i)=-1:fs(i)=9
+10090 : bend:else begin
+10100 :  hs(i)=1:fs(i)=7
+10110 : bend
+10120 next 
+10130 return
 
 18000 rem ***************************
 18010 rem *** setup sprite memory ***
