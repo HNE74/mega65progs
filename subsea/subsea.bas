@@ -5,6 +5,8 @@
 !- fp = player sprite frame
 !- xs[],ys[] = shark x and y position
 !- fs[] = shark sprite frame
+!- hs[] = shark horizontal direction
+!- vs[] = shark vertical direction
 !- cs = shark counter
 !--------------------------------------
 100 gosub 25030
@@ -13,13 +15,14 @@
 520 gosub 18330
 530 gosub 10030
 
-1000 scnclr
+1000 rem scnclr
 1010 poke $40000,fp:movspr 0,xp,yp
 1020 for i=1 to cs
 1022 : poke $40000+2*i,fs(i)
 1025 : movspr i,xs(i),ys(i)
 1027 next
 1030 getkey a$
+1040 for i=1 to cs:xs(i)=xs(i)+hs(i):next
 1060 goto 1010
 1070 end
 
@@ -28,9 +31,14 @@
 10020 rem ******************************
 10030 for i=1 to cs
 10040 : ys(i)=int(rnd(1)*120)+70:xs(i)=int(rnd(i)*280)+30
-10050 : fs(i)=7
-10060 next 
-10070 return
+10050 : vs(i)=0:j=int(rnd(1)*2)
+10060 : if j=0 then begin
+10061 :  hs(i)=-1:fs(i)=9
+10065 : bend:else begin
+10066 :  hs(i)=1:fs(i)=7
+10069 : bend
+10080 next 
+10090 return
 
 18000 rem ***************************
 18010 rem *** setup sprite memory ***
@@ -149,10 +157,10 @@
 20930 DATA 10,160,0,8,32,0,32,8,0
 20940 DATA 0,0,0,0,0,0,0,0,0,0
 
-25000 rem *********************************
-25010 rem *** init variables and arrays ***
-25020 rem *********************************
+25000 rem ****************************************
+25010 rem *** init variables and define arrays ***
+25020 rem ****************************************
 25030 xp=100:yp=100:fp=3
-25035 dim xs(4):dim ys(4):dim fs(4)
-25045 cs=4
+25035 cs=4
+25045 dim xs(cs):dim ys(cs):dim fs(cs):dim hs(cs):dim vs(cs)
 25090 return
