@@ -36,7 +36,7 @@
 6030 for i=1 to cs
 6040 : if ys(i) >-1 and (xs(i)<=5 or xs(i)>=339) then ys(i)=-1:movspr i,xs(i),ys(i)
 6050 : if ys(i) >-1 then begin
-6060 :  xs(i)=xs(i)+hs(i)
+6060 :  xs(i)=xs(i)+hs(i):ys(i)=ys(i)+vs(i)
 6070 :  if mod(xs(i),4)=0 then begin
 6080 :   if fs(i)=9 then fs(i)=10:else if fs(i)=10 then fs(i)=9
 6090 :   if fs(i)=7 then fs(i)=8:else if fs(i)=8 then fs(i)=7
@@ -54,13 +54,19 @@
 6310 rem *** spawn shark ***
 6320 rem *******************
 6330 ys(ns)=int(rnd(1)*120)+90
-6400 vs(ns)=0:j=int(rnd(1)*2)
+6400 j=int(rnd(1)*2)
 6410 if j=0 then begin
 6420 : hs(ns)=-1:fs(ns)=9:xs(ns)=338
 6430 bend:else begin
 6440 : hs(ns)=1:fs(ns)=7:xs(ns)=6
 6450 bend
-6460 return
+6460 vs(ns)=0:j=int(rnd(1)*3)
+6470 if j=0 then begin
+6480 : vs(ns)=-1
+6490 bend:else if j=1 then begin
+6500 : vs(ns)=1
+6510 bend
+6520 return
 
 17000 rem ******************************
 17010 rem *** initialize shark level ***
