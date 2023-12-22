@@ -1,41 +1,57 @@
-10 xp=100:yp=100:fp=3
-20 xs=50:ys=50:fs=8
+!- Sub Sea 
+!--------------------------------------
+!- Variables:
+!- xp,yp = player x and y position
+!- fp = player sprite frame
+!- xs[],ys[] = shark x and y position
+!- fs[] = shark sprite frame
+!- cs = shark counter
+!--------------------------------------
+100 gosub 25030
 
-500 gosub 18005
-520 gosub 18130
+500 gosub 18030
+520 gosub 18330
+530 gosub 10030
 
 1000 scnclr
 1010 poke $40000,fp:movspr 0,xp,yp
-1020 for i=1 to 7
-1022 : poke $40000+2*i,fs
-1025 : movspr i,xs,ys+i*20
+1020 for i=1 to cs
+1022 : poke $40000+2*i,fs(i)
+1025 : movspr i,xs(i),ys(i)
 1027 next
 1030 getkey a$
-1040 fp=fp+1:if fp>6 then fp=1
-1050 fs=fs+1:if fs>10 then fs=7
 1060 goto 1010
 1070 end
 
-18000 rem ***************************
-18002 rem *** setup sprite memory ***
-18004 rem ***************************
-18005 mem 1,0:rem reserve 8k in bank 4
-18010 edma 3,64*13,0,$40000:rem spreicherbereich leeren
-18020 gosub 19830
-18030 poke $d06c,0:poke $d06d,0:rem bit 0-16 to 0 for $40000
-18040 poke $d06e,128+4:rem sprptr16 (bit7) and bit 2 to 4 for $40000
-18060 return
+10000 rem ******************************
+10010 rem *** initialize shark level ***
+10020 rem ******************************
+10030 for i=1 to cs
+10040 : ys(i)=int(rnd(1)*120)+70:xs(i)=int(rnd(i)*280)+30
+10050 : fs(i)=7
+10060 next 
+10070 return
 
-18100 rem ***********************************
-18110 rem *** init sprites for dive level ***
-18120 rem ***********************************
-18130 poke $40000,$1:poke $40001,$10
-18140 sprite 0,1,12,1,0,0,1
-18150 for i=1 to 7
-18160 : poke $40000+2*i,$7:poke $40000+2*i+1,$10
-18170 : sprite i,1,3,1,0,0,1
-18180 next 
-18190 return
+18000 rem ***************************
+18010 rem *** setup sprite memory ***
+18020 rem ***************************
+18030 mem 1,0:rem reserve 8k in bank 4
+18040 edma 3,64*13,0,$40000:rem spreicherbereich leeren
+18050 gosub 19830
+18060 poke $d06c,0:poke $d06d,0:rem bit 0-16 to 0 for $40000
+18070 poke $d06e,128+4:rem sprptr16 (bit7) and bit 2 to 4 for $40000
+18080 return
+
+18300 rem ***********************************
+18310 rem *** init sprites for dive level ***
+18320 rem ***********************************
+18330 poke $40000,$1:poke $40001,$10
+18340 sprite 0,1,12,1,0,0,1
+18350 for i=1 to cs+1
+18360 : poke $40000+2*i,$7:poke $40000+2*i+1,$10
+18370 : sprite i,1,3,1,0,0,1
+18380 next 
+18390 return
 
 19800 rem ************************
 19810 rem *** read sprite data ***
@@ -133,3 +149,10 @@
 20930 DATA 10,160,0,8,32,0,32,8,0
 20940 DATA 0,0,0,0,0,0,0,0,0,0
 
+25000 rem *********************************
+25010 rem *** init variables and arrays ***
+25020 rem *********************************
+25030 xp=100:yp=100:fp=3
+25035 dim xs(4):dim ys(4):dim fs(4)
+25045 cs=4
+25090 return
