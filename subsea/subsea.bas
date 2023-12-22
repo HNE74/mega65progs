@@ -13,24 +13,30 @@
 
 500 gosub 18030
 520 gosub 18330
-530 gosub 10030
 
-1000 scnclr
-1005 print xp, yp
-1010 poke $40000,fp:movspr 0,xp,yp
-1020 for i=1 to cs
-1022 : poke $40000+2*i,fs(i)
-1025 : movspr i,xs(i),ys(i)
-1027 next
-1030 getkey a$
-1040 for i=1 to cs:xs(i)=xs(i)+hs(i):next
-1060 goto 1010
-1070 end
+1000 rem *****************
+1010 rem *** main loop ***
+1020 rem *****************
+1030 gosub 10030
+1040 gosub 5000
+4990 end
+
+5000 rem *****************
+5010 rem *** game loop ***
+5020 rem *****************
+5030 poke $40000,fp:movspr 0,xp,yp
+5040 for i=1 to cs
+5050 : poke $40000+2*i,fs(i)
+5060 : movspr i,xs(i),ys(i)
+5070 next
+5080 getkey a$
+5090 for i=1 to cs:xs(i)=xs(i)+hs(i):next
+5100 goto 5030
 
 10000 rem ******************************
 10010 rem *** initialize shark level ***
 10020 rem ******************************
-10030 xp=172:yp=70
+10030 xp=172:yp=70:scnclr
 10040 for i=1 to cs
 10050 : ys(i)=int(rnd(1)*120)+90:xs(i)=int(rnd(i)*280)+30
 10060 : vs(i)=0:j=int(rnd(1)*2)
