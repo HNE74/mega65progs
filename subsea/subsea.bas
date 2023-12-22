@@ -8,6 +8,7 @@
 !- hs[] = shark horizontal direction
 !- vs[] = shark vertical direction
 !- cs = shark counter
+!- ns = shark index
 !--------------------------------------
 100 gosub 25030
 
@@ -17,7 +18,7 @@
 1000 rem *****************
 1010 rem *** main loop ***
 1020 rem *****************
-1030 gosub 10030
+1030 gosub 17030
 1040 gosub 5000
 4990 end
 
@@ -25,28 +26,40 @@
 5010 rem *** game loop ***
 5020 rem *****************
 5030 poke $40000,fp:movspr 0,xp,yp
-5040 for i=1 to cs
-5050 : poke $40000+2*i,fs(i)
-5060 : movspr i,xs(i),ys(i)
-5070 next
+5040 gosub 6030
 5080 getkey a$
-5090 for i=1 to cs:xs(i)=xs(i)+hs(i):next
 5100 goto 5030
 
-10000 rem ******************************
-10010 rem *** initialize shark level ***
-10020 rem ******************************
-10030 xp=172:yp=70:scnclr
-10040 for i=1 to cs
-10050 : ys(i)=int(rnd(1)*120)+90:xs(i)=int(rnd(i)*280)+30
-10060 : vs(i)=0:j=int(rnd(1)*2)
-10070 : if j=0 then begin
-10080 :  hs(i)=-1:fs(i)=9
-10090 : bend:else begin
-10100 :  hs(i)=1:fs(i)=7
-10110 : bend
-10120 next 
-10130 return
+6000 rem *********************
+6010 rem *** handle sharks ***
+6020 rem *********************
+6030 for i=1 to cs
+6040 : poke $40000+2*i,fs(i)
+6050 : movspr i,xs(i),ys(i)
+6060 next
+6070 for i=1 to cs:xs(i)=xs(i)+hs(i):next
+6080 return
+
+6300 rem *******************
+6310 rem *** spawn shark ***
+6320 rem *******************
+6330 ys(ns)=int(rnd(1)*120)+90:xs(ns)=int(rnd(1)*280)+30
+6340 vs(ns)=0:j=int(rnd(1)*2)
+6350 if j=0 then begin
+6360 : hs(ns)=-1:fs(ns)=9
+6370 bend:else begin
+6380 : hs(ns)=1:fs(ns)=7
+6390 bend
+6400 return
+
+17000 rem ******************************
+17010 rem *** initialize shark level ***
+17020 rem ******************************
+17030 xp=172:yp=70:scnclr
+17040 for i=1 to cs
+17050 : ns=i:gosub 6330
+17060 next 
+17070 return
 
 18000 rem ***************************
 18010 rem *** setup sprite memory ***
