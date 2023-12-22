@@ -39,22 +39,22 @@
 6030 for i=1 to cs
 6040 : if ys(i) >-1 and (xs(i)<=5 or xs(i)>=339) then ys(i)=-1:movspr i,xs(i),ys(i)
 6050 : if ys(i) >-1 then begin
-6055 :  if ys(i)>=200 then vs(i)=-1:else if ys(i)<=70 then vs(i)=1
-6058 :  if ys(i) >-1 then if mod(fc, ss(i))= 0 then begin
-6060 :   xs(i)=xs(i)+hs(i):ys(i)=ys(i)+vs(i)
-6070 :  if mod(xs(i),4)=0 then begin
-6080 :    if fs(i)=9 then fs(i)=10:else if fs(i)=10 then fs(i)=9
-6090 :    if fs(i)=7 then fs(i)=8:else if fs(i)=8 then fs(i)=7
-6100 :  bend
-6110 :  poke $40000+2*i,fs(i)
-6120 :  movspr i,xs(i),ys(i)
-6125 : bend
-6130 : bend:else begin
-6140 :  j=int(rnd(1)*50)
-6150 :  if j=0 then ns=i:gosub 6330
-6160 : bend
-6170 next
-6180 return
+6060 :  if ys(i)>=200 then vs(i)=-1:else if ys(i)<=70 then vs(i)=1
+6070 :  if ys(i) >-1 then if mod(fc, ss(i))= 0 then begin
+6080 :   xs(i)=xs(i)+hs(i):ys(i)=ys(i)+vs(i)
+6090 :  if mod(xs(i),4)=0 then begin
+6100 :    if fs(i)=9 then fs(i)=10:else if fs(i)=10 then fs(i)=9
+6110 :    if fs(i)=7 then fs(i)=8:else if fs(i)=8 then fs(i)=7
+6120 :  bend
+6130 :  poke $40000+2*i,fs(i)
+6140 :  movspr i,xs(i),ys(i)
+6150 : bend
+6160 : bend:else begin
+6170 :  j=int(rnd(1)*50)
+6180 :  if j=0 then ns=i:gosub 6330
+6190 : bend
+6200 next
+6210 return
 
 6300 rem *******************
 6310 rem *** spawn shark ***
