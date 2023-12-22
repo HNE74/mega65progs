@@ -27,7 +27,7 @@
 5020 rem *****************
 5030 poke $40000,fp:movspr 0,xp,yp
 5040 gosub 6030
-5080 getkey a$
+5050 vsync 0
 5100 goto 5030
 
 6000 rem *********************
@@ -36,6 +36,7 @@
 6030 for i=1 to cs
 6040 : if ys(i) >-1 and (xs(i)<=5 or xs(i)>=339) then ys(i)=-1:movspr i,xs(i),ys(i)
 6050 : if ys(i) >-1 then begin
+6055 :  if ys(i)>=200 or ys(i)<=70 then vs(i)=-vs(i)
 6060 :  xs(i)=xs(i)+hs(i):ys(i)=ys(i)+vs(i)
 6070 :  if mod(xs(i),4)=0 then begin
 6080 :   if fs(i)=9 then fs(i)=10:else if fs(i)=10 then fs(i)=9
@@ -53,7 +54,7 @@
 6300 rem *******************
 6310 rem *** spawn shark ***
 6320 rem *******************
-6330 ys(ns)=int(rnd(1)*120)+90
+6330 ys(ns)=int(rnd(1)*110)+90
 6400 j=int(rnd(1)*2)
 6410 if j=0 then begin
 6420 : hs(ns)=-1:fs(ns)=9:xs(ns)=338
