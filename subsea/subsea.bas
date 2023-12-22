@@ -37,14 +37,18 @@
 6040 : if ys(i) >-1 and (xs(i)<=5 or xs(i)>=339) then ys(i)=-1:movspr i,xs(i),ys(i)
 6050 : if ys(i) >-1 then begin
 6060 :  xs(i)=xs(i)+hs(i)
+6065 :  if mod(xs(i),4)=0 then begin
+6070 :   if fs(i)=9 then fs(i)=10:else if fs(i)=10 then fs(i)=9
+6072 :   if fs(i)=7 then fs(i)=8:else if fs(i)=8 then fs(i)=7
+6075 :  bend
 6080 :  poke $40000+2*i,fs(i)
 6090 :  movspr i,xs(i),ys(i)
-6095 : bend:else begin
-6098 :  j=int(rnd(1)*50)
-6099 :  if j=0 then ns=i:gosub 6330
-6100 : bend
-6110 next
-6120 return
+6100 : bend:else begin
+6110 :  j=int(rnd(1)*50)
+6120 :  if j=0 then ns=i:gosub 6330
+6130 : bend
+6140 next
+6150 return
 
 6300 rem *******************
 6310 rem *** spawn shark ***
