@@ -3,6 +3,7 @@
 !- Variables:
 !- xp,yp = player x and y position
 !- hp,vp = player horizontal and vertical speed
+!- dr[a,b] = player directions a=direction, b=xdelta, ydelta
 !- fp = player sprite frame
 !- xs[],ys[] = shark x and y position
 !- fs[] = shark sprite frame
@@ -229,5 +230,5 @@
 25030 xp=100:yp=100:fp=3:fc=0:hp=0:vp=0
 25035 cs=5
 25045 dim xs(cs):dim ys(cs):dim fs(cs):dim hs(cs):dim vs(cs):dim ss(cs)
-25050 dim dr(8,8)
+25050 dim dr(8,1)
 25090 return
