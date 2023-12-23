@@ -32,7 +32,6 @@
 5030 fc=fc+1
 5040 gosub 6030
 5050 gosub 7030
-5060 vsync 0
 5100 goto 5030
 
 6000 rem *********************
@@ -86,7 +85,12 @@
 7060 : vp=dr(n and 15,1)
 7070 bend
 7080 if hp<>0 or vp<>0 then begin
+7081 : if hp<>0 then begin 
+7082 :  fp=fp+1
+7083 :  if hp<0 and fp>6 then fp=4:else if hp>0 and fp>3 then fp=1
+7084 : bend
 7090 : xp=xp+hp:yp=yp+vp
+7095 : vsync 0
 7100 : poke $40000,fp:movspr 0,xp,yp
 7110 bend
 7120 return 
