@@ -2,6 +2,7 @@
 !--------------------------------------
 !- Variables:
 !- xp,yp = player x and y position
+!- hp,vp = player horizontal and vertical speed
 !- fp = player sprite frame
 !- xs[],ys[] = shark x and y position
 !- fs[] = shark sprite frame
@@ -27,10 +28,10 @@
 5000 rem *****************
 5010 rem *** game loop ***
 5020 rem *****************
-5030 poke $40000,fp:movspr 0,xp,yp
-5035 fc=fc+1
+5030 fc=fc+1
 5040 gosub 6030
-5050 vsync 0
+5050 gosub 7030
+5060 vsync 0
 5100 goto 5030
 
 6000 rem *********************
@@ -75,11 +76,26 @@
 6515 ss(ns)=int(rnd(1)*3)+1
 6520 return
 
+7000 rem *************************
+7010 rem *** control submarine ***
+7020 rem *************************
+7030 n=joy(2):hp=0:vp=0
+7040 if (n and 15)<>0 then begin
+7050 : hp=dr(n and 15,0)
+7060 : vp=dr(n and 15,1)
+7070 bend
+7080 if hp<>0 or vp<>0 then begin
+7090 : xp=xp+hp:yp=yp+vp
+7100 : poke $40000,fp:movspr 0,xp,yp
+7110 bend
+7120 return 
+
 17000 rem ******************************
 17010 rem *** initialize shark level ***
 17020 rem ******************************
 17030 xp=172:yp=70:scnclr
-17040 for i=1 to cs:ys(i)=-1:next 
+17040 for i=1 to cs:ys(i)=-1:next
+17050 poke $40000,fp:movspr 0,xp,yp 
 17070 return
 
 18000 rem ***************************
@@ -103,13 +119,21 @@
 18380 next 
 18390 return
 
-19800 rem ************************
-19810 rem *** read sprite data ***
-19820 rem ************************
-19830 for i=0 to 635
+19800 rem *****************
+19810 rem *** read data ***
+19820 rem *****************
+19830 for i=0 to 8
+19831 read dr(i,0):read dr(i,1)
+19832 next
+19839 for i=0 to 635
 19840 read d:poke $40040+i,d
 19850 next
 19860 return
+
+19900 rem ***********************************
+19910 rem *** player direction definition ***
+19920 rem ***********************************
+19930 data 0,0,0,-1,1,-1,1,0,1,1,0,1,-1,1,-1,0,-1,-1
 
 20000 REM ***********************************
 20001 REM *** submarine sprite definition ***
@@ -202,7 +226,8 @@
 25000 rem ****************************************
 25010 rem *** init variables and define arrays ***
 25020 rem ****************************************
-25030 xp=100:yp=100:fp=3:fc=0
+25030 xp=100:yp=100:fp=3:fc=0:hp=0:vp=0
 25035 cs=5
 25045 dim xs(cs):dim ys(cs):dim fs(cs):dim hs(cs):dim vs(cs):dim ss(cs)
+25050 dim dr(8,8)
 25090 return
