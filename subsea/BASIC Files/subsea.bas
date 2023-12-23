@@ -32,7 +32,7 @@
 5030 fc=fc+1
 5040 gosub 6030
 5050 gosub 7030
-5060 gosub 10000
+5060 gosub 8030
 5100 goto 5030
 
 6000 rem *********************
@@ -48,32 +48,32 @@
 6100 :    if fs(i)=9 then fs(i)=10:else if fs(i)=10 then fs(i)=9
 6110 :    if fs(i)=7 then fs(i)=8:else if fs(i)=8 then fs(i)=7
 6120 :   bend
-6150 :  bend
-6160 : bend:else begin
-6170 :  j=int(rnd(1)*50)
-6180 :  if j=0 then ns=i:gosub 6330
-6190 : bend
-6200 next
-6210 return
+6130 :  bend
+6140 : bend:else begin
+6150 :  j=int(rnd(1)*50)
+6160 :  if j=0 then ns=i:gosub 6330
+6170 : bend
+6180 next
+6190 return
 
 6300 rem *******************
 6310 rem *** spawn shark ***
 6320 rem *******************
 6330 ys(ns)=int(rnd(1)*110)+90
-6400 j=int(rnd(1)*2)
+6340 j=int(rnd(1)*2)
+6350 if j=0 then begin
+6360 : hs(ns)=-1:fs(ns)=9:xs(ns)=338
+6370 bend:else begin
+6380 : hs(ns)=1:fs(ns)=7:xs(ns)=6
+6390 bend
+6400 vs(ns)=0:j=int(rnd(1)*3)
 6410 if j=0 then begin
-6420 : hs(ns)=-1:fs(ns)=9:xs(ns)=338
-6430 bend:else begin
-6440 : hs(ns)=1:fs(ns)=7:xs(ns)=6
+6420 : vs(ns)=-1
+6430 bend:else if j=1 then begin
+6440 : vs(ns)=1
 6450 bend
-6460 vs(ns)=0:j=int(rnd(1)*3)
-6470 if j=0 then begin
-6480 : vs(ns)=-1
-6490 bend:else if j=1 then begin
-6500 : vs(ns)=1
-6510 bend
-6515 ss(ns)=int(rnd(1)*3)+1
-6520 return
+6460 ss(ns)=int(rnd(1)*3)+1
+6470 return
 
 7000 rem *************************
 7010 rem *** control submarine ***
@@ -84,26 +84,26 @@
 7060 : vp=dr(n and 15,1)
 7070 bend
 7080 if hp<>0 or vp<>0 then begin
-7081 : if hp<>0 then begin 
-7082 :  fp=fp+1
-7083 :  if hp<0 and fp>6 then fp=4:else if hp>0 and fp>3 then fp=1
-7084 : bend
-7090 : xp=xp+hp:yp=yp+vp
-7110 bend
-7120 return 
+7090 : if hp<>0 then begin 
+7100 :  fp=fp+1
+7110 :  if hp<0 and fp>6 then fp=4:else if hp>0 and fp>3 then fp=1
+7120 : bend
+7130 : xp=xp+hp:yp=yp+vp
+7140 bend
+7150 return 
 
-10000 rem **********************
-10010 rem *** update sprites ***
-10020 rem **********************
-10030 vsync 0
-10040 poke $40000,fp:movspr 0,xp,yp
-10045 for i=1 to cs
-10048 : if ys(i)>-1 then begin
-10050 :  poke $40000+2*i,fs(i)
-10060 :  movspr i,xs(i),ys(i)
-10065 : bend
-10070 next
-10080 return
+8000 rem **********************
+8010 rem *** update sprites ***
+8020 rem **********************
+8030 vsync 0
+8040 poke $40000,fp:movspr 0,xp,yp
+8050 for i=1 to cs
+8060 : if ys(i)>-1 then begin
+8070 :  poke $40000+2*i,fs(i)
+8080 :  movspr i,xs(i),ys(i)
+8090 : bend
+8100 next
+8110 return
 
 17000 rem ******************************
 17010 rem *** initialize shark level ***
