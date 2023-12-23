@@ -41,7 +41,7 @@
 6030 for i=1 to cs
 6040 : if ys(i) >-1 and (xs(i)<=5 or xs(i)>=339) then ys(i)=-1:movspr i,xs(i),ys(i)
 6050 : if ys(i) >-1 then begin
-6060 :  if ys(i)>=200 then vs(i)=-1:else if ys(i)<=70 then vs(i)=1
+6060 :  if ys(i)>=200 then vs(i)=-(int(rnd(0)*2)+1):else if ys(i)<=70 then vs(i)=int(rnd(0)*2)+1
 6070 :  if ys(i) >-1 then if mod(fc, ss(i))= 0 then begin
 6080 :   xs(i)=xs(i)+hs(i):ys(i)=ys(i)+vs(i)
 6090 :   if mod(xs(i),4)=0 then begin
@@ -62,15 +62,15 @@
 6330 ys(ns)=int(rnd(1)*110)+90
 6340 j=int(rnd(1)*2)
 6350 if j=0 then begin
-6360 : hs(ns)=-1:fs(ns)=9:xs(ns)=338
+6360 : hs(ns)=-(int(rnd(0)*2)+1):fs(ns)=9:xs(ns)=338
 6370 bend:else begin
-6380 : hs(ns)=1:fs(ns)=7:xs(ns)=6
+6380 : hs(ns)=int(rnd(0)*2)+1:fs(ns)=7:xs(ns)=6
 6390 bend
 6400 vs(ns)=0:j=int(rnd(1)*3)
 6410 if j=0 then begin
-6420 : vs(ns)=-1
+6420 : vs(ns)=-(int(rnd(0)*2)+1)
 6430 bend:else if j=1 then begin
-6440 : vs(ns)=1
+6440 : vs(ns)=int(rnd(0)*2)+1
 6450 bend
 6460 ss(ns)=int(rnd(1)*3)+1
 6470 return
@@ -87,9 +87,14 @@
 7090 : if hp<>0 then begin 
 7100 :  fp=fp+1
 7110 :  if hp<0 and fp>6 then fp=4:else if hp>0 and fp>3 then fp=1
-7120 : bend
+7120 : bend:else begin
+7124 :  fp=fp+1:if fp=4 then fp=1
+7126 :  if fp=7 then fp=4
+7129 : bend
 7130 : xp=xp+hp:yp=yp+vp
-7140 bend
+7140 bend:else if vp=0 then begin 
+7145 : if mod(fc,10)=0 then yp=yp+1
+7146 bend
 7150 return 
 
 8000 rem **********************
