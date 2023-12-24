@@ -93,7 +93,7 @@
 7140 :  if fp=7 then fp=4
 7150 : bend
 7160 : xp=xp+hp:yp=yp+vp
-7170 : if yp<70 then yp=70:else if yp>220 then yp=220
+7170 : if yp<65 then yp=65:else if yp>220 then yp=220
 7180 : if xp<24 then xp=24:else if xp>311 then xp=311
 7190 bend:else if vp=0 then begin 
 7200 : if mod(fc,10)=0 then if yp<220 then yp=yp+1
@@ -124,6 +124,8 @@
 16010 rem *** draw shark level arena ***
 16020 rem ******************************
 16030 scnclr
+16032 print "                {light gray}{127}{reverse on}{127}{reverse off}WWWW{reverse on}{169}{reverse off}{169}"
+16033 print "                 {127}{reverse on}{160}{160}{160}{160}{reverse off}{169}"
 16040 for i=0 to 39
 16050 : c@&(i,2)=14:t@&(i,2)=85
 16060 : c@&(i,3)=14:t@&(i,3)=73
@@ -134,7 +136,7 @@
 17000 rem ******************************
 17010 rem *** initialize shark level ***
 17020 rem ******************************
-17030 xp=172:yp=70:gosub 16030
+17030 xp=172:yp=65:gosub 16030
 17040 for i=1 to cs:ys(i)=-1:next
 17050 poke $40000,fp:movspr 0,xp,yp 
 17070 return
