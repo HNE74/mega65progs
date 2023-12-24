@@ -88,16 +88,16 @@
 7100 :  fp=fp+1
 7110 :  if hp<0 and fp>6 then fp=4:else if hp>0 and fp>3 then fp=1
 7120 : bend:else begin
-7124 :  fp=fp+1:if fp=4 then fp=1
-7126 :  if fp=7 then fp=4
-7129 : bend
-7130 : xp=xp+hp:yp=yp+vp
-7135 : if yp<70 then yp=70:else if yp>220 then yp=220
-7136 : if xp<24 then xp=24:else if xp>311 then xp=311
-7140 bend:else if vp=0 then begin 
-7145 : if mod(fc,10)=0 then if yp<220 then yp=yp+1
-7146 bend
-7150 return 
+7130 :  fp=fp+1:if fp=4 then fp=1
+7140 :  if fp=7 then fp=4
+7150 : bend
+7160 : xp=xp+hp:yp=yp+vp
+7170 : if yp<70 then yp=70:else if yp>220 then yp=220
+7180 : if xp<24 then xp=24:else if xp>311 then xp=311
+7190 bend:else if vp=0 then begin 
+7200 : if mod(fc,10)=0 then if yp<220 then yp=yp+1
+7210 bend
+7220 return  
 
 8000 rem **********************
 8010 rem *** update sprites ***
