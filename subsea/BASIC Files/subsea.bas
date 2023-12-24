@@ -14,16 +14,17 @@
 !- ns = shark index
 !- fc = frame counter
 !--------------------------------------
-100 gosub 25030
-
-500 gosub 18030
-520 gosub 18330
+100 gosub 25030:rem declare vars and arrays
+500 gosub 18030:rem setup sprite memory 
+510 gosub 19830:rem read data
+520 gosub 18330:rem init sprites for shark level
 
 1000 rem *****************
 1010 rem *** main loop ***
 1020 rem *****************
-1030 gosub 17030
-1040 gosub 5000
+1021 gosub 14000:rem show intro screen
+1030 gosub 17030:rem init shark level
+1040 gosub 5000:rem start game loop
 4990 end
 
 5000 rem *****************
@@ -112,10 +113,28 @@
 8100 next
 8110 return
 
+
+14000 rem *************************
+14010 rem *** show intro screen ***
+14020 rem *************************
+14030 scnclr
+14040 return
+
+16000 rem ******************************
+16010 rem *** draw shark level arena ***
+16020 rem ******************************
+16030 scnclr
+16040 for i=0 to 39
+16050 : c@&(i,2)=14:t@&(i,2)=85
+16060 : c@&(i,3)=14:t@&(i,3)=73
+16070 : c@&(i,24)=7:t@&(i,24)=230
+16080 next
+16090 return
+
 17000 rem ******************************
 17010 rem *** initialize shark level ***
 17020 rem ******************************
-17030 xp=172:yp=70:scnclr
+17030 xp=172:yp=70:gosub 16030
 17040 for i=1 to cs:ys(i)=-1:next
 17050 poke $40000,fp:movspr 0,xp,yp 
 17070 return
@@ -123,15 +142,15 @@
 18000 rem ***************************
 18010 rem *** setup sprite memory ***
 18020 rem ***************************
-18030 mem 1,0:rem reserve 8k in bank 4
-18040 edma 3,64*13,0,$40000:rem spreicherbereich leeren
-18050 gosub 19830
+18030 sys 65381: rem 40 column screen
+18040 mem 1,0:rem reserve 8k in bank 4
+18050 edma 3,64*13,0,$40000:rem spreicherbereich leeren
 18060 poke $d06c,0:poke $d06d,0:rem bit 0-16 to 0 for $40000
 18070 poke $d06e,128+4:rem sprptr16 (bit7) and bit 2 to 4 for $40000
 18080 return
 
 18300 rem ***********************************
-18310 rem *** init sprites for dive level ***
+18310 rem *** init sprites for shark level ***
 18320 rem ***********************************
 18330 poke $40000,$1:poke $40001,$10
 18340 sprite 0,1,12,1,0,0,1
