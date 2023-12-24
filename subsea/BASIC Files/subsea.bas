@@ -92,8 +92,10 @@
 7126 :  if fp=7 then fp=4
 7129 : bend
 7130 : xp=xp+hp:yp=yp+vp
+7135 : if yp<70 then yp=70:else if yp>220 then yp=220
+7136 : if xp<24 then xp=24:else if xp>311 then xp=311
 7140 bend:else if vp=0 then begin 
-7145 : if mod(fc,10)=0 then yp=yp+1
+7145 : if mod(fc,10)=0 then if yp<220 then yp=yp+1
 7146 bend
 7150 return 
 
