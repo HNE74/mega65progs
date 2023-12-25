@@ -114,6 +114,7 @@
 8080 :  movspr i,xs(i),ys(i)
 8090 : bend
 8100 next
+8105 movspr 7,100,100
 8110 return
 
 
@@ -171,10 +172,12 @@
 18320 rem ***********************************
 18330 poke $40000,$1:poke $40001,$10
 18340 sprite 0,1,12,1,0,0,1
-18350 for i=1 to cs+1
+18350 for i=1 to cs
 18360 : poke $40000+2*i,$7:poke $40000+2*i+1,$10
 18370 : sprite i,1,3,1,0,0,1
-18380 next 
+18380 next
+18385 poke $4000e,$b:poke $4000f,$10
+18388 sprite 7,1,7,1,0,0,1
 18390 return
 
 19800 rem *****************
@@ -183,7 +186,7 @@
 19830 for i=0 to 8
 19831 read dr(i,0):read dr(i,1)
 19832 next
-19839 for i=0 to 699
+19839 for i=0 to 702
 19840 read d:poke $40040+i,d
 19850 next
 19860 return
@@ -296,7 +299,7 @@
 25010 rem *** init variables and define arrays ***
 25020 rem ****************************************
 25030 xp=100:yp=100:fp=3:fc=0:hp=0:vp=0
-25035 cs=5
+25035 cs=6
 25045 dim xs(cs):dim ys(cs):dim fs(cs):dim hs(cs):dim vs(cs):dim ss(cs)
 25050 dim dr(8,1):dim rf(3)
 25090 return
