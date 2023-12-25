@@ -56,6 +56,17 @@
     <!--End of screen designer settings-->
     <SourceFiles>
         <SourceFile>
+            <Name>\Sprite Data\waste.spt</Name>
+            <PrgName />
+            <FileType>7</FileType>
+            <IncludeInBuild>True</IncludeInBuild>
+            <Regions />
+            <Breakpoints />
+            <Bookmarks />
+            <Topmost>False</Topmost>
+            <FileOpen>False</FileOpen>
+        </SourceFile>
+        <SourceFile>
             <Name>\Sprite Data\shark.spt</Name>
             <PrgName />
             <FileType>7</FileType>
