@@ -124,15 +124,13 @@
 9020 rem *******************
 9030 yw=222
 9040 do
-9050 : j=int(rnd(1)*296)+24
+9050 : xw=int(rnd(1)*296)+24
 9060 : for i=0 to 3
-9070 :  if j>=rf(i)*8+24 and j+20<=rf(i)*8+8*3+24 then j=-1:i=3
-9075 :  rem print rf(i);"*";rf(i)*8+24;"*";rf(i)*8+8*3+24;"*";j
+9070 :  if xw+20>=rf(i)*8+24 and xw<=rf(i)*8+8*3+24 then xw=-1:i=3
 9080 : next 
-9090 loop until j<>-1
-9100 xw=j
-9110 movspr 7,xw,yw
-9120 return
+9090 loop until xw<>-1
+9100 movspr 7,xw,yw
+9110 return
 
 14000 rem *************************
 14010 rem *** show intro screen ***
