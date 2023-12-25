@@ -13,6 +13,8 @@
 !- cs = shark counter
 !- ns = shark index
 !- fc = frame counter
+!- rf[] = Reef locations
+!- rh = Reef height
 !--------------------------------------
 100 gosub 25030:rem declare vars and arrays
 500 gosub 18030:rem setup sprite memory 
@@ -24,6 +26,7 @@
 1020 rem *****************
 1021 gosub 14000:rem show intro screen
 1030 gosub 17030:rem init shark level
+1031 rem getkey a$:goto 1030
 1040 gosub 5000:rem start game loop
 4990 end
 
@@ -124,14 +127,26 @@
 16010 rem *** draw shark level arena ***
 16020 rem ******************************
 16030 scnclr
-16032 print "                {light gray}{127}{reverse on}{127}{reverse off}WWWW{reverse on}{169}{reverse off}{169}"
-16033 print "                 {127}{reverse on}{160}{160}{160}{160}{reverse off}{169}"
-16040 for i=0 to 39
-16050 : c@&(i,2)=14:t@&(i,2)=85
-16060 : c@&(i,3)=14:t@&(i,3)=73
-16070 : c@&(i,24)=7:t@&(i,24)=230
-16080 next
-16090 return
+16040 print "                {light gray}{127}{reverse on}{127}{reverse off}WWWW{reverse on}{169}{reverse off}{169}"
+16050 print "                 {127}{reverse on}{160}{160}{160}{160}{reverse off}{169}"
+16060 for i=0 to 39
+16070 : c@&(i,2)=14:t@&(i,2)=85
+16080 : c@&(i,3)=14:t@&(i,3)=73
+16090 : c@&(i,24)=7:t@&(i,24)=230
+16100 next
+16110 for i=0 to 3
+16120 : rf(i)=int(rnd(1)*7)+10*i
+16130 : if i>0 then begin
+16140 :  if rf(i)-rf(i-1)<=6 then 16120
+16150 : bend
+16160 : rh=int(rnd(1)*10)+1
+16170 : for j=1 to rh
+16180 :  c@&(rf(i),24-j)=7:t@&(rf(i),24-j)=230
+16190 :  c@&(rf(i)+1,24-j)=7:t@&(rf(i)+1,24-j)=230
+16200 :  c@&(rf(i)+2,24-j)=7:t@&(rf(i)+2,24-j)=230
+16210 : next j
+16220 next i
+16230 return
 
 17000 rem ******************************
 17010 rem *** initialize shark level ***
@@ -272,5 +287,5 @@
 25030 xp=100:yp=100:fp=3:fc=0:hp=0:vp=0
 25035 cs=5
 25045 dim xs(cs):dim ys(cs):dim fs(cs):dim hs(cs):dim vs(cs):dim ss(cs)
-25050 dim dr(8,1)
+25050 dim dr(8,1):dim rf(3)
 25090 return
