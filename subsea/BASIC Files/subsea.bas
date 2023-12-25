@@ -29,7 +29,7 @@
 1020 rem *****************
 1021 gosub 14000:rem show intro screen
 1030 gosub 17030:rem init shark level
-1031 rem getkey a$:goto 1030
+1031 gosub 9030:rem place waste
 1040 gosub 5000:rem start game loop
 4990 end
 
@@ -80,7 +80,7 @@
 6440 : vs(ns)=int(rnd(0)*2)+1
 6450 bend
 6460 ss(ns)=int(rnd(1)*3)+1
-6470 return
+6470 gosub 9030:return
 
 7000 rem *************************
 7010 rem *** control submarine ***
@@ -117,9 +117,22 @@
 8080 :  movspr i,xs(i),ys(i)
 8090 : bend
 8100 next
-8105 movspr 7,100,100
 8110 return
 
+9000 rem *******************
+9010 rem *** place waste ***
+9020 rem *******************
+9030 yw=222
+9040 do
+9050 : j=int(rnd(1)*296)+24
+9060 : for i=0 to 3
+9070 :  if j>=rf(i)*8+24 and j+20<=rf(i)*8+8*3+24 then j=-1:i=3
+9075 :  rem print rf(i);"*";rf(i)*8+24;"*";rf(i)*8+8*3+24;"*";j
+9080 : next 
+9090 loop until j<>-1
+9100 xw=j
+9110 movspr 7,xw,yw
+9120 return
 
 14000 rem *************************
 14010 rem *** show intro screen ***
@@ -136,7 +149,7 @@
 16060 for i=0 to 39
 16070 : c@&(i,2)=14:t@&(i,2)=85
 16080 : c@&(i,3)=14:t@&(i,3)=73
-16090 : c@&(i,24)=7:t@&(i,24)=230
+16090 : c@&(i,24)=7:t@&(i,24)=81:rem230
 16100 next
 16110 for i=0 to 3
 16120 : rf(i)=int(rnd(1)*7)+10*i
@@ -145,9 +158,9 @@
 16150 : bend
 16160 : rh=int(rnd(1)*10)+1
 16170 : for j=1 to rh
-16180 :  c@&(rf(i),24-j)=7:t@&(rf(i),24-j)=230
-16190 :  c@&(rf(i)+1,24-j)=7:t@&(rf(i)+1,24-j)=230
-16200 :  c@&(rf(i)+2,24-j)=7:t@&(rf(i)+2,24-j)=230
+16180 :  c@&(rf(i),24-j)=7:t@&(rf(i),24-j)=81
+16190 :  c@&(rf(i)+1,24-j)=7:t@&(rf(i)+1,24-j)=81
+16200 :  c@&(rf(i)+2,24-j)=7:t@&(rf(i)+2,24-j)=81
 16210 : next j
 16220 next i
 16230 return
