@@ -15,6 +15,9 @@
 !- fc = frame counter
 !- rf[] = Reef locations
 !- rh = Reef height
+!- xw,yw = waste x and y position
+!- sw = waste state: 0 = sitting, 1 = collected, 2 = disabled
+!- nw = number of waste collected
 !--------------------------------------
 100 gosub 25030:rem declare vars and arrays
 500 gosub 18030:rem setup sprite memory 
@@ -299,7 +302,7 @@
 25010 rem *** init variables and define arrays ***
 25020 rem ****************************************
 25030 xp=100:yp=100:fp=3:fc=0:hp=0:vp=0
-25035 cs=6
+25035 cs=6:xw=0:yw=0:sw=0:nw=0
 25045 dim xs(cs):dim ys(cs):dim fs(cs):dim hs(cs):dim vs(cs):dim ss(cs)
 25050 dim dr(8,1):dim rf(3)
 25090 return
