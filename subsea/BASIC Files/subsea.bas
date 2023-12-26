@@ -45,6 +45,7 @@
 5040 gosub 6030
 5050 gosub 7030
 5060 gosub 8030
+5070 gosub 9230
 5100 goto 5030
 
 6000 rem *********************
@@ -136,6 +137,23 @@
 9090 loop until xw<>-1
 9100 movspr 7,xw,yw
 9110 return
+
+9200 rem **********************
+9210 rem *** waste handling ***
+9220 rem **********************
+9230 if sw=0 then begin
+9240 : if bump(1)=129 then begin
+9250 :   sprite 7,0
+9260 :   sw=1
+9270 : bend
+9280 bend:else begin
+9290 : if yp=65 and xp>180 and xp<200 then begin
+9300 :  gosub 9030
+9310 :  sprite 7,1
+9320 :  sw=0
+9330 : bend
+9340 bend
+9350 return
 
 14000 rem *************************
 14010 rem *** show intro screen ***
