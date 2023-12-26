@@ -18,6 +18,9 @@
 !- xw,yw = waste x and y position
 !- sw = waste state: 0 = sitting, 1 = collected, 2 = disabled
 !- nw = number of waste collected
+!- sc = game score
+!- c1 = last sprite sprite bump result
+!- c2 = last sprite background bump result
 !--------------------------------------
 100 gosub 25030:rem declare vars and arrays
 500 gosub 18030:rem setup sprite memory 
@@ -45,7 +48,9 @@
 5040 gosub 6030
 5050 gosub 7030
 5060 gosub 8030
-5070 gosub 9230
+5065 c1=bump(1):c2=bump(2)
+5070 gosub 10030
+5080 gosub 9230
 5100 goto 5030
 
 6000 rem *********************
@@ -141,19 +146,33 @@
 9200 rem **********************
 9210 rem *** waste handling ***
 9220 rem **********************
-9230 if sw=0 then begin
-9240 : if bump(1)=129 then begin
+9230 if sw=0 then begin 
+9240 : if (c1 and 129)=129 then begin
 9250 :   sprite 7,0
 9260 :   sw=1
 9270 : bend
 9280 bend:else begin
-9290 : if yp=65 and xp>180 and xp<200 then begin
+9290 : if yp=65 and xp>160 and xp<200 then begin
 9300 :  gosub 9030
 9310 :  sprite 7,1
-9320 :  sw=0
+9320 :  sw=0:sc=sc+50
 9330 : bend
 9340 bend
 9350 return
+
+10000 rem ************************
+10010 rem *** player collision ***
+10020 rem ************************
+10030 if (c1 and 1)=1 then begin
+10040 : if (c1 or 127)=127 then begin
+10050 :  t@&(0,0)=41:c@&(0,0)=1
+10060 : bend
+10070 bend:else t@&(0,0)=42:c@&(0,0)=1
+10075 cursor 0,5:print c2
+10080 if (c2 and 1)=1 then begin
+10090 : t@&(1,0)=41:c@&(1,0)=1
+10100 bend:else t@&(1,0)=42:c@&(1,0)=1
+10110 return
 
 14000 rem *************************
 14010 rem *** show intro screen ***
@@ -208,13 +227,13 @@
 18310 rem *** init sprites for shark level ***
 18320 rem ***********************************
 18330 poke $40000,$1:poke $40001,$10
-18340 sprite 0,1,12,1,0,0,1
+18340 sprite 0,1,12,0,0,0,1
 18350 for i=1 to cs
 18360 : poke $40000+2*i,$7:poke $40000+2*i+1,$10
-18370 : sprite i,1,3,1,0,0,1
+18370 : sprite i,1,3,0,0,0,1
 18380 next
 18385 poke $4000e,$b:poke $4000f,$10
-18388 sprite 7,1,7,1,0,0,1
+18388 sprite 7,1,7,0,0,0,1
 18390 return
 
 19800 rem *****************
@@ -336,7 +355,7 @@
 25010 rem *** init variables and define arrays ***
 25020 rem ****************************************
 25030 xp=100:yp=100:fp=3:fc=0:hp=0:vp=0
-25035 cs=6:xw=0:yw=0:sw=0:nw=0
+25035 cs=6:xw=0:yw=0:sw=0:nw=0:sc=0:c1=0:c2=0
 25045 dim xs(cs):dim ys(cs):dim fs(cs):dim hs(cs):dim vs(cs):dim ss(cs)
 25050 dim dr(8,1):dim rf(3)
 25090 return
