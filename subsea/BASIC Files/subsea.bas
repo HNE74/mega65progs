@@ -175,8 +175,9 @@
 10070 bend
 10080 if (c2 and 1)=1 and yp>100 then begin
 10090 : gosub 11030
-10100 bend
-10110 return
+10100 : if sw=1 then sw=0:gosub 9230
+10110 bend
+10120 return
 
 11000 rem ************************
 11010 rem *** player explosion ***
