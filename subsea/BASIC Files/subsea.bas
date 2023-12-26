@@ -202,8 +202,12 @@
 16010 rem *** draw shark level arena ***
 16020 rem ******************************
 16030 scnclr
-16040 print "                {light gray}{127}{reverse on}{127}{reverse off}WWWW{reverse on}{169}{reverse off}{169}"
-16050 print "                 {127}{reverse on}{160}{160}{160}{160}{reverse off}{169}"
+16040 print "                {light gray}{127}{reverse on}{127}{reverse off}WWWWW{reverse on}{169}{reverse off}{169}"
+16050 print "                 {127}{reverse on}{160}{160}{160}{160}{160}{reverse off}{169}"
+16051 cursor 1,0:color 5:print "level:"
+16052 cursor 1,1:color 3:print "score:"
+16056 cursor 30,0:color 7:print "subs:"
+16058 cursor 28,1:color 10:print "oxygen:"
 16060 for i=0 to 39
 16070 : c@&(i,2)=14:t@&(i,2)=85
 16080 : c@&(i,3)=14:t@&(i,3)=73
@@ -407,7 +411,7 @@
 25010 rem *** init variables and define arrays ***
 25020 rem ****************************************
 25030 xp=100:yp=100:fp=3:fc=0:hp=0:vp=0:gs=0
-25035 cs=6:xw=0:yw=0:sw=0:nw=0:sc=0:c1=0:c2=0
+25035 cs=1:xw=0:yw=0:sw=0:nw=0:sc=0:c1=0:c2=0
 25045 dim xs(cs):dim ys(cs):dim fs(cs):dim hs(cs):dim vs(cs):dim ss(cs)
 25050 dim dr(8,1):dim rf(3)
 25090 return
