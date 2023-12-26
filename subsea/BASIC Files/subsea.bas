@@ -21,6 +21,7 @@
 !- sc = game score
 !- c1 = last sprite sprite bump result
 !- c2 = last sprite background bump result
+!- gs = game state: 0 = running, 1 = player collided
 !--------------------------------------
 100 gosub 25030:rem declare vars and arrays
 500 gosub 18030:rem setup sprite memory 
@@ -30,27 +31,31 @@
 1000 rem *****************
 1010 rem *** main loop ***
 1020 rem *****************
-1021 gosub 14000:rem show intro screen
-1030 gosub 17030:rem init shark level
-1040 gosub 2030:rem start level loop
+1030 gosub 14000:rem show intro screen
+1040 gosub 16030:rem draw shark level arena
+1050 gosub 2030:rem start level loop
 
 2000 rem ******************
 2010 rem *** level loop ***
 2020 rem ******************
-2030 gosub 9030:rem place waste
-2040 gosub 5030:rem start game loop
+2030 gosub 17030:rem init shark level
+2040 gosub 9030:rem place waste
+2050 gosub 5030:rem start game loop
+2060 goto 2030
 4990 end
 
 5000 rem *****************
 5010 rem *** game loop ***
 5020 rem *****************
-5030 fc=fc+1
-5040 gosub 6030
-5050 gosub 7030
-5060 gosub 8030
-5070 gosub 10030
-5080 gosub 9230
-5100 goto 5030
+5030 do
+5035 : fc=fc+1
+5040 : gosub 6030
+5050 : gosub 7030
+5060 : gosub 8030
+5070 : gosub 10030
+5080 : gosub 9230
+5090 loop until gs=1
+5100 return
 
 6000 rem *********************
 6010 rem *** handle sharks ***
@@ -160,19 +165,31 @@
 9340 bend
 9350 return
 
-10000 rem ************************
-10010 rem *** player collision ***
-10020 rem ************************
+10000 rem ******************************
+10010 rem *** player collision check ***
+10020 rem ******************************
 10030 if (c1 and 1)=1 then begin
 10040 : if (c1 or 127)=127 then begin
-10050 :  t@&(0,0)=41:c@&(0,0)=1
+10050 :  gosub 11030
 10060 : bend
-10070 bend:else t@&(0,0)=42:c@&(0,0)=1
-10075 cursor 0,5:print c2
-10080 if (c2 and 1)=1 then begin
-10090 : t@&(1,0)=41:c@&(1,0)=1
-10100 bend:else t@&(1,0)=42:c@&(1,0)=1
+10070 bend
+10080 if (c2 and 1)=1 and yp>100 then begin
+10090 : gosub 11030
+10100 bend
 10110 return
+
+11000 rem ************************
+11010 rem *** player explosion ***
+11020 rem ************************
+11030 poke $40000,$c:poke $40001,$10
+11040 for i=1 to 30:sprite 0,1,i:vsync 0:next
+11050 poke $40000,$d:poke $40001,$10
+11060 for i=1 to 30:sprite 0,1,i:vsync 0:next
+11070 poke $40000,$e:poke $40001,$10
+11080 for i=1 to 30:sprite 0,1,i:vsync 0:next
+11100 sprite 0,0:for i=1 to 30:vsync 0:next
+11110 gs=1
+11120 return
 
 14000 rem *************************
 14010 rem *** show intro screen ***
@@ -208,10 +225,16 @@
 17000 rem ******************************
 17010 rem *** initialize shark level ***
 17020 rem ******************************
-17030 xp=172:yp=65:gosub 16030
-17040 for i=1 to cs:ys(i)=-1:next
-17050 poke $40000,fp:movspr 0,xp,yp 
-17070 return
+17030 xp=172:yp=65
+17035 gs=0
+17040 for i=1 to cs
+17050 : ys(i)=-1
+17060 : movspr i,xs(i),ys(i)
+17070 next
+17080 poke $40000,fp:movspr 0,xp,yp 
+17090 sprite 0,1,12,0,0,0,1
+17100 c1=bump(1):c2=bump(2):c1=0:c2=0
+17110 return
 
 18000 rem ***************************
 18010 rem *** setup sprite memory ***
@@ -382,7 +405,7 @@
 25000 rem ****************************************
 25010 rem *** init variables and define arrays ***
 25020 rem ****************************************
-25030 xp=100:yp=100:fp=3:fc=0:hp=0:vp=0
+25030 xp=100:yp=100:fp=3:fc=0:hp=0:vp=0:gs=0
 25035 cs=6:xw=0:yw=0:sw=0:nw=0:sc=0:c1=0:c2=0
 25045 dim xs(cs):dim ys(cs):dim fs(cs):dim hs(cs):dim vs(cs):dim ss(cs)
 25050 dim dr(8,1):dim rf(3)
