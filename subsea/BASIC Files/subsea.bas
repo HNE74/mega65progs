@@ -29,8 +29,13 @@
 1020 rem *****************
 1021 gosub 14000:rem show intro screen
 1030 gosub 17030:rem init shark level
-1031 gosub 9030:rem place waste
-1040 gosub 5000:rem start game loop
+1040 gosub 2030:rem start level loop
+
+2000 rem ******************
+2010 rem *** level loop ***
+2020 rem ******************
+2030 gosub 9030:rem place waste
+2040 gosub 5030:rem start game loop
 4990 end
 
 5000 rem *****************
@@ -80,7 +85,7 @@
 6440 : vs(ns)=int(rnd(0)*2)+1
 6450 bend
 6460 ss(ns)=int(rnd(1)*3)+1
-6470 gosub 9030:return
+6470 return
 
 7000 rem *************************
 7010 rem *** control submarine ***
