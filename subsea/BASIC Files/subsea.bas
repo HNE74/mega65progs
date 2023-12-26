@@ -48,7 +48,6 @@
 5040 gosub 6030
 5050 gosub 7030
 5060 gosub 8030
-5065 c1=bump(1):c2=bump(2)
 5070 gosub 10030
 5080 gosub 9230
 5100 goto 5030
@@ -128,7 +127,8 @@
 8080 :  movspr i,xs(i),ys(i)
 8090 : bend
 8100 next
-8110 return
+8110 c1=bump(1):c2=bump(2)
+8120 return
 
 9000 rem *******************
 9010 rem *** place waste ***
