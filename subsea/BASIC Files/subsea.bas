@@ -143,9 +143,10 @@
 9050 : xw=int(rnd(1)*296)+24
 9060 : for i=0 to 3
 9070 :  if xw+20>=rf(i)*8+24 and xw<=rf(i)*8+8*3+24 then xw=-1:i=3
-9080 : next 
+9080 : next
+9085 : if xw<=24 or xw>=290 then xw=-1
 9090 loop until xw<>-1
-9100 movspr 7,xw,yw
+9100 movspr 7,xw,yw:sprite 7,1
 9110 return
 
 9200 rem **********************
@@ -159,11 +160,10 @@
 9280 bend:else begin
 9290 : if yp=65 and xp>160 and xp<200 then begin
 9300 :  gosub 9030
-9310 :  sprite 7,1
-9320 :  sw=0:sc=sc+50
-9330 : bend
-9340 bend
-9350 return
+9310 :  sw=0:sc=sc+50
+9320 : bend
+9330 bend
+9340 return
 
 10000 rem ******************************
 10010 rem *** player collision check ***
@@ -175,7 +175,7 @@
 10070 bend
 10080 if (c2 and 1)=1 and yp>100 then begin
 10090 : gosub 11030
-10100 : if sw=1 then sw=0:gosub 9230
+10100 : if sw=1 then sw=0:gosub 9030
 10110 bend
 10120 return
 
