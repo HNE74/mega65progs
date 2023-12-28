@@ -21,7 +21,7 @@
 !- sc = game score
 !- c1 = last sprite sprite bump result
 !- c2 = last sprite background bump result
-!- gs = game state: 0 = running, 1 = player collided
+!- gs = game state: 0 = running, 1 = player collided, 2 = all waste collected
 !--------------------------------------
 100 gosub 25030:rem declare vars and arrays
 500 gosub 18030:rem setup sprite memory 
@@ -32,26 +32,32 @@
 1010 rem *** main loop ***
 1020 rem *****************
 1030 gosub 14000:rem show intro screen
-1040 gosub 4000:rem init game
-1050 gosub 16030:rem draw shark level arena
-1060 gosub 2030:rem start level loop
-1070 goto 1030
+1040 gosub 4030:rem init game
+1050 do
+1060 : gosub 16030:rem draw shark level arena
+1070 : gosub 2030:rem start level loop
+1080 loop until sp=0
+1090 goto 1030
 
 2000 rem ******************
 2010 rem *** level loop ***
 2020 rem ******************
 2030 do
-2035 : gosub 17030:rem init shark level
-2040 : gosub 9030:rem place waste
-2050 : gosub 5030:rem start game loop
-2060 loop until sp=0
-2070 return
+2040 : gosub 17030:rem init shark level
+2050 : gosub 9030:rem place waste
+2060 : gosub 5030:rem start game loop
+2070 loop until sp=0 or gs=2
+2080 return
 
 4000 rem *****************
 4010 rem *** init game ***
 4020 rem *****************
-4030 sp=3:sc=0:lv=1
-4040 return
+4030 sp=3:sc=0:lv=1:nw=0:cs=1
+4040 for i=1 to 6
+4050 : ys(i)=-1
+4060 : movspr i,xs(i),ys(i)
+4070 next
+4080 return
 
 5000 rem *****************
 5010 rem *** game loop ***
@@ -64,7 +70,7 @@
 5080 : gosub 5330:rem draw game state
 5090 : gosub 10030:rem player collision check
 5100 : gosub 9230:rem waste handling
-5110 loop until gs=1
+5110 loop until gs>0
 5120 return
 
 5300 rem ***********************
@@ -180,9 +186,10 @@
 9290 : if yp=65 and xp>160 and xp<200 then begin
 9300 :  gosub 9030
 9310 :  sw=0:sc=sc+50
-9320 : bend
-9330 bend
-9340 return
+9320 :  nw=nw+1:if nw=5 then gs=2
+9330 : bend
+9340 bend
+9350 return
 
 10000 rem ******************************
 10010 rem *** player collision check ***
@@ -252,6 +259,10 @@
 17020 rem ******************************
 17030 xp=172:yp=65
 17035 gs=0:ox=999:sw=0
+17036 if nw=5 then begin
+17037 : if cs<6 then cs=cs+1
+17038 : nw=0:lv=lv+1
+17039 bend 
 17040 for i=1 to cs
 17050 : ys(i)=-1
 17060 : movspr i,xs(i),ys(i)
@@ -276,7 +287,7 @@
 18320 rem ***********************************
 18330 poke $40000,$1:poke $40001,$10
 18340 sprite 0,1,12,0,0,0,1
-18350 for i=1 to cs
+18350 for i=1 to 6
 18360 : poke $40000+2*i,$7:poke $40000+2*i+1,$10
 18370 : sprite i,1,3,0,0,0,1
 18380 next
@@ -433,6 +444,6 @@
 25030 xp=100:yp=100:fp=3:fc=0:hp=0:vp=0:gs=0
 25035 cs=1:xw=0:yw=0:sw=0:nw=0:sc=0:c1=0:c2=0
 25040 lv=1:sp=3:ox=999
-25045 dim xs(cs):dim ys(cs):dim fs(cs):dim hs(cs):dim vs(cs):dim ss(cs)
+25045 dim xs(6):dim ys(6):dim fs(6):dim hs(6):dim vs(6):dim ss(6)
 25050 dim dr(8,1):dim rf(3)
 25090 return
