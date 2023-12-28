@@ -16,7 +16,7 @@
 !- rf[] = Reef locations
 !- rh = Reef height
 !- xw,yw = waste x and y position
-!- sw = waste state: 0 = sitting, 1 = collected, 2 = disabled
+!- sw = waste state: 0 = sitting, 1 = collected
 !- nw = number of waste collected
 !- sc = game score
 !- c1 = last sprite sprite bump result
@@ -49,13 +49,23 @@
 5020 rem *****************
 5030 do
 5035 : fc=fc+1
-5040 : gosub 6030
-5050 : gosub 7030
-5060 : gosub 8030
-5070 : gosub 10030
-5080 : gosub 9230
+5040 : gosub 6030:rem handle sharks
+5050 : gosub 7030:rem control submarine
+5060 : gosub 8030:rem update sprites
+5065 : gosub 5330:rem draw game state
+5070 : gosub 10030:rem player collision check
+5080 : gosub 9230:rem waste handling
 5090 loop until gs=1
 5100 return
+
+5300 rem ***********************
+5310 rem *** draw game state ***
+5320 rem ***********************
+5330 cursor 7,0:color 5:print str$(lv)
+5340 cursor 7,1:color 3:print str$(sc)
+5350 cursor 35,0:color 7:print str$(sp)
+5360 cursor 35,1:color 10:print "    ":cursor 35,1:print str$(ox)
+5370 return
 
 6000 rem *********************
 6010 rem *** handle sharks ***
@@ -114,10 +124,10 @@
 7140 :  if fp=7 then fp=4
 7150 : bend
 7160 : xp=xp+hp:yp=yp+vp
-7170 : if yp<65 then yp=65:else if yp>230 then yp=230
+7170 : if yp<65 then ox=999:yp=65:else if yp>230 then yp=230
 7180 : if xp<24 then xp=24:else if xp>311 then xp=311
 7190 bend:else if vp=0 then begin 
-7200 : if mod(fc,10)=0 then if yp<230 then yp=yp+1
+7200 : if mod(fc,(10/(sw+1)))=0 then if yp<230 then yp=yp+1
 7210 bend
 7220 return  
 
@@ -177,6 +187,7 @@
 10090 : gosub 11030
 10100 : if sw=1 then sw=0:gosub 9030
 10110 bend
+10115 ox=ox-1:if ox<=0 then gosub 11030
 10120 return
 
 11000 rem ************************
@@ -189,7 +200,7 @@
 11070 poke $40000,$e:poke $40001,$10
 11080 for i=1 to 30:sprite 0,1,i:vsync 0:next
 11100 sprite 0,0:for i=1 to 30:vsync 0:next
-11110 gs=1
+11110 sp=sp-1:gs=1
 11120 return
 
 14000 rem *************************
@@ -231,7 +242,7 @@
 17010 rem *** initialize shark level ***
 17020 rem ******************************
 17030 xp=172:yp=65
-17035 gs=0
+17035 gs=0:ox=999:sw=0
 17040 for i=1 to cs
 17050 : ys(i)=-1
 17060 : movspr i,xs(i),ys(i)
@@ -412,6 +423,7 @@
 25020 rem ****************************************
 25030 xp=100:yp=100:fp=3:fc=0:hp=0:vp=0:gs=0
 25035 cs=1:xw=0:yw=0:sw=0:nw=0:sc=0:c1=0:c2=0
+25040 lv=1:sp=3:ox=999
 25045 dim xs(cs):dim ys(cs):dim fs(cs):dim hs(cs):dim vs(cs):dim ss(cs)
 25050 dim dr(8,1):dim rf(3)
 25090 return
