@@ -32,31 +32,40 @@
 1010 rem *** main loop ***
 1020 rem *****************
 1030 gosub 14000:rem show intro screen
-1040 gosub 16030:rem draw shark level arena
-1050 gosub 2030:rem start level loop
+1040 gosub 4000:rem init game
+1050 gosub 16030:rem draw shark level arena
+1060 gosub 2030:rem start level loop
+1070 goto 1030
 
 2000 rem ******************
 2010 rem *** level loop ***
 2020 rem ******************
-2030 gosub 17030:rem init shark level
-2040 gosub 9030:rem place waste
-2050 gosub 5030:rem start game loop
-2060 goto 2030
-4990 end
+2030 do
+2035 : gosub 17030:rem init shark level
+2040 : gosub 9030:rem place waste
+2050 : gosub 5030:rem start game loop
+2060 loop until sp=0
+2070 return
+
+4000 rem *****************
+4010 rem *** init game ***
+4020 rem *****************
+4030 sp=3:sc=0:lv=1
+4040 return
 
 5000 rem *****************
 5010 rem *** game loop ***
 5020 rem *****************
 5030 do
-5035 : fc=fc+1
-5040 : gosub 6030:rem handle sharks
-5050 : gosub 7030:rem control submarine
-5060 : gosub 8030:rem update sprites
-5065 : gosub 5330:rem draw game state
-5070 : gosub 10030:rem player collision check
-5080 : gosub 9230:rem waste handling
-5090 loop until gs=1
-5100 return
+5040 : fc=fc+1
+5050 : gosub 6030:rem handle sharks
+5060 : gosub 7030:rem control submarine
+5070 : gosub 8030:rem update sprites
+5080 : gosub 5330:rem draw game state
+5090 : gosub 10030:rem player collision check
+5100 : gosub 9230:rem waste handling
+5110 loop until gs=1
+5120 return
 
 5300 rem ***********************
 5310 rem *** draw game state ***
