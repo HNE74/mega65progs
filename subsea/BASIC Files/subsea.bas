@@ -137,12 +137,16 @@
 7060 : vp=dr(n and 15,1)
 7070 bend
 7080 if hp<>0 or vp<>0 then begin
-7090 : if hp<>0 then begin 
-7100 :  fp=fp+1
-7110 :  if hp<0 and fp>6 then fp=4:else if hp>0 and fp>3 then fp=1
+7090 : if hp<>0 then begin
+7095 :  if mod(fc,3)=0 then begin 
+7100 :   fp=fp+1
+7110 :   if hp<0 and fp>6 then fp=4:else if hp>0 and fp>3 then fp=1
+7115 :  bend
 7120 : bend:else begin
-7130 :  fp=fp+1:if fp=4 then fp=1
-7140 :  if fp=7 then fp=4
+7125 :  if mod(fc,3)=0 then begin
+7130 :   fp=fp+1:if fp=4 then fp=1
+7140 :   if fp=7 then fp=4
+7145 :  bend
 7150 : bend
 7160 : xp=xp+hp:yp=yp+vp
 7170 : if yp<65 then yp=65:else if yp>230 then yp=230
@@ -252,7 +256,7 @@
 12530 gosub 5330:for i=0 to 7:sprite i,0:next 
 12540 cursor 3,5 :print "{reverse on}{cyan}UCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCI"
 12550 cursor 3,6 :print "{reverse on}{125}                               {125}"
-12560 cursor 3,7 :print "{reverse on}{125} you have lost all your subs   {125}"
+12560 cursor 3,7 :print "{reverse on}{125} you have lost all your subs,  {125}"
 12570 cursor 3,8 :print "{reverse on}{125}                               {125}"
 12580 cursor 3,9 :print "{reverse on}{125}           game over!          {125}"
 12590 cursor 3,10:print "{reverse on}{125}                               {125}"
