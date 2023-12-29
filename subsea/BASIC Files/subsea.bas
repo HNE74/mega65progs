@@ -187,6 +187,9 @@
 9300 :  gosub 9030
 9310 :  sw=0:sc=sc+50
 9320 :  nw=nw+1:if nw=5 then gs=2
+9321 :  for i=1 to nw:cursor 17+i,0
+9322 :   print "{yellow}W"
+9323 :  next
 9330 : bend
 9340 bend
 9350 return
