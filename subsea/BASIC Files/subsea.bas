@@ -82,7 +82,7 @@
 5300 rem ***********************
 5310 rem *** draw game state ***
 5320 rem ***********************
-5330 cursor 7,0:color 5:print str$(lv)
+5330 vsync 100:cursor 7,0:color 5:print str$(lv)
 5340 cursor 7,1:color 3:print str$(sc)
 5350 cursor 35,0:color 7:print str$(sp)
 5360 cursor 35,1:color 10:print "    ":cursor 35,1:print str$(ox)
