@@ -85,7 +85,7 @@
 5330 vsync 100:cursor 7,0:color 5:print str$(lv)
 5340 cursor 7,1:color 3:print str$(sc)
 5350 cursor 35,0:color 7:print str$(sp)
-5360 cursor 35,1:color 10:print "    ":cursor 35,1:print str$(ox)
+5360 cursor 35,1:color 13:print "    ":cursor 35,1:print str$(ox)
 5370 return
 
 6000 rem *********************
@@ -145,12 +145,13 @@
 7140 :  if fp=7 then fp=4
 7150 : bend
 7160 : xp=xp+hp:yp=yp+vp
-7170 : if yp<65 then ox=999:yp=65:else if yp>230 then yp=230
-7180 : if xp<24 then xp=24:else if xp>311 then xp=311
-7190 bend:else if vp=0 then begin 
-7200 : if mod(fc,(10/(sw+1)))=0 then if yp<230 then yp=yp+1
-7210 bend
-7220 return  
+7170 : if yp<65 then yp=65:else if yp>230 then yp=230
+7180 : if yp=65 and sw=0 then ox=999
+7190 : if xp<24 then xp=24:else if xp>311 then xp=311
+7200 bend:else if vp=0 then begin 
+7210 : if mod(fc,(10/(sw+1)))=0 then if yp<230 then yp=yp+1
+7220 bend
+7230 return  
 
 8000 rem **********************
 8010 rem *** update sprites ***
@@ -191,7 +192,7 @@
 9280 bend:else begin
 9290 : if yp=65 and xp>160 and xp<200 then begin
 9300 :  gosub 9030
-9310 :  sw=0:sc=sc+50
+9310 :  sw=0:sc=sc+ox
 9320 :  nw=nw+1:if nw=5 then gs=2
 9321 :  for i=1 to nw:cursor 17+i,0
 9322 :   print "{yellow}W"
@@ -281,7 +282,7 @@
 16051 cursor 1,0:color 5:print "level:"
 16052 cursor 1,1:color 3:print "score:"
 16056 cursor 30,0:color 7:print "subs:"
-16058 cursor 28,1:color 10:print "oxygen:"
+16058 cursor 28,1:color 13:print "oxygen:"
 16060 for i=0 to 39
 16070 : c@&(i,2)=14:t@&(i,2)=85
 16080 : c@&(i,3)=14:t@&(i,3)=73
