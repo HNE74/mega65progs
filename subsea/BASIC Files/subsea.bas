@@ -19,9 +19,13 @@
 !- sw = waste state: 0 = sitting, 1 = collected
 !- nw = number of waste collected
 !- sc = game score
+!- sh = high score
+!- sp = number of subs left
+!- ox = oxygen gauge
 !- c1 = last sprite sprite bump result
 !- c2 = last sprite background bump result
-!- gs = game state: 0 = running, 1 = player collided, 2 = all waste collected
+!- gs = game state: 0 = running, 1 = player collided, 2 = all waste collected, 
+!-                  3 = game over
 !--------------------------------------
 100 gosub 25030:rem declare vars and arrays
 500 gosub 18030:rem setup sprite memory 
@@ -47,6 +51,7 @@
 2050 : gosub 9030:rem place waste
 2060 : gosub 5030:rem start game loop
 2070 loop until sp=0 or gs=2
+2075 : gosub 12530:rem game over
 2080 return
 
 4000 rem *****************
@@ -220,16 +225,16 @@
 11070 poke $40000,$e:poke $40001,$10
 11080 for i=1 to 30:sprite 0,1,i:vsync 0:next
 11100 sprite 0,0:for i=1 to 30:vsync 0:next
-11110 sp=sp-1:gs=1
+11110 sp=sp-1:if sp=0 then gs=3:else gs=1
 11120 return
 
-12000 rem ***************************
-12010 rem *** show level complete ***
-12020 rem ***************************
+12000 rem ***********************
+12010 rem ***  level complete ***
+12020 rem ***********************
 12030 for i=0 to 7:sprite i,0:next 
 12040 cursor 3,5 :print "{reverse on}{green}UCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCI"
 12050 cursor 3,6 :print "{reverse on}{125}                               {125}"
-12060 cursor 3,7 :print "{reverse on}{125} you have cleared the level,   {125}"
+12060 cursor 3,7 :print "{reverse on}{125}  you have cleared the level,  {125}"
 12070 cursor 3,8 :print "{reverse on}{125}                               {125}"
 12080 cursor 3,9 :print "{reverse on}{125}            well done!         {125}"
 12090 cursor 3,10:print "{reverse on}{125}                               {125}"
@@ -239,6 +244,27 @@
 12130 n = joy(2)
 12140 if n<>128 then goto 12130
 12150 return
+
+12500 rem *****************
+12510 rem *** game over ***
+12520 rem *****************
+12530 for i=0 to 7:sprite i,0:next 
+12540 cursor 3,5 :print "{reverse on}{cyan}UCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCI"
+12550 cursor 3,6 :print "{reverse on}{125}                               {125}"
+12560 cursor 3,7 :print "{reverse on}{125} you have lost all your subs   {125}"
+12570 cursor 3,8 :print "{reverse on}{125}                               {125}"
+12580 cursor 3,9 :print "{reverse on}{125}           game over!          {125}"
+12590 cursor 3,10:print "{reverse on}{125}                               {125}"
+12595 if sh<sc then begin
+12600 sh=sc:cursor 3,11:print "{reverse on}{125}        a new highscore!       {125}"
+12605 bend:else begin
+12608 cursor 3,11:print "{reverse on}{125}   sorry, no new highscore.    {125}"
+12609 bend
+12610 cursor 3,12:print "{reverse on}{125}                               {125}"
+12620 cursor 3,13:print "{reverse on}JCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCK"
+12630 n = joy(2)
+12640 if n<>128 then goto 12130
+12650 return
 
 14000 rem *************************
 14010 rem *** show intro screen ***
@@ -463,7 +489,7 @@
 25010 rem *** init variables and define arrays ***
 25020 rem ****************************************
 25030 xp=100:yp=100:fp=3:fc=0:hp=0:vp=0:gs=0
-25035 cs=1:xw=0:yw=0:sw=0:nw=0:sc=0:c1=0:c2=0
+25035 cs=1:xw=0:yw=0:sw=0:nw=0:sc=0:c1=0:c2=0:sh=0
 25040 lv=1:sp=3:ox=999
 25045 dim xs(6):dim ys(6):dim fs(6):dim hs(6):dim vs(6):dim ss(6)
 25050 dim dr(8,1):dim rf(3)
