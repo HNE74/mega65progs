@@ -232,7 +232,7 @@
 12000 rem ***********************
 12010 rem ***  level complete ***
 12020 rem ***********************
-12030 for i=0 to 7:sprite i,0:next 
+12030 gosub 5330:for i=0 to 7:sprite i,0:next 
 12040 cursor 3,5 :print "{reverse on}{green}UCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCI"
 12050 cursor 3,6 :print "{reverse on}{125}                               {125}"
 12060 cursor 3,7 :print "{reverse on}{125}  you have cleared the level,  {125}"
@@ -249,7 +249,7 @@
 12500 rem *****************
 12510 rem *** game over ***
 12520 rem *****************
-12530 for i=0 to 7:sprite i,0:next 
+12530 gosub 5330:for i=0 to 7:sprite i,0:next 
 12540 cursor 3,5 :print "{reverse on}{cyan}UCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCI"
 12550 cursor 3,6 :print "{reverse on}{125}                               {125}"
 12560 cursor 3,7 :print "{reverse on}{125} you have lost all your subs   {125}"
