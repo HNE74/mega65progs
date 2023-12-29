@@ -178,7 +178,7 @@
 9080 : next
 9085 : if xw<=24 or xw>=290 then xw=-1
 9090 loop until xw<>-1
-9100 movspr 7,xw,yw:sprite 7,1
+9100 movspr 7,xw,yw:sprite 7,1,5
 9110 return
 
 9200 rem **********************
@@ -186,13 +186,13 @@
 9220 rem **********************
 9230 if sw=0 then begin 
 9240 : if (c1 and 129)=129 then begin
-9250 :   sprite 7,0
+9250 :   sprite 7,0:sprite 0,1,5
 9260 :   sw=1
 9270 : bend
 9280 bend:else begin
 9290 : if yp=65 and xp>160 and xp<200 then begin
 9300 :  gosub 9030
-9310 :  sw=0:sc=sc+ox
+9310 :  sw=0:sc=sc+ox:sprite 0,1,7
 9320 :  nw=nw+1:if nw=5 then gs=2
 9321 :  for i=1 to nw:cursor 17+i,0
 9322 :   print "{yellow}W"
@@ -286,7 +286,7 @@
 16060 for i=0 to 39
 16070 : c@&(i,2)=14:t@&(i,2)=85
 16080 : c@&(i,3)=14:t@&(i,3)=73
-16090 : c@&(i,24)=7:t@&(i,24)=81:rem230
+16090 : c@&(i,24)=15:t@&(i,24)=230:rem230
 16100 next
 16110 for i=0 to 3
 16120 : rf(i)=int(rnd(1)*7)+10*i
@@ -295,9 +295,9 @@
 16150 : bend
 16160 : rh=int(rnd(1)*10)+1
 16170 : for j=1 to rh
-16180 :  c@&(rf(i),24-j)=7:t@&(rf(i),24-j)=81
-16190 :  c@&(rf(i)+1,24-j)=7:t@&(rf(i)+1,24-j)=81
-16200 :  c@&(rf(i)+2,24-j)=7:t@&(rf(i)+2,24-j)=81
+16180 :  c@&(rf(i),24-j)=15:t@&(rf(i),24-j)=230
+16190 :  c@&(rf(i)+1,24-j)=15:t@&(rf(i)+1,24-j)=230
+16200 :  c@&(rf(i)+2,24-j)=15:t@&(rf(i)+2,24-j)=230
 16210 : next j
 16220 next i
 16230 return
@@ -316,7 +316,7 @@
 17060 : movspr i,xs(i),ys(i):sprite i,1
 17070 next
 17080 poke $40000,fp:movspr 0,xp,yp 
-17090 sprite 0,1,12,0,0,0,1
+17090 sprite 0,1,7,0,0,0,1
 17100 c1=bump(1):c2=bump(2):c1=0:c2=0
 17110 return
 
@@ -341,6 +341,7 @@
 18380 next
 18385 poke $4000e,$b:poke $4000f,$10
 18388 sprite 7,1,7,0,0,0,1
+18389 sprcolor 1,12
 18390 return
 
 19800 rem *****************
