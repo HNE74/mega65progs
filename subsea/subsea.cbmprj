@@ -122,6 +122,17 @@
             <FileOpen>False</FileOpen>
         </SourceFile>
         <SourceFile>
+            <Name>\Screen Files\startScreen.sdd</Name>
+            <PrgName />
+            <FileType>9</FileType>
+            <IncludeInBuild>False</IncludeInBuild>
+            <Regions />
+            <Breakpoints />
+            <Bookmarks />
+            <Topmost>False</Topmost>
+            <FileOpen>False</FileOpen>
+        </SourceFile>
+        <SourceFile>
             <Name>\Sprite Data\explosion.spt</Name>
             <PrgName />
             <FileType>7</FileType>

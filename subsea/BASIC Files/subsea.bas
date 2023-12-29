@@ -35,7 +35,7 @@
 1000 rem *****************
 1010 rem *** main loop ***
 1020 rem *****************
-1030 gosub 14000:rem show intro screen
+1030 gosub 14030:rem show intro screen
 1040 gosub 4030:rem init game
 1050 do
 1060 : gosub 16030:rem draw shark level arena
@@ -51,8 +51,8 @@
 2050 : gosub 9030:rem place waste
 2060 : gosub 5030:rem start game loop
 2070 loop until sp=0 or gs=2
-2075 : gosub 12530:rem game over
-2080 return
+2080 : if gs=3 then gosub 12530:rem game over
+2090 return
 
 4000 rem *****************
 4010 rem *** init game ***
@@ -248,7 +248,8 @@
 12120 cursor 3,13:print "{reverse on}JCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCK"
 12130 n = joy(2)
 12140 if n<>128 then goto 12130
-12150 return
+12150 for i=1 to 10:vsync 0:next
+12160 return
 
 12500 rem *****************
 12510 rem *** game over ***
@@ -260,22 +261,54 @@
 12570 cursor 3,8 :print "{reverse on}{125}                               {125}"
 12580 cursor 3,9 :print "{reverse on}{125}           game over!          {125}"
 12590 cursor 3,10:print "{reverse on}{125}                               {125}"
-12595 if sh<sc then begin
-12600 sh=sc:cursor 3,11:print "{reverse on}{125}        a new highscore!       {125}"
-12605 bend:else begin
-12608 cursor 3,11:print "{reverse on}{125}   sorry, no new highscore.    {125}"
-12609 bend
-12610 cursor 3,12:print "{reverse on}{125}                               {125}"
-12620 cursor 3,13:print "{reverse on}JCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCK"
-12630 n = joy(2)
-12640 if n<>128 then goto 12130
-12650 return
+12600 if sh<sc then begin
+12610 sh=sc:cursor 3,11:print "{reverse on}{125}        a new highscore!       {125}"
+12620 bend:else begin
+12630 cursor 3,11:print "{reverse on}{125}   sorry, no new highscore.    {125}"
+12640 bend
+12650 cursor 3,12:print "{reverse on}{125}                               {125}"
+12660 cursor 3,13:print "{reverse on}JCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCK"
+12670 n = joy(2)
+12680 if n<>128 then goto 12670
+12690 for i=1 to 10:vsync 0:next
+12700 return
 
 14000 rem *************************
 14010 rem *** show intro screen ***
 14020 rem *************************
-14030 scnclr
-14040 return
+14030 background 6:border 14:scnclr
+14040 PRINT "                                        ";
+14050 PRINT "  {yellow}UCCCCCCIUCI   UCIUCCCCCCI             ";
+14060 PRINT "  B      BB B   B BB UCCI B             ";
+14070 PRINT "  B UCCCCKB B   B BB B  B B             ";
+14080 PRINT "  B B     B B   B BB B  BUK             ";
+14090 PRINT "  {yellow}B JCCCCIB B   B BB JCCKJCI            ";
+14100 PRINT "  B      BB B   B BB UCCCCIB            ";
+14110 PRINT "  JCCCCI BB B   B BB B    BB            ";
+14120 PRINT "  UCCCCK BB JCCCK BB JCCCCKB            ";
+14130 PRINT "  JCCCCCCKJCCCCCCCKJCCCCCCCK            ";
+14140 PRINT "     {purple}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}";    
+14150 PRINT "          {purple}{reverse on} created by noltisoft in 2024 {reverse off}      ";
+14160 PRINT "    {reverse on}{purple}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{reverse off}     ";    
+14170 PRINT "            {cyan}UCCCCCCIUCCCCCCCIUCCCCCCCI  ";
+14180 PRINT "            B      BB       BB       B  ";
+14190 PRINT "            B UCCCCKB UCCCCCKB UCCCI B  ";
+14200 PRINT "            B B     B B      B B   B B  ";
+14210 PRINT "            B JCCCCIB JCCCCCIB JCCCK B  ";
+14220 PRINT "            B      BB       BB       B  ";
+14230 PRINT "            JCCCCI BB UCCCCCKB UCCCI B  ";
+14240 PRINT "            UCCCCK BB JCCCCCIB B   B B  ";
+14250 PRINT "            JCCCCCCKJCCCCCCCKJCK   JCK  ";
+14260 PRINT "    {light blue}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}";    
+14270 PRINT "        {light blue}{reverse on} press fire button to continue! {reverse off}";
+14280 PRINT "        {light blue}{reverse on}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{reverse off}"
+14290 if sh>0 then begin
+14300 : cursor 28,3:print "{light green}highscore:"
+14310 : cursor 28,5:print "{light green}";sh
+14320 bend
+14330 n = joy(2)
+14340 if n<>128 then goto 14330
+14350 return
 
 16000 rem ******************************
 16010 rem *** draw shark level arena ***
