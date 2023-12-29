@@ -71,6 +71,7 @@
 5090 : gosub 10030:rem player collision check
 5100 : gosub 9230:rem waste handling
 5110 loop until gs>0
+5115 if gs=2 then gosub 12030
 5120 return
 
 5300 rem ***********************
@@ -222,6 +223,23 @@
 11110 sp=sp-1:gs=1
 11120 return
 
+12000 rem ***************************
+12010 rem *** show level complete ***
+12020 rem ***************************
+12030 for i=0 to 7:sprite i,0:next 
+12040 cursor 3,5 :print "{reverse on}{green}UCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCI"
+12050 cursor 3,6 :print "{reverse on}{125}                               {125}"
+12060 cursor 3,7 :print "{reverse on}{125} you have cleared the level,   {125}"
+12070 cursor 3,8 :print "{reverse on}{125}                               {125}"
+12080 cursor 3,9 :print "{reverse on}{125}            well done!         {125}"
+12090 cursor 3,10:print "{reverse on}{125}                               {125}"
+12100 cursor 3,11:print "{reverse on}{125} press fire button to proceed. {125}"
+12110 cursor 3,12:print "{reverse on}{125}                               {125}"
+12120 cursor 3,13:print "{reverse on}JCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCK"
+12130 n = joy(2)
+12140 if n<>128 then goto 12130
+12150 return
+
 14000 rem *************************
 14010 rem *** show intro screen ***
 14020 rem *************************
@@ -268,7 +286,7 @@
 17039 bend 
 17040 for i=1 to cs
 17050 : ys(i)=-1
-17060 : movspr i,xs(i),ys(i)
+17060 : movspr i,xs(i),ys(i):sprite i,1
 17070 next
 17080 poke $40000,fp:movspr 0,xp,yp 
 17090 sprite 0,1,12,0,0,0,1
