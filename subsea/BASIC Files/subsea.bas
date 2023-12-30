@@ -312,9 +312,16 @@
 14300 : cursor 28,3:print "{light green}highscore:"
 14310 : cursor 28,5:print "{light green}";sh
 14320 bend
+14322 j=int(rnd(1)*5)+1
+14325 vol 15:tempo 18:PLAY "o"+str$(j)+"t2aaaaaa$cdfaggggggg$cegaaaaaabco"+str$(j+1)+"do"+str$(j)+"cage.d.d"
 14330 n = joy(2)
+14332 fc=fc+1
+14333 if mod(fc,18000)=0 then BEGIN
+14334 : j=int(rnd(1)*5)+1 
+14335 : PLAY "o"+str$(j)+"t2aaaaaa$cdfaggggggg$cegaaaaaabco"+str$(j+1)+"do"+str$(j)+"cage.d.d"
+14338 bend
 14340 if n<>128 then goto 14330
-14350 return
+14350 play:return
 
 15000 rem *****************
 15010 rem *** play song ***
