@@ -85,7 +85,8 @@
 5330 vsync 100:cursor 7,0:color 5:print str$(lv)
 5340 cursor 7,1:color 3:print str$(sc)
 5350 cursor 35,0:color 7:print str$(sp)
-5360 cursor 35,1:color 13:print "    ":cursor 35,1:print str$(ox)
+5355 if ox<200 then color 10:else color 13
+5360 cursor 35,1:print "    ":cursor 35,1:print str$(ox)
 5370 if mod(fc,40)=0 then begin
 5380 : if peek(2048+40*2)=193 then edma 3,40,194,2048+40*2:else edma 3,40,193,2048+40*2
 5390 bend
@@ -222,8 +223,9 @@
 10090 : gosub 11030
 10100 : if sw=1 then sw=0:gosub 9030
 10110 bend
-10115 ox=ox-1:if ox<=0 then gosub 11030
-10120 return
+10120 ox=ox-1:if ox<200 and mod(fc,20)=0 then sound 2,4000,10,0,3000,100,2
+10130 if ox<=0 then gosub 11030
+10140 return
 
 11000 rem ************************
 11010 rem *** player explosion ***
