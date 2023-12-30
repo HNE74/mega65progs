@@ -286,10 +286,10 @@
 14110 PRINT "  JCCCCI BB B   B BB B    BB            ";
 14120 PRINT "  UCCCCK BB JCCCK BB JCCCCKB            ";
 14130 PRINT "  JCCCCCCKJCCCCCCCKJCCCCCCCK            ";
-14140 PRINT "     {purple}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}";    
-14150 PRINT "          {purple}{reverse on} created by noltisoft in 2024 {reverse off}      ";
-14160 PRINT "    {reverse on}{purple}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{reverse off}     ";    
-14170 PRINT "            {cyan}UCCCCCCIUCCCCCCCIUCCCCCCCI  ";
+14140 PRINT "     {162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}";    
+14150 PRINT "          {reverse on} created by noltisoft in 2024 {reverse off}      ";
+14160 PRINT "    {reverse on}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{reverse off}     ";    
+14170 PRINT "            {light blue}UCCCCCCIUCCCCCCCIUCCCCCCCI  ";
 14180 PRINT "            B      BB       BB       B  ";
 14190 PRINT "            B UCCCCKB UCCCCCKB UCCCI B  ";
 14200 PRINT "            B B     B B      B B   B B  ";
