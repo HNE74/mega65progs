@@ -140,8 +140,9 @@
 7060 : vp=dr(n and 15,1)
 7070 bend
 7080 if hp<>0 or vp<>0 then begin
+7085 : if mod(fc,10)=0 then sound 1, 2000, 5, 1, 1000, 400, 1
 7090 : if hp<>0 then begin
-7095 :  if mod(fc,3)=0 then begin 
+7095 :  if mod(fc,3)=0 then begin
 7100 :   fp=fp+1
 7110 :   if hp<0 and fp>6 then fp=4:else if hp>0 and fp>3 then fp=1
 7115 :  bend
@@ -192,11 +193,13 @@
 9220 rem **********************
 9230 if sw=0 then begin 
 9240 : if (c1 and 129)=129 then begin
+9245 :   sound 2, 8000, 8, 0, 4000, 100, 2
 9250 :   sprite 7,0:sprite 0,1,5
 9260 :   sw=1
 9270 : bend
 9280 bend:else begin
 9290 : if yp=65 and xp>160 and xp<200 then begin
+9295 :  sound 2, 8000, 8, 1, 4000, 100, 2
 9300 :  gosub 9030
 9310 :  sw=0:sc=sc+ox:sprite 0,1,7
 9320 :  nw=nw+1:if nw=5 then gs=2
@@ -225,7 +228,8 @@
 11000 rem ************************
 11010 rem *** player explosion ***
 11020 rem ************************
-11030 poke $40000,$c:poke $40001,$10
+11030 sound 1,350,80,1,,4,3
+11035 poke $40000,$c:poke $40001,$10
 11040 for i=1 to 30:sprite 0,1,i:vsync 0:next
 11050 poke $40000,$d:poke $40001,$10
 11060 for i=1 to 30:sprite 0,1,i:vsync 0:next
