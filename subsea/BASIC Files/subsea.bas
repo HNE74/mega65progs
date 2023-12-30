@@ -160,8 +160,7 @@
 8000 rem **********************
 8010 rem *** update sprites ***
 8020 rem **********************
-8030 vsync 0
-8040 poke $40000,fp:movspr 0,xp,yp
+8030 poke $40000,fp:movspr 0,xp,yp
 8050 for i=1 to cs
 8060 : if ys(i)>-1 then begin
 8070 :  poke $40000+2*i,fs(i)
