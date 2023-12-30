@@ -85,12 +85,12 @@
 5330 vsync 100:cursor 7,0:color 5:print str$(lv)
 5340 cursor 7,1:color 3:print str$(sc)
 5350 cursor 35,0:color 7:print str$(sp)
-5355 if ox<200 then color 10:else color 13
-5360 cursor 35,1:print "    ":cursor 35,1:print str$(ox)
-5370 if mod(fc,40)=0 then begin
-5380 : if peek(2048+40*2)=193 then edma 3,40,194,2048+40*2:else edma 3,40,193,2048+40*2
-5390 bend
-5400 return
+5360 if ox<200 then color 10:else color 13
+5370 cursor 35,1:print "    ":cursor 35,1:print str$(ox)
+5380 if mod(fc,40)=0 then begin
+5390 : if peek(2048+40*2)=193 then edma 3,40,194,2048+40*2:else edma 3,40,193,2048+40*2
+5400 bend
+5410 return
 
 6000 rem *********************
 6010 rem *** handle sharks ***
@@ -100,7 +100,10 @@
 6050 : if ys(i) >-1 then begin
 6060 :  if ys(i)>=200 then vs(i)=-(int(rnd(0)*2)+1):else if ys(i)<=70 then vs(i)=int(rnd(0)*2)+1
 6070 :  if ys(i) >-1 then if mod(fc, ss(i))= 0 then begin
-6080 :   xs(i)=xs(i)+hs(i):ys(i)=ys(i)+vs(i)
+6080 :   if int(rnd(1)*lv)+1>1 and mod(fc,200)=0 then begin
+6084 :     if xs(i)>xp and hs(i)>0 then hs(i)=-hs(i):fs(i)=fs(i)+2:else if xs(i)<xp and hs(i)<0 then hs(i)=-hs(i):fs(i)=fs(i)-2 
+6088 :   bend
+6089 :   xs(i)=xs(i)+hs(i):ys(i)=ys(i)+vs(i)
 6090 :   if mod(xs(i),4)=0 then begin
 6100 :    if fs(i)=9 then fs(i)=10:else if fs(i)=10 then fs(i)=9
 6110 :    if fs(i)=7 then fs(i)=8:else if fs(i)=8 then fs(i)=7
@@ -364,19 +367,19 @@
 17010 rem *** initialize shark level ***
 17020 rem ******************************
 17030 xp=172:yp=65
-17035 gs=0:ox=999:sw=0
-17036 if nw=5 then begin
-17037 : if cs<6 then cs=cs+1
-17038 : nw=0:lv=lv+1
-17039 bend 
-17040 for i=1 to cs
-17050 : ys(i)=-1
-17060 : movspr i,xs(i),ys(i):sprite i,1
-17070 next
-17080 poke $40000,fp:movspr 0,xp,yp 
-17090 sprite 0,1,7,0,0,0,1
-17100 c1=bump(1):c2=bump(2):c1=0:c2=0
-17110 return
+17040 gs=0:ox=999:sw=0
+17050 if nw=5 then begin
+17060 : lv=lv+1:nw=0
+17070 : if cs<6 and mod(lv+1,2)=0 then cs=cs+1
+17080 bend 
+17090 for i=1 to cs
+17100 : ys(i)=-1
+17110 : movspr i,xs(i),ys(i):sprite i,1
+17120 next
+17130 poke $40000,fp:movspr 0,xp,yp 
+17140 sprite 0,1,7,0,0,0,1
+17150 c1=bump(1):c2=bump(2):c1=0:c2=0
+17160 return
 
 18000 rem ***************************
 18010 rem *** setup sprite memory ***
