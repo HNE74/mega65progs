@@ -252,10 +252,11 @@
 12100 cursor 3,11:print "{reverse on}{125} press fire button to proceed. {125}"
 12110 cursor 3,12:print "{reverse on}{125}                               {125}"
 12120 cursor 3,13:print "{reverse on}JCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCK"
+12125 vol 15:tempo 25:PLAY "o4t2$cdefghc"
 12130 n = joy(2)
 12140 if n<>128 then goto 12130
 12150 for i=1 to 10:vsync 0:next
-12160 return
+12160 play:return
 
 12500 rem *****************
 12510 rem *** game over ***
@@ -274,6 +275,7 @@
 12640 bend
 12650 cursor 3,12:print "{reverse on}{125}                               {125}"
 12660 cursor 3,13:print "{reverse on}JCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCK"
+12665 vol 15:tempo 25:PLAY "o4t2chagfed$c$c"
 12670 n = joy(2)
 12680 if n<>128 then goto 12670
 12690 for i=1 to 10:vsync 0:next
@@ -312,16 +314,16 @@
 14300 : cursor 28,3:print "{light green}highscore:"
 14310 : cursor 28,5:print "{light green}";sh
 14320 bend
-14322 j=int(rnd(1)*5)+1
-14325 vol 15:tempo 18:PLAY "o"+str$(j)+"t2aaaaaa$cdfaggggggg$cegaaaaaabco"+str$(j+1)+"do"+str$(j)+"cage.d.d"
-14330 n = joy(2)
-14332 fc=fc+1
-14333 if mod(fc,18000)=0 then BEGIN
-14334 : j=int(rnd(1)*5)+1 
-14335 : PLAY "o"+str$(j)+"t2aaaaaa$cdfaggggggg$cegaaaaaabco"+str$(j+1)+"do"+str$(j)+"cage.d.d"
-14338 bend
-14340 if n<>128 then goto 14330
-14350 play:return
+14330 j=int(rnd(1)*3)+2:fc=0
+14340 vol 15:tempo 25:PLAY "o"+str$(j)+"t2aaaaaa$cdfaggggggg$cegaaaaaabco"+str$(j+1)+"do"+str$(j)+"cage.d.d"
+14350 n = joy(2)
+14360 fc=fc+1
+14370 if mod(fc,25000)=0 then BEGIN
+14380 : j=int(rnd(1)*3)+2 
+14390 : vol 15:tempo 25:PLAY "o"+str$(j)+"t2aaaaaa$cdfaggggggg$cegaaaaaabco"+str$(j+1)+"do"+str$(j)+"cage.d.d"
+14400 bend
+14410 if n<>128 then goto 14350
+14420 play:return
 
 15000 rem *****************
 15010 rem *** play song ***
