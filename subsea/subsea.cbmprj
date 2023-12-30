@@ -143,5 +143,16 @@
             <Topmost>False</Topmost>
             <FileOpen>False</FileOpen>
         </SourceFile>
+        <SourceFile>
+            <Name>\Char Files\chardef.cst</Name>
+            <PrgName />
+            <FileType>6</FileType>
+            <IncludeInBuild>True</IncludeInBuild>
+            <Regions />
+            <Breakpoints />
+            <Bookmarks />
+            <Topmost>False</Topmost>
+            <FileOpen>False</FileOpen>
+        </SourceFile>
     </SourceFiles>
 </Project>

@@ -315,28 +315,28 @@
 16030 scnclr
 16040 print "                {light gray}{127}{reverse on}{127}{reverse off}WWWWW{reverse on}{169}{reverse off}{169}"
 16050 print "                 {127}{reverse on}{160}{160}{160}{160}{160}{reverse off}{169}"
-16051 cursor 1,0:color 5:print "level:"
-16052 cursor 1,1:color 3:print "score:"
-16056 cursor 30,0:color 7:print "subs:"
-16058 cursor 28,1:color 13:print "oxygen:"
-16060 for i=0 to 39
-16070 : c@&(i,2)=14:t@&(i,2)=85
-16080 : c@&(i,3)=14:t@&(i,3)=73
-16090 : c@&(i,24)=15:t@&(i,24)=230:rem230
-16100 next
-16110 for i=0 to 3
-16120 : rf(i)=int(rnd(1)*7)+10*i
-16130 : if i>0 then begin
-16140 :  if rf(i)-rf(i-1)<=6 then 16120
-16150 : bend
-16160 : rh=int(rnd(1)*10)+1
-16170 : for j=1 to rh
-16180 :  c@&(rf(i),24-j)=15:t@&(rf(i),24-j)=230
-16190 :  c@&(rf(i)+1,24-j)=15:t@&(rf(i)+1,24-j)=230
-16200 :  c@&(rf(i)+2,24-j)=15:t@&(rf(i)+2,24-j)=230
-16210 : next j
-16220 next i
-16230 return
+16060 cursor 1,0:color 5:print "level:"
+16070 cursor 1,1:color 3:print "score:"
+16080 cursor 30,0:color 7:print "subs:"
+16090 cursor 28,1:color 13:print "oxygen:"
+16100 edma 3,40,193,2048+40*2
+16110 edma 3,40,14,$FF80000+40*2
+16120 for i=0 to 39
+16130 : c@&(i,24)=8:t@&(i,24)=int(rnd(1)*3)+190
+16140 next
+16150 for i=0 to 3
+16160 : rf(i)=int(rnd(1)*7)+10*i
+16170 : if i>0 then begin
+16180 :  if rf(i)-rf(i-1)<=6 then 16160
+16190 : bend
+16200 : rh=int(rnd(1)*10)+1
+16210 : for j=1 to rh
+16220 :  c@&(rf(i),24-j)=8:t@&(rf(i),24-j)=int(rnd(1)*3)+190
+16230 :  c@&(rf(i)+1,24-j)=8:t@&(rf(i)+1,24-j)=int(rnd(1)*3)+190
+16240 :  c@&(rf(i)+2,24-j)=8:t@&(rf(i)+2,24-j)=int(rnd(1)*3)+190
+16250 : next j
+16260 next i
+16270 return
 
 17000 rem ******************************
 17010 rem *** initialize shark level ***
@@ -366,19 +366,24 @@
 18070 poke $d06e,128+4:rem sprptr16 (bit7) and bit 2 to 4 for $40000
 18080 return
 
-18300 rem ***********************************
-18310 rem *** init sprites for shark level ***
-18320 rem ***********************************
+18300 rem ****************************************************
+18310 rem *** init sprites for shark level, redefine chars ***
+18320 rem ****************************************************
 18330 poke $40000,$1:poke $40001,$10
 18340 sprite 0,1,12,0,0,0,1
 18350 for i=1 to 6
 18360 : poke $40000+2*i,$7:poke $40000+2*i+1,$10
 18370 : sprite i,1,3,0,0,0,1
 18380 next
-18385 poke $4000e,$b:poke $4000f,$10
-18388 sprite 7,1,7,0,0,0,1
-18389 sprcolor 1,12
-18390 return
+18390 poke $4000e,$b:poke $4000f,$10
+18400 sprite 7,1,7,0,0,0,1
+18410 sprcolor 1,12
+18420 chardef 190,219,254,181,111,187,238,187,247
+18430 chardef 191,91,238,181,127,246,221,239,117
+18440 chardef 192,189,106,255,213,110,245,191,118
+18450 chardef 193,51,204,0,51,204,0,51,204
+18460 chardef 194,204,51,0,204,51,0,204,51
+18470 return
 
 19800 rem *****************
 19810 rem *** read data ***
