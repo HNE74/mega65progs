@@ -86,7 +86,10 @@
 5340 cursor 7,1:color 3:print str$(sc)
 5350 cursor 35,0:color 7:print str$(sp)
 5360 cursor 35,1:color 13:print "    ":cursor 35,1:print str$(ox)
-5370 return
+5370 if mod(fc,40)=0 then begin
+5380 : if peek(2048+40*2)=193 then edma 3,40,194,2048+40*2:else edma 3,40,193,2048+40*2
+5390 bend
+5400 return
 
 6000 rem *********************
 6010 rem *** handle sharks ***
