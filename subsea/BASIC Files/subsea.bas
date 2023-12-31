@@ -146,8 +146,8 @@
 6520 rem ********************
 6530 if yc=-1 then begin
 6532 : tc=tc+1
-6535 : if sw=0 and tc>tt then begin
-6540 :  if xw>=230 then xc=0:hc=2:else xc=340:hc=-2
+6535 : if sw=0 and tc>tt then begin:cursor 0,5:print xw
+6540 :  if xw>=200 then xc=0:hc=2:else xc=340:hc=-2
 6550 :  yc=221:sound 3, 4000, 30, 1, 2000, 500, 1
 6560 : bend
 6565 bend
