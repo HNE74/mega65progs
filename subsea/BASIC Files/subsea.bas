@@ -14,6 +14,7 @@
 !- ns = shark index
 !- xc,yc = crab x and y position
 !- hc = horizontal crab speed
+!- tt, tc = crab timer, crab spawns if tc > tt
 !- fc = frame counter
 !- rf[] = Reef locations
 !- rh = Reef height
@@ -64,8 +65,9 @@
 4050 : ys(i)=-1
 4060 : movspr i,xs(i),ys(i)
 4070 next
-4090 xc=-1:yc=-1:hc=0:movspr 6,xc,yc
-4100 return
+4090 xc=-1:yc=-1:movspr 6,xc,yc
+4100 tc=0:hc=0:tt=600
+4110 return
 
 5000 rem *****************
 5010 rem *** game loop ***
@@ -142,10 +144,16 @@
 6500 rem ********************
 6510 rem *** control crab ***
 6520 rem ********************
-6530 if sw=0 then if yc=-1 and mod(fc,1)=0 then begin
-6540 : if int(rnd(1)*2)=0 then xc=0:hc=1:else xc=340:hc=-1
-6550 : yc=221
-6560 bend
+6530 if yc=-1 then begin
+6532 : tc=tc+1
+6535 : if sw=0 and tc>tt then begin
+6540 :  if xw>=255 then xc=0:hc=1:else xc=340:hc=-1
+6550 :  yc=221
+6560 : bend
+6565 bend
+6566 if yc>=222 and mod(fc,5)=0 then begin
+6567 : yc=yc+1:if yc>=240 then yc=-1:xc=-1
+6568 bend
 6570 if yc>-1 then if mod(fc,5)=0 then xc=xc+hc
 6580 return
 
@@ -158,7 +166,7 @@
 7060 : vp=dr(n and 15,1)
 7070 bend
 7080 if hp<>0 or vp<>0 then begin
-7085 : if mod(fc,10)=0 then sound 1, 2000, 3, 1, 1000, 400, 1
+7085 : if mod(fc,9)=0 then sound 1, 2000, 3, 1, 1000, 400, 1
 7090 : if hp<>0 then begin
 7095 :  if mod(fc,3)=0 then begin
 7100 :   fp=fp+1
@@ -176,7 +184,7 @@
 7190 : if xp<24 then xp=24:else if xp>311 then xp=311
 7200 bend:else if vp=0 then begin 
 7210 : if mod(fc,(10/(sw+1)))=0 then if yp<230 then yp=yp+1
-7220 bend
+7220 bend:
 7230 return  
 
 8000 rem **********************
@@ -216,9 +224,10 @@
 9220 rem **********************
 9230 if sw=0 then begin 
 9240 : if (c1 and 129)=129 then begin
-9250 :   sound 2, 8000, 8, 0, 4000, 100, 2
+9250 :   sound 2, 8000, 20, 0, 4000, 100, 2
 9260 :   sprite 7,0:sprite 0,1,5
-9270 :   sw=1:xc=-1:yc=-1:movspr 6,xc,yc
+9270 :   sw=1:if yc>-1 then yc=222:hc=0
+9275 :   movspr 6,xc,yc
 9280 : bend
 9290 bend:else begin
 9300 : if yp=65 and xp>160 and xp<200 then begin
@@ -229,6 +238,7 @@
 9350 :  for i=1 to nw:cursor 17+i,0
 9360 :   print "{yellow}W"
 9370 :  next
+9380 :  tc=0
 9390 : bend
 9400 bend
 9410 return
@@ -387,7 +397,7 @@
 17030 xp=172:yp=65
 17040 gs=0:ox=999:sw=0
 17050 if nw=5 then begin
-17060 : lv=lv+1:nw=0
+17060 : lv=lv+1:nw=0:tt=tt-50:if tt<100 then tt=100
 17070 : if cs<5 and mod(lv+1,2)=0 then cs=cs+1
 17080 bend 
 17090 for i=1 to cs
@@ -396,7 +406,7 @@
 17120 next
 17130 poke $40000,fp:movspr 0,xp,yp 
 17140 sprite 0,1,7,0,0,0,1
-17141 xc=-1:yc=-1:hc=0:movspr 6,xc,yc:sprite 6,1,10
+17141 xc=-1:tc=0:yc=-1:hc=0:movspr 6,xc,yc:sprite 6,1,10
 17150 c1=bump(1):c2=bump(2):c1=0:c2=0
 17160 return
 
@@ -599,7 +609,7 @@
 25020 rem ****************************************
 25030 xp=100:yp=100:fp=3:fc=0:hp=0:vp=0:gs=0
 25035 cs=1:xw=0:yw=0:sw=0:nw=0:sc=0:c1=0:c2=0:sh=0
-25040 lv=1:sp=3:ox=999:xc=0:yc=0:hc=0
+25040 lv=1:sp=3:ox=999:xc=0:yc=0:hc=0:tc=0
 25045 dim xs(6):dim ys(6):dim fs(6):dim hs(6):dim vs(6):dim ss(6)
 25050 dim dr(8,1):dim rf(3)
 25090 return
