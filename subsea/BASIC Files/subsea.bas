@@ -148,7 +148,7 @@
 6532 : tc=tc+1
 6535 : if sw=0 and tc>tt then begin
 6540 :  if xw>=255 then xc=0:hc=2:else xc=340:hc=-2
-6550 :  yc=221
+6550 :  yc=221:sound 3, 4000, 30, 1, 2000, 500, 1
 6560 : bend
 6565 bend
 6566 if yc>=222 and mod(fc,5)=0 then begin
