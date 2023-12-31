@@ -104,7 +104,7 @@
 6030 for i=1 to cs
 6040 : if ys(i) >-1 and (xs(i)<=5 or xs(i)>=339) then ys(i)=-1:movspr i,xs(i),ys(i)
 6050 : if ys(i) >-1 then begin
-6060 :  if ys(i)>=200 then vs(i)=-(int(rnd(0)*2)+1):else if ys(i)<=85 then vs(i)=int(rnd(0)*2)+1
+6060 :  if ys(i)>=200 then vs(i)=-(int(rnd(0)*2)+1):else if ys(i)<=90 then vs(i)=int(rnd(0)*2)+1
 6070 :  if ys(i) >-1 then if mod(fc, ss(i))= 0 then begin
 6080 :   if int(rnd(1)*lv)+1>1 and mod(fc,200)=0 then begin
 6084 :     if xs(i)>xp and hs(i)>0 then hs(i)=-hs(i):fs(i)=fs(i)+2:else if xs(i)<xp and hs(i)<0 then hs(i)=-hs(i):fs(i)=fs(i)-2 
@@ -180,7 +180,9 @@
 7150 : bend
 7160 : xp=xp+hp:yp=yp+vp
 7170 : if yp<65 then yp=65:else if yp>230 then yp=230
-7180 : if yp=65 and sw=0 then ox=999
+7180 : if yp=65 and sw=0 then begin
+7185 :  if ox<999 then ox=ox+5:if ox>999 then ox=999
+7188 : bend
 7190 : if xp<24 then xp=24:else if xp>311 then xp=311
 7200 bend:else if vp=0 then begin 
 7210 : if mod(fc,(10/(sw+1)))=0 then if yp<230 then yp=yp+1
