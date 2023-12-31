@@ -320,12 +320,12 @@
 14310 : cursor 28,5:print "{light green}";sh
 14320 bend
 14330 j=int(rnd(1)*3)+2:fc=0
-14340 vol 15:tempo 25:PLAY "o"+str$(j)+"t2aaaaaa$cdfaggggggg$cegaaaaaabco"+str$(j+1)+"do"+str$(j)+"cage.d.d"
+14340 vol 15:tempo 25:PLAY "o"+str$(j)+"t2aaaa.a.a$cdfaggggg.g.g$cegaaaa.a.abco"+str$(j+1)+"do"+str$(j)+"cage.d.d"
 14350 n = joy(2)
 14360 fc=fc+1
 14370 if mod(fc,25000)=0 then BEGIN
 14380 : j=int(rnd(1)*3)+2 
-14390 : vol 15:tempo 25:PLAY "o"+str$(j)+"t2aaaaaa$cdfaggggggg$cegaaaaaabco"+str$(j+1)+"do"+str$(j)+"cage.d.d"
+14390 : vol 15:tempo 25:PLAY "o"+str$(j)+"t2aaaa.a.a$cdfaggggg.g.g$cegaaaa.a.abco"+str$(j+1)+"do"+str$(j)+"cage.d.d"
 14400 bend
 14410 if n<>128 then goto 14350
 14420 play:return
