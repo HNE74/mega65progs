@@ -147,7 +147,7 @@
 6530 if yc=-1 then begin
 6532 : tc=tc+1
 6535 : if sw=0 and tc>tt then begin
-6540 :  if xw>=255 then xc=0:hc=1:else xc=340:hc=-1
+6540 :  if xw>=255 then xc=0:hc=2:else xc=340:hc=-2
 6550 :  yc=221
 6560 : bend
 6565 bend
