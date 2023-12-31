@@ -12,6 +12,8 @@
 !- ss[] = shark speed frame
 !- cs = shark counter
 !- ns = shark index
+!- xc,yc = crab x and y position
+!- hc = horizontal crab speed
 !- fc = frame counter
 !- rf[] = Reef locations
 !- rh = Reef height
@@ -58,11 +60,12 @@
 4010 rem *** init game ***
 4020 rem *****************
 4030 sp=3:sc=0:lv=1:nw=0:cs=1
-4040 for i=1 to 6
+4040 for i=1 to 5
 4050 : ys(i)=-1
 4060 : movspr i,xs(i),ys(i)
 4070 next
-4080 return
+4090 xc=-1:yc=-1:hc=0:movspr 6,xc,yc
+4100 return
 
 5000 rem *****************
 5010 rem *** game loop ***
@@ -70,6 +73,7 @@
 5030 do
 5040 : fc=fc+1
 5050 : gosub 6030:rem handle sharks
+5055 : gosub 6530:rem handle crab
 5060 : gosub 7030:rem control submarine
 5070 : gosub 8030:rem update sprites
 5080 : gosub 5330:rem draw game state
@@ -135,6 +139,16 @@
 6460 ss(ns)=int(rnd(1)*3)+1
 6470 return
 
+6500 rem ********************
+6510 rem *** control crab ***
+6520 rem ********************
+6530 if sw=0 then if yc=-1 and mod(fc,1)=0 then begin
+6540 : if int(rnd(1)*2)=0 then xc=0:hc=1:else xc=340:hc=-1
+6550 : yc=221
+6560 bend
+6570 if yc>-1 then if mod(fc,5)=0 then xc=xc+hc
+6580 return
+
 7000 rem *************************
 7010 rem *** control submarine ***
 7020 rem *************************
@@ -144,7 +158,7 @@
 7060 : vp=dr(n and 15,1)
 7070 bend
 7080 if hp<>0 or vp<>0 then begin
-7085 : if mod(fc,10)=0 then sound 1, 2000, 5, 1, 1000, 400, 1
+7085 : if mod(fc,10)=0 then sound 1, 2000, 3, 1, 1000, 400, 1
 7090 : if hp<>0 then begin
 7095 :  if mod(fc,3)=0 then begin
 7100 :   fp=fp+1
@@ -175,8 +189,13 @@
 8080 :  movspr i,xs(i),ys(i)
 8090 : bend
 8100 next
-8110 c1=bump(1):c2=bump(2)
-8120 return
+8110 if yc>-1 then if mod(fc,5)=0 then begin:cursor 0,6
+8120 : if peek($4000c)=$f then poke $4000c,$10:else poke $4000c,$f
+8125 : poke $4000d,$10
+8130 : movspr 6,xc,yc
+8140 bend
+8150 c1=bump(1):c2=bump(2)
+8160 return
 
 9000 rem *******************
 9010 rem *** place waste ***
@@ -197,31 +216,34 @@
 9220 rem **********************
 9230 if sw=0 then begin 
 9240 : if (c1 and 129)=129 then begin
-9245 :   sound 2, 8000, 8, 0, 4000, 100, 2
-9250 :   sprite 7,0:sprite 0,1,5
-9260 :   sw=1
-9270 : bend
-9280 bend:else begin
-9290 : if yp=65 and xp>160 and xp<200 then begin
-9295 :  sound 2, 8000, 8, 1, 4000, 100, 2
-9300 :  gosub 9030
-9310 :  sw=0:sc=sc+ox:sprite 0,1,7
-9320 :  nw=nw+1:if nw=5 then gs=2
-9321 :  for i=1 to nw:cursor 17+i,0
-9322 :   print "{yellow}W"
-9323 :  next
-9330 : bend
-9340 bend
-9350 return
+9250 :   sound 2, 8000, 8, 0, 4000, 100, 2
+9260 :   sprite 7,0:sprite 0,1,5
+9270 :   sw=1:xc=-1:yc=-1:movspr 6,xc,yc
+9280 : bend
+9290 bend:else begin
+9300 : if yp=65 and xp>160 and xp<200 then begin
+9310 :  sound 2, 8000, 8, 1, 4000, 100, 2
+9320 :  gosub 9030
+9330 :  sw=0:sc=sc+ox:sprite 0,1,7
+9340 :  nw=nw+1:if nw=5 then gs=2
+9350 :  for i=1 to nw:cursor 17+i,0
+9360 :   print "{yellow}W"
+9370 :  next
+9390 : bend
+9400 bend
+9410 return
 
-10000 rem ******************************
-10010 rem *** player collision check ***
-10020 rem ******************************
+10000 rem ************************
+10010 rem ***  collision check ***
+10020 rem **********+*************
 10030 if (c1 and 1)=1 then begin
 10040 : if (c1 or 127)=127 then begin
 10050 :  gosub 11030
 10060 : bend
 10070 bend
+10071 if (c1 and 192)=192 then begin
+10072 : gosub 11030
+10073 bend
 10080 if (c2 and 1)=1 and yp>100 then begin
 10090 : gosub 11030
 10100 : if sw=1 then sw=0:gosub 9030
@@ -330,10 +352,6 @@
 14410 if n<>128 then goto 14350
 14420 play:return
 
-15000 rem *****************
-15010 rem *** play song ***
-15020 rem *****************
-
 16000 rem ******************************
 16010 rem *** draw shark level arena ***
 16020 rem ******************************
@@ -370,7 +388,7 @@
 17040 gs=0:ox=999:sw=0
 17050 if nw=5 then begin
 17060 : lv=lv+1:nw=0
-17070 : if cs<6 and mod(lv+1,2)=0 then cs=cs+1
+17070 : if cs<5 and mod(lv+1,2)=0 then cs=cs+1
 17080 bend 
 17090 for i=1 to cs
 17100 : ys(i)=-1
@@ -378,6 +396,7 @@
 17120 next
 17130 poke $40000,fp:movspr 0,xp,yp 
 17140 sprite 0,1,7,0,0,0,1
+17141 xc=-1:yc=-1:hc=0:movspr 6,xc,yc:sprite 6,1,10
 17150 c1=bump(1):c2=bump(2):c1=0:c2=0
 17160 return
 
@@ -396,10 +415,12 @@
 18320 rem ****************************************************
 18330 poke $40000,$1:poke $40001,$10
 18340 sprite 0,1,12,0,0,0,1
-18350 for i=1 to 6
+18350 for i=1 to 5
 18360 : poke $40000+2*i,$7:poke $40000+2*i+1,$10
 18370 : sprite i,1,3,0,0,0,1
 18380 next
+18385 poke $4000c,$f:poke $4000d,$10
+18387 sprite 6,1,10,0,0,0,1
 18390 poke $4000e,$b:poke $4000f,$10
 18400 sprite 7,1,7,0,0,0,1
 18410 sprcolor 1,12
@@ -416,7 +437,7 @@
 19830 for i=0 to 8
 19831 read dr(i,0):read dr(i,1)
 19832 next
-19839 for i=0 to 895
+19839 for i=0 to 1023
 19840 read d:poke $40040+i,d
 19850 next
 19860 return
@@ -553,12 +574,32 @@
 21370 DATA 0,0,0,0,0,0,0,0,0
 21380 DATA 0,0,0,0,0,0,0,0,0,0
 
+21400 rem ******************************
+21410 rem *** crab sprite definition ***
+21420 rem ******************************
+21430 rem *** crab frame 1
+21440 DATA 0,0,0,0,0,0,8,0,32
+21450 DATA 42,0,168,34,0,136,34,130,136
+21460 DATA 0,130,0,0,130,0,0,130,0
+21470 DATA 10,170,160,170,170,170,170,235,170
+21480 DATA 138,235,162,130,170,130,162,170,138
+21490 DATA 2,170,128,10,40,160,40,65,40
+21500 DATA 32,65,8,32,0,8,40,0,40,0
+21510 rem *** crab frame 2
+21520 DATA 0,0,0,32,0,8,32,0,8
+21530 DATA 40,0,40,10,0,160,2,130,128
+21540 DATA 0,130,0,0,130,0,0,130,0
+21550 DATA 10,170,160,42,170,168,42,170,168
+21560 DATA 42,235,168,34,235,136,162,170,138
+21570 DATA 2,170,128,10,40,160,8,65,32
+21580 DATA 8,65,32,8,20,32,40,0,40,0
+
 25000 rem ****************************************
 25010 rem *** init variables and define arrays ***
 25020 rem ****************************************
 25030 xp=100:yp=100:fp=3:fc=0:hp=0:vp=0:gs=0
 25035 cs=1:xw=0:yw=0:sw=0:nw=0:sc=0:c1=0:c2=0:sh=0
-25040 lv=1:sp=3:ox=999
+25040 lv=1:sp=3:ox=999:xc=0:yc=0:hc=0
 25045 dim xs(6):dim ys(6):dim fs(6):dim hs(6):dim vs(6):dim ss(6)
 25050 dim dr(8,1):dim rf(3)
 25090 return
