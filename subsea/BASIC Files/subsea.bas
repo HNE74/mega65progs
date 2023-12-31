@@ -66,7 +66,7 @@
 4060 : movspr i,xs(i),ys(i)
 4070 next
 4090 xc=-1:yc=-1:movspr 6,xc,yc
-4100 tc=0:hc=0:tt=600
+4100 tc=0:hc=0:tt=500
 4110 return
 
 5000 rem *****************
@@ -104,7 +104,7 @@
 6030 for i=1 to cs
 6040 : if ys(i) >-1 and (xs(i)<=5 or xs(i)>=339) then ys(i)=-1:movspr i,xs(i),ys(i)
 6050 : if ys(i) >-1 then begin
-6060 :  if ys(i)>=200 then vs(i)=-(int(rnd(0)*2)+1):else if ys(i)<=70 then vs(i)=int(rnd(0)*2)+1
+6060 :  if ys(i)>=200 then vs(i)=-(int(rnd(0)*2)+1):else if ys(i)<=85 then vs(i)=int(rnd(0)*2)+1
 6070 :  if ys(i) >-1 then if mod(fc, ss(i))= 0 then begin
 6080 :   if int(rnd(1)*lv)+1>1 and mod(fc,200)=0 then begin
 6084 :     if xs(i)>xp and hs(i)>0 then hs(i)=-hs(i):fs(i)=fs(i)+2:else if xs(i)<xp and hs(i)<0 then hs(i)=-hs(i):fs(i)=fs(i)-2 
