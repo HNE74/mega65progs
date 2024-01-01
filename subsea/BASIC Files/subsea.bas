@@ -108,7 +108,7 @@
 6050 : if ys(i) >-1 then begin
 6060 :  if ys(i)>=200 then vs(i)=-(int(rnd(0)*k)+1):else if ys(i)<=90 then vs(i)=int(rnd(0)*k)+1
 6070 :  if ys(i) >-1 then if mod(fc, ss(i))=0 then begin
-6080 :   if int(rnd(1)*lv)>4 then begin 
+6080 :   if int(rnd(1)*lv)>3 then begin 
 6083 :    if mod(fc,200)=0 then begin
 6084 :     if xs(i)>xp then if hs(i)>0 then hs(i)=-hs(i):fs(i)=fs(i)+2:else if xs(i)<xp then if hs(i)<0 then hs(i)=-hs(i):fs(i)=fs(i)-2 
 6085 :    bend
