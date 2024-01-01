@@ -10,6 +10,7 @@
 !- hs[] = shark horizontal direction
 !- vs[] = shark vertical direction
 !- ss[] = shark speed frame
+!- k = max sharp speed, 1 if level < 6, 2 if level > 6
 !- cs = shark counter
 !- ns = shark index
 !- xc,yc = crab x and y position
@@ -60,7 +61,7 @@
 4000 rem *****************
 4010 rem *** init game ***
 4020 rem *****************
-4030 sp=3:sc=0:lv=1:nw=0:cs=1
+4030 sp=3:sc=0:lv=1:nw=0:cs=1:k=1
 4040 for i=1 to 5
 4050 : ys(i)=-1
 4060 : movspr i,xs(i),ys(i)
@@ -104,9 +105,9 @@
 6030 for i=1 to cs
 6040 : if ys(i) >-1 and (xs(i)<=5 or xs(i)>=339) then ys(i)=-1:movspr i,xs(i),ys(i)
 6050 : if ys(i) >-1 then begin
-6060 :  if ys(i)>=200 then vs(i)=-(int(rnd(0)*2)+1):else if ys(i)<=90 then vs(i)=int(rnd(0)*2)+1
+6060 :  if ys(i)>=200 then vs(i)=-(int(rnd(0)*k)+1):else if ys(i)<=90 then vs(i)=int(rnd(0)*k)+1
 6070 :  if ys(i) >-1 then if mod(fc, ss(i))= 0 then begin
-6080 :   if int(rnd(1)*lv)+1>1 and mod(fc,200)=0 then begin
+6080 :   if int(rnd(1)*lv)+1>3 and mod(fc,200)=0 then begin
 6084 :     if xs(i)>xp and hs(i)>0 then hs(i)=-hs(i):fs(i)=fs(i)+2:else if xs(i)<xp and hs(i)<0 then hs(i)=-hs(i):fs(i)=fs(i)-2 
 6088 :   bend
 6089 :   xs(i)=xs(i)+hs(i):ys(i)=ys(i)+vs(i)
@@ -128,15 +129,15 @@
 6330 ys(ns)=int(rnd(1)*110)+90
 6340 j=int(rnd(1)*2)
 6350 if j=0 then begin
-6360 : hs(ns)=-(int(rnd(0)*2)+1):fs(ns)=9:xs(ns)=338
+6360 : hs(ns)=-(int(rnd(0)*k)+1):fs(ns)=9:xs(ns)=338
 6370 bend:else begin
-6380 : hs(ns)=int(rnd(0)*2)+1:fs(ns)=7:xs(ns)=6
+6380 : hs(ns)=int(rnd(0)*k)+1:fs(ns)=7:xs(ns)=6
 6390 bend
 6400 vs(ns)=0:j=int(rnd(1)*3)
 6410 if j=0 then begin
-6420 : vs(ns)=-(int(rnd(0)*2)+1)
+6420 : vs(ns)=-(int(rnd(0)*k)+1)
 6430 bend:else if j=1 then begin
-6440 : vs(ns)=int(rnd(0)*2)+1
+6440 : vs(ns)=int(rnd(0)*k)+1
 6450 bend
 6460 ss(ns)=int(rnd(1)*3)+1
 6470 return
@@ -401,16 +402,17 @@
 17050 if nw=5 then begin
 17060 : lv=lv+1:nw=0:tt=tt-50:if tt<100 then tt=100
 17070 : if cs<5 and mod(lv+1,2)=0 then cs=cs+1
-17080 bend 
-17090 for i=1 to cs
-17100 : ys(i)=-1
-17110 : movspr i,xs(i),ys(i):sprite i,1
-17120 next
-17130 poke $40000,fp:movspr 0,xp,yp 
-17140 sprite 0,1,7,0,0,0,1
-17141 xc=-1:tc=0:yc=-1:hc=0:movspr 6,xc,yc:sprite 6,1,10
-17150 c1=bump(1):c2=bump(2):c1=0:c2=0
-17160 return
+17090 bend 
+17100 for i=1 to cs
+17110 : ys(i)=-1
+17120 : movspr i,xs(i),ys(i):sprite i,1
+17130 next
+17140 poke $40000,fp:movspr 0,xp,yp 
+17150 sprite 0,1,7,0,0,0,1
+17160 xc=-1:tc=0:yc=-1:hc=0:movspr 6,xc,yc:sprite 6,1,10
+17170 c1=bump(1):c2=bump(2):c1=0:c2=0
+17180 if lv<4 then k=0:else if lv<8 then k=1:else k=2
+17190 return
 
 18000 rem ***************************
 18010 rem *** setup sprite memory ***
