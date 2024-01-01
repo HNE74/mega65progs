@@ -62,13 +62,14 @@
 4010 rem *** init game ***
 4020 rem *****************
 4030 sp=3:sc=0:lv=1:nw=0:cs=1:k=1
-4040 for i=1 to 5
+4040 for i=1 to 4
 4050 : ys(i)=-1
 4060 : movspr i,xs(i),ys(i)
 4070 next
 4090 xc=-1:yc=-1:movspr 6,xc,yc
 4100 tc=0:hc=0:tt=400
-4110 return
+4110 xj=24:yj=65:hj=1
+4120 return
 
 5000 rem *****************
 5010 rem *** game loop ***
@@ -142,9 +143,9 @@
 6460 ss(ns)=int(rnd(1)*3)+1
 6470 return
 
-6500 rem ********************
-6510 rem *** control crab ***
-6520 rem ********************
+6500 rem **********************************
+6510 rem *** control crab and jellyfish ***
+6520 rem **********************************
 6530 if yc=-1 then begin
 6532 : tc=tc+1
 6535 : if sw=0 and tc>tt then begin
@@ -155,8 +156,11 @@
 6566 if yc>=222 and mod(fc,5)=0 then begin
 6567 : yc=yc+1:if yc>=240 then yc=-1:xc=-1
 6568 bend
-6570 if yc>-1 then if mod(fc,5)=0 then xc=xc+hc
-6580 return
+6570 if yj>-1 then if mod(fc,5)=0 then begin
+6580 : xc=xc+hc:xj=xj+hj
+6590 : if xj=320 or xj=24 then hj=-hj
+6600 bend
+6610 return
 
 7000 rem *************************
 7010 rem *** control submarine ***
@@ -194,19 +198,24 @@
 8010 rem *** update sprites ***
 8020 rem **********************
 8030 poke $40000,fp:movspr 0,xp,yp
-8050 for i=1 to cs
-8060 : if ys(i)>-1 then begin
-8070 :  poke $40000+2*i,fs(i)
-8080 :  movspr i,xs(i),ys(i)
-8090 : bend
-8100 next
-8110 if yc>-1 then if mod(fc,5)=0 then begin:cursor 0,6
-8120 : if peek($4000c)=$f then poke $4000c,$10:else poke $4000c,$f
-8125 : poke $4000d,$10
-8130 : movspr 6,xc,yc
-8140 bend
-8150 c1=bump(1):c2=bump(2)
-8160 return
+8040 for i=1 to cs
+8050 : if ys(i)>-1 then begin
+8060 :  poke $40000+2*i,fs(i)
+8070 :  movspr i,xs(i),ys(i)
+8080 : bend
+8090 next
+8100 if yc>-1 then if mod(fc,5)=0 then begin
+8110 : if peek($4000c)=$f then poke $4000c,$10:else poke $4000c,$f
+8120 : movspr 6,xc,yc
+8130 bend
+8140 if yj>-1 then if mod(fc,5)=0 then begin
+8150 : j=peek($4000a)
+8160 : j=j+1:if j>$13 then j=$11 
+8170 : poke $4000a,j 
+8180 : movspr 5,xj,yj
+8190 bend
+8200 c1=bump(1):c2=bump(2)
+8210 return
 
 9000 rem *******************
 9010 rem *** place waste ***
@@ -401,7 +410,7 @@
 17040 gs=0:ox=999:sw=0
 17050 if nw=5 then begin
 17060 : lv=lv+1:nw=0:tt=tt-50:if tt<100 then tt=100
-17070 : if cs<5 and mod(lv+1,2)=0 then cs=cs+1
+17070 : if cs<4 and mod(lv+1,2)=0 then cs=cs+1
 17090 bend 
 17100 for i=1 to cs
 17110 : ys(i)=-1
@@ -412,7 +421,9 @@
 17160 xc=-1:tc=0:yc=-1:hc=0:movspr 6,xc,yc:sprite 6,1,10
 17170 c1=bump(1):c2=bump(2):c1=0:c2=0
 17180 if lv<4 then k=0:else if lv<8 then k=1:else k=2
-17190 return
+17190 xj=24:yj=65:hj=1
+17200 sprite 5,1,4:movspr 5,xj,yj
+17210 return
 
 18000 rem ***************************
 18010 rem *** setup sprite memory ***
@@ -429,21 +440,23 @@
 18320 rem ****************************************************
 18330 poke $40000,$1:poke $40001,$10
 18340 sprite 0,1,12,0,0,0,1
-18350 for i=1 to 5
+18350 for i=1 to 4
 18360 : poke $40000+2*i,$7:poke $40000+2*i+1,$10
 18370 : sprite i,1,3,0,0,0,1
 18380 next
-18385 poke $4000c,$f:poke $4000d,$10
-18387 sprite 6,1,10,0,0,0,1
-18390 poke $4000e,$b:poke $4000f,$10
-18400 sprite 7,1,7,0,0,0,1
-18410 sprcolor 1,12
-18420 chardef 190,219,254,181,111,187,238,187,247
-18430 chardef 191,91,238,181,127,246,221,239,117
-18440 chardef 192,189,106,255,213,110,245,191,118
-18450 chardef 193,51,204,0,51,204,0,51,204
-18460 chardef 194,204,51,0,204,51,0,204,51
-18470 return
+18390 poke $4000a,$11:poke $4000b,$10
+18400 sprite 5,1,4,0,0,0,1
+18410 poke $4000c,$f:poke $4000d,$10
+18420 sprite 6,1,10,0,0,0,1
+18430 poke $4000e,$b:poke $4000f,$10
+18440 sprite 7,1,7,0,0,0,1
+18450 sprcolor 1,12
+18460 chardef 190,219,254,181,111,187,238,187,247
+18470 chardef 191,91,238,181,127,246,221,239,117
+18480 chardef 192,189,106,255,213,110,245,191,118
+18490 chardef 193,51,204,0,51,204,0,51,204
+18500 chardef 194,204,51,0,204,51,0,204,51
+18510 return
 
 19800 rem *****************
 19810 rem *** read data ***
@@ -640,8 +653,9 @@
 25010 rem *** init variables and define arrays ***
 25020 rem ****************************************
 25030 xp=100:yp=100:fp=3:fc=0:hp=0:vp=0:gs=0
-25035 cs=1:xw=0:yw=0:sw=0:nw=0:sc=0:c1=0:c2=0:sh=0
-25040 lv=1:sp=3:ox=999:xc=0:yc=0:hc=0:tc=0
-25045 dim xs(6):dim ys(6):dim fs(6):dim hs(6):dim vs(6):dim ss(6)
-25050 dim dr(8,1):dim rf(3)
+25040 cs=1:xw=0:yw=0:sw=0:nw=0:sc=0:c1=0:c2=0:sh=0
+25050 xj=0:yj=0:hj=0
+25060 lv=1:sp=3:ox=999:xc=0:yc=0:hc=0:tc=0
+25070 dim xs(6):dim ys(6):dim fs(6):dim hs(6):dim vs(6):dim ss(6)
+25080 dim dr(8,1):dim rf(3)
 25090 return
