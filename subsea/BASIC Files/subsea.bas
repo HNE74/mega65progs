@@ -156,7 +156,15 @@
 6560 : bend
 6565 bend
 6566 if yc>=222 then if mod(fc,5)=0 then yc=yc+1:if yc>=240 then yc=-1:xc=-1
-6570 if yj>-1 then if mod(fc,5)=0 then xc=xc+hc:xj=xj+hj:if xj=320 or xj=24 then hj=-hj
+6570 if yj>-1 then begin
+6580 : if mod(fc,5)=0 then begin
+6585 :  if yp<80 then if lv>4 then begin
+6586 :   if int(rnd(1)*40)=1 then begin
+6587 :    if hj=1 then if xp<xj then hj=-1:else if xp>xj then hj=1
+6588 :   bend
+6589 :  bend
+6590 :  xc=xc+hc:xj=xj+hj:if xj=320 or xj=24 then hj=-hj
+6600 : bend
 6610 return
 
 7000 rem *************************
@@ -184,7 +192,7 @@
 7170 : if yp<65 then yp=65:else if yp>230 then yp=230
 7180 : if yp=65 then if sw=0 then if ox<999 then ox=ox+5:if ox>999 then ox=999
 7188 : bend
-7190 : if xp<24 then xp=24:else if xp>311 then xp=311
+7190 : if xp<24 then xp=24:else if xp>318 then xp=318
 7200 bend:else if vp=0 then begin 
 7210 : if mod(fc,(10/(sw+1)))=0 then if yp<230 then yp=yp+1
 7220 bend:
