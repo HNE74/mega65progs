@@ -61,7 +61,7 @@
 4000 rem *****************
 4010 rem *** init game ***
 4020 rem *****************
-4030 sp=3:sc=0:lv=1:nw=0:cs=4:k=1
+4030 sp=3:sc=0:lv=1:nw=0:cs=1:k=1
 4040 for i=1 to 4
 4050 : ys(i)=-1
 4060 : movspr i,xs(i),ys(i)
@@ -108,9 +108,11 @@
 6050 : if ys(i) >-1 then begin
 6060 :  if ys(i)>=200 then vs(i)=-(int(rnd(0)*k)+1):else if ys(i)<=90 then vs(i)=int(rnd(0)*k)+1
 6070 :  if ys(i) >-1 then if mod(fc, ss(i))=0 then begin
-6080 :   if int(rnd(1)*lv)>3 then if mod(fc,200)=0 then begin
+6080 :   if int(rnd(1)*lv)>4 then begin 
+6083 :    if mod(fc,200)=0 then begin
 6084 :     if xs(i)>xp then if hs(i)>0 then hs(i)=-hs(i):fs(i)=fs(i)+2:else if xs(i)<xp then if hs(i)<0 then hs(i)=-hs(i):fs(i)=fs(i)-2 
-6088 :   bend
+6085 :    bend
+6087 :   bend
 6089 :   xs(i)=xs(i)+hs(i):ys(i)=ys(i)+vs(i)
 6090 :   if mod(xs(i),4)=0 then begin
 6100 :    if fs(i)=9 then fs(i)=10:else if fs(i)=10 then fs(i)=9
@@ -381,7 +383,7 @@
 16100 edma 3,40,193,2048+40*2
 16110 edma 3,40,14,$FF80000+40*2
 16120 for i=0 to 39
-16130 : c@&(i,24)=8:t@&(i,24)=int(rnd(1)*3)+190
+16130 : c@&(i,24)=12:t@&(i,24)=int(rnd(1)*3)+190
 16140 next
 16150 for i=0 to 3
 16160 : rf(i)=int(rnd(1)*7)+10*i
@@ -390,9 +392,9 @@
 16190 : bend
 16200 : rh=int(rnd(1)*10)+1
 16210 : for j=1 to rh
-16220 :  c@&(rf(i),24-j)=8:t@&(rf(i),24-j)=int(rnd(1)*3)+190
-16230 :  c@&(rf(i)+1,24-j)=8:t@&(rf(i)+1,24-j)=int(rnd(1)*3)+190
-16240 :  c@&(rf(i)+2,24-j)=8:t@&(rf(i)+2,24-j)=int(rnd(1)*3)+190
+16220 :  c@&(rf(i),24-j)=12:t@&(rf(i),24-j)=int(rnd(1)*3)+190
+16230 :  c@&(rf(i)+1,24-j)=12:t@&(rf(i)+1,24-j)=int(rnd(1)*3)+190
+16240 :  c@&(rf(i)+2,24-j)=12:t@&(rf(i)+2,24-j)=int(rnd(1)*3)+190
 16250 : next j
 16260 next i
 16270 return
