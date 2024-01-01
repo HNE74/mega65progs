@@ -61,7 +61,7 @@
 4000 rem *****************
 4010 rem *** init game ***
 4020 rem *****************
-4030 sp=3:sc=0:lv=1:nw=0:cs=1:k=1
+4030 sp=3:sc=0:lv=1:nw=0:cs=4:k=1
 4040 for i=1 to 4
 4050 : ys(i)=-1
 4060 : movspr i,xs(i),ys(i)
@@ -104,12 +104,12 @@
 6010 rem *** handle sharks ***
 6020 rem *********************
 6030 for i=1 to cs
-6040 : if ys(i) >-1 and (xs(i)<=5 or xs(i)>=339) then ys(i)=-1:movspr i,xs(i),ys(i)
+6040 : if ys(i) >-1 then if (xs(i)<=5 or xs(i)>=339) then ys(i)=-1:movspr i,xs(i),ys(i)
 6050 : if ys(i) >-1 then begin
 6060 :  if ys(i)>=200 then vs(i)=-(int(rnd(0)*k)+1):else if ys(i)<=90 then vs(i)=int(rnd(0)*k)+1
 6070 :  if ys(i) >-1 then if mod(fc, ss(i))=0 then begin
-6080 :   if int(rnd(1)*lv)+1>3 and mod(fc,200)=0 then begin
-6084 :     if xs(i)>xp and hs(i)>0 then hs(i)=-hs(i):fs(i)=fs(i)+2:else if xs(i)<xp and hs(i)<0 then hs(i)=-hs(i):fs(i)=fs(i)-2 
+6080 :   if int(rnd(1)*lv)>3 then if mod(fc,200)=0 then begin
+6084 :     if xs(i)>xp then if hs(i)>0 then hs(i)=-hs(i):fs(i)=fs(i)+2:else if xs(i)<xp then if hs(i)<0 then hs(i)=-hs(i):fs(i)=fs(i)-2 
 6088 :   bend
 6089 :   xs(i)=xs(i)+hs(i):ys(i)=ys(i)+vs(i)
 6090 :   if mod(xs(i),4)=0 then begin
@@ -153,13 +153,8 @@
 6550 :  yc=221:sound 3, 4000, 30, 1, 2000, 500, 1
 6560 : bend
 6565 bend
-6566 if yc>=222 and mod(fc,5)=0 then begin
-6567 : yc=yc+1:if yc>=240 then yc=-1:xc=-1
-6568 bend
-6570 if yj>-1 then if mod(fc,5)=0 then begin
-6580 : xc=xc+hc:xj=xj+hj
-6590 : if xj=320 or xj=24 then hj=-hj
-6600 bend
+6566 if yc>=222 then if mod(fc,5)=0 then yc=yc+1:if yc>=240 then yc=-1:xc=-1
+6570 if yj>-1 then if mod(fc,5)=0 then xc=xc+hc:xj=xj+hj:if xj=320 or xj=24 then hj=-hj
 6610 return
 
 7000 rem *************************
@@ -175,7 +170,7 @@
 7090 : if hp<>0 then begin
 7095 :  if mod(fc,3)=0 then begin
 7100 :   fp=fp+1
-7110 :   if hp<0 and fp>6 then fp=4:else if hp>0 and fp>3 then fp=1
+7110 :   if hp<0 then if fp>6 then fp=4:else if hp>0 then if fp>3 then fp=1
 7115 :  bend
 7120 : bend:else begin
 7125 :  if mod(fc,3)=0 then begin
@@ -185,8 +180,7 @@
 7150 : bend
 7160 : xp=xp+hp:yp=yp+vp
 7170 : if yp<65 then yp=65:else if yp>230 then yp=230
-7180 : if yp=65 and sw=0 then begin
-7185 :  if ox<999 then ox=ox+5:if ox>999 then ox=999
+7180 : if yp=65 then if sw=0 then if ox<999 then ox=ox+5:if ox>999 then ox=999
 7188 : bend
 7190 : if xp<24 then xp=24:else if xp>311 then xp=311
 7200 bend:else if vp=0 then begin 
