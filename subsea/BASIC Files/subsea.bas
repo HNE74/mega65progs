@@ -149,23 +149,23 @@
 6510 rem *** control crab and jellyfish ***
 6520 rem **********************************
 6530 if yc=-1 then begin
-6532 : tc=tc+1
-6535 : if sw=0 and tc>tt then begin
-6540 :  if xw>=200 then xc=0:hc=2:else xc=340:hc=-2
-6550 :  yc=221:sound 3, 4000, 30, 1, 2000, 500, 1
-6560 : bend
-6565 bend
-6566 if yc>=222 then if mod(fc,5)=0 then yc=yc+1:if yc>=240 then yc=-1:xc=-1
-6570 if yj>-1 then begin
-6580 : if mod(fc,5)=0 then begin
-6585 :  if yp<80 then if lv>4 then begin
-6586 :   if int(rnd(1)*40)=1 then begin
-6587 :    if hj=1 then if xp<xj then hj=-1:else if xp>xj then hj=1
-6588 :   bend
-6589 :  bend
-6590 :  xc=xc+hc:xj=xj+hj:if xj=320 or xj=24 then hj=-hj
-6600 : bend
-6610 return
+6540 : tc=tc+1
+6550 : if sw=0 and tc>tt then begin
+6560 :  if xw>=200 then xc=0:hc=2:else xc=340:hc=-2
+6570 :  yc=221:sound 3, 4000, 30, 1, 2000, 500, 1
+6580 : bend
+6590 bend
+6600 if yc>=222 then if mod(fc,5)=0 then yc=yc+1:if yc>=240 then yc=-1:xc=-1
+6610 if yj>-1 then begin
+6620 : if mod(fc,5)=0 then begin
+6630 :  if yp<80 and lv>4 then begin
+6640 :   if int(rnd(1)*40)=1 then begin
+6650 :    if hj=1 then if xp<xj then hj=-1:else if xp>xj then hj=1
+6660 :   bend
+6670 :  bend
+6680 :  xc=xc+hc:xj=xj+hj:if xj=320 or xj=24 then hj=-hj
+6690 : bend
+6700 return
 
 7000 rem *************************
 7010 rem *** control submarine ***
