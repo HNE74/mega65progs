@@ -40,6 +40,7 @@
 1010 rem *** main loop ***
 1020 rem *****************
 1030 gosub 14030:rem show intro screen
+1035 gosub 15030:rem show instruction screen
 1040 gosub 4030:rem init game
 1050 do
 1060 : gosub 16030:rem draw shark level arena
@@ -366,7 +367,7 @@
 14290 if sh>0 then begin
 14300 : cursor 28,3:print "{light green}highscore:"
 14310 : cursor 28,5:print "{light green}";sh
-14320 bend
+14320 bend:sleep 0.5
 14330 j=int(rnd(1)*3)+2:fc=0
 14340 vol 15:tempo 25:PLAY "o"+str$(j)+"t2aaaa.a.a$cdfaggggg.g.g$cegaaaa.a.abco"+str$(j+1)+"do"+str$(j)+"cage.d.d"
 14350 n = joy(2)
@@ -377,6 +378,43 @@
 14400 bend
 14410 if n<>128 then goto 14350
 14420 play:return
+
+15000 rem *************************
+15010 rem *** show intro screen ***
+15020 rem *************************
+15030 scnclr:PRINT "                                        ";
+15040 PRINT "       {light gray}you are captain of a submarine   ";
+15050 PRINT "       having the mission to clean the  ";
+15060 PRINT "       sea from toxic waste. oxygen is  ";
+15070 PRINT "       limited and has to be recharged  ";
+15080 PRINT "       by surfacing your vessel.        ";
+15090 PRINT "                                        ";
+15100 PRINT "       collect the toxic barrels and    ";
+15110 PRINT "       deliver them to the disposal     ";
+15120 PRINT "       platform on the surface.         ";
+15130 PRINT "       oxygen recharge is prohibited if ";
+15140 PRINT "       your submarine carries a barrel. ";
+15150 PRINT "                                        ";
+15160 PRINT "       beware of the deadly mutant      ";
+15170 PRINT "       jellyfish, sharks and deep sea   ";
+15180 PRINT "       crab. contact with them causes   ";
+15190 PRINT "       the instant destruction of your  ";
+15200 PRINT "       vessel.                          ";
+15220 PRINT "       you will also lose a submarine   ";
+15230 PRINT "       if the crab snatches a barrel.   ";
+15240 PRINT "                                        ":print
+15250 PRINT "   {light blue}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}"  
+15260 PRINT "   {light blue}{reverse on} press fire button to start game! {reverse off}"
+15270 PRINT "   {light blue}{reverse on}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{reverse off}"
+15271 poke $40000,$1:poke $40001,$10:sprite 0,1,7:movspr 0,40,65
+15273 sprite 7,1,5:movspr 7,40,110
+15274 sprite 5,1,4:movspr 5,40,150 
+15275 sprite 1,1,3:movspr 1,40,170
+15277 sprite 6,1,2:movspr 6,40,190
+15279 sleep 0.5
+15280 n = joy(2)
+15290 if n<>128 then goto 15280
+15300 return
 
 16000 rem ******************************
 16010 rem *** draw shark level arena ***
