@@ -323,7 +323,7 @@
 12665 vol 15:tempo 25:PLAY "o4t2chagfed$c$c"
 12670 n = joy(2)
 12680 if n<>128 then goto 12670
-12690 sleep 1
+12690 for i=0 to 20:vsync 250:next
 12700 return
 
 14000 rem *************************
@@ -414,11 +414,11 @@
 17130 next
 17140 poke $40000,fp:movspr 0,xp,yp 
 17150 sprite 0,1,7,0,0,0,1
-17160 xc=-1:tc=0:yc=-1:hc=0:movspr 6,xc,yc:sprite 6,1,10
+17160 xc=-1:tc=0:yc=-1:hc=0:movspr 6,xc,yc:sprite 6,1,2
 17170 c1=bump(1):c2=bump(2):c1=0:c2=0
 17180 if lv<4 then k=0:else if lv<8 then k=1:else k=2
 17190 xj=24:yj=65:hj=1
-17200 sprite 5,1,4:movspr 5,xj,yj
+17200 sprite 5,1,4,1:movspr 5,xj,yj
 17210 return
 
 18000 rem ***************************
@@ -441,9 +441,9 @@
 18370 : sprite i,1,3,0,0,0,1
 18380 next
 18390 poke $4000a,$11:poke $4000b,$10
-18400 sprite 5,1,4,0,0,0,1
+18400 sprite 5,1,4,1,0,0,1
 18410 poke $4000c,$f:poke $4000d,$10
-18420 sprite 6,1,10,0,0,0,1
+18420 sprite 6,1,2,0,0,0,1
 18430 poke $4000e,$b:poke $4000f,$10
 18440 sprite 7,1,7,0,0,0,1
 18450 sprcolor 1,12
