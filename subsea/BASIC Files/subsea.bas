@@ -279,12 +279,12 @@
 11020 rem ************************
 11030 sound 1,350,80,1,,4,3
 11035 poke $40000,$c:poke $40001,$10
-11040 for i=1 to 30:sprite 0,1,i:vsync 0:next
+11040 for i=1 to 30:sprite 0,1,i:vsync 250:next
 11050 poke $40000,$d:poke $40001,$10
-11060 for i=1 to 30:sprite 0,1,i:vsync 0:next
+11060 for i=1 to 30:sprite 0,1,i:vsync 250:next
 11070 poke $40000,$e:poke $40001,$10
-11080 for i=1 to 30:sprite 0,1,i:vsync 0:next
-11100 sprite 0,0:for i=1 to 30:vsync 0:next
+11080 for i=1 to 30:sprite 0,1,i:vsync 250:next
+11100 sprite 0,0:for i=1 to 30:vsync 250:next
 11110 sp=sp-1:if sp=0 then gs=3:else gs=1
 11120 return
 
@@ -304,7 +304,7 @@
 12125 vol 15:tempo 25:PLAY "o4t2$cdefghc"
 12130 n = joy(2)
 12140 if n<>128 then goto 12130
-12150 for i=1 to 10:vsync 0:next
+12150 for i=1 to 10:vsync 250:next
 12160 play:return
 
 12500 rem *****************
@@ -327,7 +327,7 @@
 12665 vol 15:tempo 25:PLAY "o4t2chagfed$c$c"
 12670 n = joy(2)
 12680 if n<>128 then goto 12670
-12690 for i=1 to 10:vsync 0:next
+12690 sleep 1
 12700 return
 
 14000 rem *************************
