@@ -68,7 +68,7 @@
 4060 : movspr i,xs(i),ys(i)
 4070 next
 4090 xc=-1:yc=-1:movspr 6,xc,yc
-4100 tc=0:hc=0:tt=400
+4100 tc=0:hc=0:tt=500
 4110 xj=24:yj=65:hj=1
 4120 return
 
@@ -110,22 +110,22 @@
 6060 :  if ys(i)>=200 then vs(i)=-(int(rnd(0)*k)+1):else if ys(i)<=90 then vs(i)=int(rnd(0)*k)+1
 6070 :  if ys(i) >-1 then if mod(fc, ss(i))=0 then begin
 6080 :   if int(rnd(1)*lv)>3 then begin 
-6083 :    if mod(fc,200)=0 then begin
-6084 :     if xs(i)>xp then if hs(i)>0 then hs(i)=-hs(i):fs(i)=fs(i)+2:else if xs(i)<xp then if hs(i)<0 then hs(i)=-hs(i):fs(i)=fs(i)-2 
-6085 :    bend
-6087 :   bend
-6089 :   xs(i)=xs(i)+hs(i):ys(i)=ys(i)+vs(i)
-6090 :   if mod(xs(i),4)=0 then begin
-6100 :    if fs(i)=9 then fs(i)=10:else if fs(i)=10 then fs(i)=9
-6110 :    if fs(i)=7 then fs(i)=8:else if fs(i)=8 then fs(i)=7
+6090 :    if mod(fc,200)=0 then begin
+6100 :     if xs(i)>xp then if hs(i)>0 then hs(i)=-hs(i):fs(i)=fs(i)+2:else if xs(i)<xp then if hs(i)<0 then hs(i)=-hs(i):fs(i)=fs(i)-2 
+6110 :    bend
 6120 :   bend
-6130 :  bend
-6140 : bend:else begin
-6150 :  j=int(rnd(1)*50)
-6160 :  if j=0 then ns=i:gosub 6330
-6170 : bend
-6180 next
-6190 return
+6130 :   xs(i)=xs(i)+hs(i):ys(i)=ys(i)+vs(i)
+6140 :   if mod(xs(i),4)=0 then begin
+6150 :    if fs(i)=9 then fs(i)=10:else if fs(i)=10 then fs(i)=9
+6160 :    if fs(i)=7 then fs(i)=8:else if fs(i)=8 then fs(i)=7
+6170 :   bend
+6180 :  bend
+6190 : bend:else begin
+6200 :  j=int(rnd(1)*50)
+6210 :  if j=0 then ns=i:gosub 6330
+6220 : bend
+6230 next
+6240 return
 
 6300 rem *******************
 6310 rem *** spawn shark ***
@@ -165,9 +165,9 @@
 6660 :   bend
 6670 :  bend
 6680 :  xc=xc+hc:xj=xj+hj:if xj>=320 or xj<=24 then hj=-hj
-6685 :  if lv>4 then xj=xj+hj:xc=xc+hc*0.5
-6690 : bend
-6700 return
+6690 :  if lv>4 then xj=xj+hj:xc=xc+hc*0.5
+6700 : bend
+6710 return
 
 7000 rem *************************
 7010 rem *** control submarine ***
@@ -178,27 +178,27 @@
 7060 : vp=dr(n and 15,1)
 7070 bend
 7080 if hp<>0 or vp<>0 then begin
-7085 : if mod(fc,9)=0 then sound 1, 2000, 3, 1, 1000, 400, 1
-7090 : if hp<>0 then begin
-7095 :  if mod(fc,3)=0 then begin
-7100 :   fp=fp+1
-7110 :   if hp<0 then if fp>6 then fp=4:else if hp>0 then if fp>3 then fp=1
-7115 :  bend
-7120 : bend:else begin
-7125 :  if mod(fc,3)=0 then begin
-7130 :   fp=fp+1:if fp=4 then fp=1
-7140 :   if fp=7 then fp=4
-7145 :  bend
-7150 : bend
-7160 : xp=xp+hp:yp=yp+vp
-7170 : if yp<65 then yp=65:else if yp>230 then yp=230
-7180 : if yp=65 then if sw=0 then if ox<999 then ox=ox+5:if ox>999 then ox=999
-7188 : bend
-7190 : if xp<24 then xp=24:else if xp>318 then xp=318
-7200 bend:else if vp=0 then begin 
-7210 : if mod(fc,(10/(sw+1)))=0 then if yp<230 then yp=yp+1
-7220 bend:
-7230 return  
+7090 : if mod(fc,9)=0 then sound 1, 2000, 3, 1, 1000, 400, 1
+7100 : if hp<>0 then begin
+7110 :  if mod(fc,3)=0 then begin
+7120 :   fp=fp+1
+7130 :   if hp<0 then if fp>6 then fp=4:else if hp>0 then if fp>3 then fp=1
+7140 :  bend
+7150 : bend:else begin
+7160 :  if mod(fc,3)=0 then begin
+7170 :   fp=fp+1:if fp=4 then fp=1
+7180 :   if fp=7 then fp=4
+7190 :  bend
+7200 : bend
+7210 : xp=xp+hp:yp=yp+vp
+7220 : if yp<65 then yp=65:else if yp>230 then yp=230
+7230 : if yp=65 then if sw=0 then if ox<999 then ox=ox+5:if ox>999 then ox=999
+7240 : bend
+7250 : if xp<24 then xp=24:else if xp>318 then xp=318
+7260 bend:else if vp=0 then begin 
+7270 : if mod(fc,(10/(sw+1)))=0 then if yp<230 then yp=yp+1
+7280 bend:
+7290 return    
 
 8000 rem **********************
 8010 rem *** update sprites ***
@@ -232,10 +232,10 @@
 9060 : for i=0 to 3
 9070 :  if xw+20>=rf(i)*8+24 and xw<=rf(i)*8+8*3+24 then xw=-1:i=3
 9080 : next
-9085 : if xw<=24 or xw>=290 then xw=-1
-9090 loop until xw<>-1
-9100 movspr 7,xw,yw:sprite 7,1,5
-9110 return
+9090 : if xw<=24 or xw>=290 then xw=-1
+9100 loop until xw<>-1
+9110 movspr 7,xw,yw:sprite 7,1,5
+9120 return
 
 9200 rem **********************
 9210 rem *** waste handling ***
@@ -245,51 +245,47 @@
 9250 :   sound 2, 8000, 20, 0, 4000, 100, 2
 9260 :   sprite 7,0:sprite 0,1,5
 9270 :   sw=1:if yc>-1 then yc=222:hc=0
-9275 :   movspr 6,xc,yc
-9280 : bend
-9290 bend:else begin
-9300 : if yp=65 and xp>160 and xp<200 then begin
-9310 :  sound 2, 8000, 8, 1, 4000, 100, 2
-9320 :  gosub 9030
-9330 :  sw=0:sc=sc+ox:sprite 0,1,7
-9340 :  nw=nw+1:if nw=5 then gs=2
-9350 :  for i=1 to nw:cursor 17+i,0
-9360 :   print "{yellow}W"
-9370 :  next
-9380 :  tc=0
-9390 : bend
-9400 bend
-9410 return
+9280 :   movspr 6,xc,yc
+9290 : bend
+9300 bend:else begin
+9310 : if yp=65 and xp>160 and xp<200 then begin
+9320 :  sound 2, 8000, 8, 1, 4000, 100, 2
+9330 :  gosub 9030
+9340 :  sw=0:sc=sc+ox:sprite 0,1,7
+9350 :  nw=nw+1:if nw=5 then gs=2
+9360 :  for i=1 to nw:cursor 17+i,0
+9370 :   print "{yellow}W"
+9380 :  next
+9390 :  tc=0
+9400 : bend
+9410 bend
+9420 return
 
 10000 rem ************************
 10010 rem ***  collision check ***
 10020 rem **********+*************
 10030 if (c1 and 1)=1 then begin
-10040 : if (c1 or 127)=127 then begin
-10050 :  gosub 11030
-10060 : bend
-10070 bend
-10071 if (c1 and 192)=192 then begin
-10072 : gosub 11030
-10073 bend
-10080 if (c2 and 1)=1 and yp>100 then begin
-10090 : gosub 11030
-10100 : if sw=1 then sw=0:gosub 9030
-10110 bend
-10120 ox=ox-1:if ox<200 and mod(fc,20)=0 then sound 2,4000,10,0,3000,100,2
-10130 if ox<=0 then gosub 11030
-10140 return
+10040 : if (c1 or 127)=127 then gosub 11030
+10050 bend
+10060 if (c1 and 192)=192 then gosub 11030
+10070 if (c2 and 1)=1 and yp>100 then begin
+10080 : gosub 11030
+10090 : if sw=1 then sw=0:gosub 9030
+10100 bend
+10110 ox=ox-1:if ox<200 and mod(fc,20)=0 then sound 2,4000,10,0,3000,100,2
+10120 if ox<=0 then gosub 11030
+10130 return
 
 11000 rem ************************
 11010 rem *** player explosion ***
 11020 rem ************************
 11030 sound 1,350,80,1,,4,3
-11035 poke $40000,$c:poke $40001,$10
-11040 for i=1 to 30:sprite 0,1,i:vsync 250:next
-11050 poke $40000,$d:poke $40001,$10
-11060 for i=1 to 30:sprite 0,1,i:vsync 250:next
-11070 poke $40000,$e:poke $40001,$10
-11080 for i=1 to 30:sprite 0,1,i:vsync 250:next
+11040 poke $40000,$c:poke $40001,$10
+11050 for i=1 to 30:sprite 0,1,i:vsync 250:next
+11060 poke $40000,$d:poke $40001,$10
+11070 for i=1 to 30:sprite 0,1,i:vsync 250:next
+11080 poke $40000,$e:poke $40001,$10
+11090 for i=1 to 30:sprite 0,1,i:vsync 250:next
 11100 sprite 0,0:for i=1 to 30:vsync 250:next
 11110 sp=sp-1:if sp=0 then gs=3:else gs=1
 11120 return
@@ -307,11 +303,11 @@
 12100 cursor 3,11:print "{reverse on}{125} press fire button to proceed. {125}"
 12110 cursor 3,12:print "{reverse on}{125}                               {125}"
 12120 cursor 3,13:print "{reverse on}JCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCK"
-12125 vol 15:tempo 25:PLAY "o4t2$cdefghc"
-12130 n = joy(2)
-12140 if n<>128 then goto 12130
-12150 for i=1 to 10:vsync 250:next
-12160 play:return
+12130 vol 15:tempo 25:PLAY "o4t2$cdefghc"
+12140 n = joy(2)
+12150 if n<>128 then goto 12140
+12160 for i=1 to 10:vsync 250:next
+12170 play:return
 
 12500 rem *****************
 12510 rem *** game over ***
@@ -330,11 +326,11 @@
 12640 bend
 12650 cursor 3,12:print "{reverse on}{125}                               {125}"
 12660 cursor 3,13:print "{reverse on}JCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCK"
-12665 vol 15:tempo 25:PLAY "o4t2chagfed$c$c"
-12670 n = joy(2)
-12680 if n<>128 then goto 12670
-12690 for i=0 to 20:vsync 250:next
-12700 return
+12670 vol 15:tempo 25:PLAY "o4t2chagfed$c$c"
+12680 n = joy(2)
+12690 if n<>128 then goto 12680
+12700 for i=0 to 20:vsync 250:next
+12710 return
 
 14000 rem *************************
 14010 rem *** show intro screen ***
@@ -401,21 +397,21 @@
 15180 PRINT "       crab. contact with them causes   ";
 15190 PRINT "       the instant destruction of your  ";
 15200 PRINT "       vessel.                          ";
-15220 PRINT "       you will also lose a submarine   ";
-15230 PRINT "       if the crab snatches a barrel.   ";
-15240 PRINT "                                        ":print
-15250 PRINT "   {light blue}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}"  
-15260 PRINT "   {light blue}{reverse on} press fire button to start game! {reverse off}"
-15270 PRINT "   {light blue}{reverse on}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{reverse off}"
-15271 poke $40000,$1:poke $40001,$10:sprite 0,1,7:movspr 0,40,65
-15273 sprite 7,1,5:movspr 7,40,110
-15274 sprite 5,1,4:movspr 5,40,150 
-15275 sprite 1,1,3:movspr 1,40,170
-15277 sprite 6,1,2:movspr 6,40,190
-15279 sleep 0.5
-15280 n = joy(2)
-15290 if n<>128 then goto 15280
-15300 return
+15210 PRINT "       you will also lose a submarine   ";
+15220 PRINT "       if the crab snatches a barrel.   ";
+15230 PRINT "                                        ":print
+15240 PRINT "   {light blue}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}"  
+15250 PRINT "   {light blue}{reverse on} press fire button to start game! {reverse off}"
+15260 PRINT "   {light blue}{reverse on}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{reverse off}"
+15270 poke $40000,$1:poke $40001,$10:sprite 0,1,7:movspr 0,40,65
+15280 sprite 7,1,5:movspr 7,40,110
+15290 sprite 5,1,4:movspr 5,40,150 
+15300 sprite 1,1,3:movspr 1,40,170
+15310 sprite 6,1,2:movspr 6,40,190
+15320 sleep 0.5
+15330 n = joy(2)
+15340 if n<>128 then goto 15330
+15350 return
 
 16000 rem ******************************
 16010 rem *** draw shark level arena ***
@@ -505,12 +501,12 @@
 19810 rem *** read data ***
 19820 rem *****************
 19830 for i=0 to 8
-19831 read dr(i,0):read dr(i,1)
-19832 next
-19839 for i=0 to 1215
-19840 read d:poke $40040+i,d
+19840 read dr(i,0):read dr(i,1)
 19850 next
-19860 return
+19860 for i=0 to 1215
+19870 read d:poke $40040+i,d
+19880 next
+19890 return
 
 19900 rem ***********************************
 19910 rem *** player direction definition ***
@@ -518,32 +514,32 @@
 19930 data 0,0,0,-1,1,-1,1,0,1,1,0,1,-1,1,-1,0,-1,-1
 
 20000 REM ***********************************
-20001 REM *** submarine sprite definition ***
-20002 REM ***********************************
-20005 REM *** right frame 1
-20010 DATA 0,0,0,0,0,0,0,10,0
-20020 DATA 0,11,0,0,43,0,0,43,0
-20030 DATA 0,43,128,128,170,128,160,169,84
-20040 DATA 34,169,85,42,170,149,10,170,170
-20050 DATA 41,153,154,41,153,154,170,170,171
-20060 DATA 138,170,175,2,170,172,2,171,252
-20070 DATA 2,191,240,0,170,128,0,0,0,0
-20090 REM *** right frame 2
-20100 DATA 0,0,0,0,0,0,0,10,0
-20110 DATA 0,11,0,0,43,0,0,43,0
-20120 DATA 0,43,128,0,170,128,128,169,84
-20130 DATA 162,169,85,42,170,149,10,170,170
-20140 DATA 41,153,154,169,153,154,138,170,171
-20150 DATA 10,170,175,2,170,172,2,171,252
-20160 DATA 2,191,240,0,170,128,0,0,0,0
-20180 REM *** right frame 3
-20190 DATA 0,0,0,0,0,0,0,10,0
-20200 DATA 0,11,0,0,43,0,0,43,0
-20210 DATA 0,43,128,0,170,128,0,169,84
-20220 DATA 2,169,85,170,170,149,10,170,170
-20230 DATA 169,153,154,9,153,154,10,170,171
-20240 DATA 10,170,175,2,170,172,2,171,252
-20250 DATA 2,191,240,0,170,128,0,0,0,0
+20010 REM *** submarine sprite definition ***
+20020 REM ***********************************
+20030 REM *** right frame 1
+20040 DATA 0,0,0,0,0,0,0,10,0
+20050 DATA 0,11,0,0,43,0,0,43,0
+20060 DATA 0,43,128,128,170,128,160,169,84
+20070 DATA 34,169,85,42,170,149,10,170,170
+20080 DATA 41,153,154,41,153,154,170,170,171
+20090 DATA 138,170,175,2,170,172,2,171,252
+20100 DATA 2,191,240,0,170,128,0,0,0,0
+20110 REM *** right frame 2
+20120 DATA 0,0,0,0,0,0,0,10,0
+20130 DATA 0,11,0,0,43,0,0,43,0
+20140 DATA 0,43,128,0,170,128,128,169,84
+20150 DATA 162,169,85,42,170,149,10,170,170
+20160 DATA 41,153,154,169,153,154,138,170,171
+20170 DATA 10,170,175,2,170,172,2,171,252
+20180 DATA 2,191,240,0,170,128,0,0,0,0
+20190 REM *** right frame 3
+20200 DATA 0,0,0,0,0,0,0,10,0
+20210 DATA 0,11,0,0,43,0,0,43,0
+20220 DATA 0,43,128,0,170,128,0,169,84
+20230 DATA 2,169,85,170,170,149,10,170,170
+20240 DATA 169,153,154,9,153,154,10,170,171
+20250 DATA 10,170,175,2,170,172,2,171,252
+20260 DATA 2,191,240,0,170,128,0,0,0,0
 20270 REM *** left frame 1
 20280 DATA 0,0,0,0,0,0,0,160,0
 20290 DATA 0,224,0,0,232,0,0,232,0
@@ -552,50 +548,50 @@
 20320 DATA 166,102,104,166,102,104,234,170,170
 20330 DATA 250,170,162,58,170,128,63,234,128
 20340 DATA 15,254,128,2,170,0,0,0,0,0
-20360 REM *** left frame 2
-20370 DATA 0,0,0,0,0,0,0,160,0
-20380 DATA 0,224,0,0,232,0,0,232,0
-20390 DATA 2,232,0,2,170,0,21,106,2
-20400 DATA 85,106,138,86,170,168,170,170,160
-20410 DATA 166,102,104,166,102,106,234,170,162
-20420 DATA 250,170,160,58,170,128,63,234,128
-20430 DATA 15,254,128,2,170,0,0,0,0,0
-20450 REM *** left frame 3
-20460 DATA 0,0,0,0,0,0,0,160,0
-20470 DATA 0,224,0,0,232,0,0,232,0
-20480 DATA 2,232,0,2,170,0,21,106,0
-20490 DATA 85,106,128,86,170,170,170,170,160
-20500 DATA 166,102,106,166,102,96,234,170,160
-20510 DATA 250,170,160,58,170,128,63,234,128
-20520 DATA 15,254,128,2,170,0,0,0,0,0
+20350 REM *** left frame 2
+20360 DATA 0,0,0,0,0,0,0,160,0
+20370 DATA 0,224,0,0,232,0,0,232,0
+20380 DATA 2,232,0,2,170,0,21,106,2
+20390 DATA 85,106,138,86,170,168,170,170,160
+20400 DATA 166,102,104,166,102,106,234,170,162
+20410 DATA 250,170,160,58,170,128,63,234,128
+20420 DATA 15,254,128,2,170,0,0,0,0,0
+20430 REM *** left frame 3
+20440 DATA 0,0,0,0,0,0,0,160,0
+20450 DATA 0,224,0,0,232,0,0,232,0
+20460 DATA 2,232,0,2,170,0,21,106,0
+20470 DATA 85,106,128,86,170,170,170,170,160
+20480 DATA 166,102,106,166,102,96,234,170,160
+20490 DATA 250,170,160,58,170,128,63,234,128
+20500 DATA 15,254,128,2,170,0,0,0,0,0
 
 20600 REM *******************************
-20601 REM *** shark sprite definition ***
-20602 REM *******************************
-20605 REM *** right frame 1
-20610 DATA 0,0,0,2,128,0,2,160,0
-20620 DATA 0,160,0,128,168,0,128,40,0
-20630 DATA 160,42,0,160,170,128,162,170,96
-20640 DATA 42,102,88,42,102,170,170,169,170
-20650 DATA 162,154,84,128,170,160,128,2,128
-20660 DATA 0,10,160,0,8,32,0,8,32
-20670 DATA 0,0,0,0,0,0,0,0,0,0
-20690 REM *** right frame 2
-20700 DATA 0,0,0,2,128,0,2,160,0
-20710 DATA 0,160,0,32,168,0,32,40,0
-20720 DATA 32,42,0,32,170,128,34,170,96
-20730 DATA 42,102,88,42,102,170,42,169,170
-20740 DATA 34,154,84,32,170,160,32,2,128
-20750 DATA 0,10,160,0,8,32,0,32,8
-20760 DATA 0,0,0,0,0,0,0,0,0,0
-20780 REM *** left frame 1
-20790 DATA 0,0,0,0,2,128,0,10,128
-20800 DATA 0,10,0,0,42,2,0,40,2
-20810 DATA 0,168,10,2,170,10,9,170,138
-20820 DATA 37,153,168,170,153,168,170,106,170
-20830 DATA 21,166,138,10,170,2,2,128,2
-20840 DATA 10,160,0,8,32,0,8,32,0
-20850 DATA 0,0,0,0,0,0,0,0,0,0
+20610 REM *** shark sprite definition ***
+20620 REM *******************************
+20630 REM *** right frame 1
+20640 DATA 0,0,0,2,128,0,2,160,0
+20650 DATA 0,160,0,128,168,0,128,40,0
+20660 DATA 160,42,0,160,170,128,162,170,96
+20670 DATA 42,102,88,42,102,170,170,169,170
+20680 DATA 162,154,84,128,170,160,128,2,128
+20690 DATA 0,10,160,0,8,32,0,8,32
+20700 DATA 0,0,0,0,0,0,0,0,0,0
+20710 REM *** right frame 2
+20720 DATA 0,0,0,2,128,0,2,160,0
+20730 DATA 0,160,0,32,168,0,32,40,0
+20740 DATA 32,42,0,32,170,128,34,170,96
+20750 DATA 42,102,88,42,102,170,42,169,170
+20760 DATA 34,154,84,32,170,160,32,2,128
+20770 DATA 0,10,160,0,8,32,0,32,8
+20780 DATA 0,0,0,0,0,0,0,0,0,0
+20790 REM *** left frame 1
+20800 DATA 0,0,0,0,2,128,0,10,128
+20810 DATA 0,10,0,0,42,2,0,40,2
+20820 DATA 0,168,10,2,170,10,9,170,138
+20830 DATA 37,153,168,170,153,168,170,106,170
+20840 DATA 21,166,138,10,170,2,2,128,2
+20850 DATA 10,160,0,8,32,0,8,32,0
+20860 DATA 0,0,0,0,0,0,0,0,0,0
 20870 REM *** left frame 2
 20880 DATA 0,0,0,0,2,128,0,10,128
 20890 DATA 0,10,0,0,42,8,0,40,8
