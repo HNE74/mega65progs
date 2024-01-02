@@ -68,7 +68,7 @@
 4060 : movspr i,xs(i),ys(i)
 4070 next
 4090 xc=-1:yc=-1:movspr 6,xc,yc
-4100 tc=0:hc=0:tt=500
+4100 tc=0:hc=0:tt=300
 4110 xj=24:yj=65:hj=1
 4120 return
 
@@ -110,7 +110,7 @@
 6060 :  if ys(i)>=200 then vs(i)=-(int(rnd(0)*k)+1):else if ys(i)<=90 then vs(i)=int(rnd(0)*k)+1
 6070 :  if ys(i) >-1 then if mod(fc, ss(i))=0 then begin
 6080 :   if int(rnd(1)*lv)>3 then begin 
-6090 :    if mod(fc,200)=0 then begin
+6090 :    if mod(fc,100)=0 then begin
 6100 :     if xs(i)>xp then if hs(i)>0 then hs(i)=-hs(i):fs(i)=fs(i)+2:else if xs(i)<xp then if hs(i)<0 then hs(i)=-hs(i):fs(i)=fs(i)-2 
 6110 :    bend
 6120 :   bend
@@ -159,7 +159,7 @@
 6600 if yc>=222 then if mod(fc,5)=0 then yc=yc+1:if yc>=240 then yc=-1:xc=-1
 6610 if yj>-1 then begin
 6620 : if mod(fc,5)=0 then begin
-6630 :  if yp<80 and lv>4 then begin
+6630 :  if yp<120 and lv>3 then begin
 6640 :   if int(rnd(1)*40)=1 then begin
 6650 :    if hj=1 then if xp<xj then hj=-1:else if xp>xj then hj=1
 6660 :   bend
