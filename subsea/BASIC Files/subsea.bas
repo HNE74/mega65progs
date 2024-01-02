@@ -164,7 +164,8 @@
 6650 :    if hj=1 then if xp<xj then hj=-1:else if xp>xj then hj=1
 6660 :   bend
 6670 :  bend
-6680 :  xc=xc+hc:xj=xj+hj:if xj=320 or xj=24 then hj=-hj
+6680 :  xc=xc+hc:xj=xj+hj:if xj>=320 or xj<=24 then hj=-hj
+6685 :  if lv>4 then xj=xj+hj:xc=xc+hc*0.5
 6690 : bend
 6700 return
 
