@@ -471,7 +471,7 @@
 18000 rem ***************************
 18010 rem *** setup sprite memory ***
 18020 rem ***************************
-18030 sys 65381: rem 40 column screen
+18030 if peek($d058)<>40 then sys 65381: rem 40 column screen
 18040 mem 1,0:rem reserve 8k in bank 4
 18050 edma 3,64*13,0,$40000:rem spreicherbereich leeren
 18060 poke $d06c,0:poke $d06d,0:rem bit 0-16 to 0 for $40000
